@@ -4,3 +4,5 @@ bionames-api
 bionames-archive
 bionames-design
 bionames-gallica
+
+vendor/document-viewer
