@@ -1,0 +1,34 @@
+RewriteEngine on
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+
+RewriteBase /
+
+#---------------------------------------------------------------------------------------------------
+# HTML	
+
+# Search
+RewriteRule ^search/(.*)   mockup_search.php?q=$1   [NC,L]
+
+# Taxon concept
+RewriteRule ^taxa/(.*)   mockup_concept.php?id=$1   [NC,L]
+
+# Taxon name
+RewriteRule ^names/(.*)   mockup_taxon_name.php?id=$1   [NC,L]
+
+# Reference
+RewriteRule ^references/(.*)   mockup_publication.php?id=$1   [NC,L]
+
+# Journal
+RewriteRule ^issn/(.*)   mockup_journal.php?issn=$1   [NC,L]
+RewriteRule ^oclc/(.*)   mockup_journal.php?oclc=$1   [NC,L]
+
+# Author
+RewriteRule ^authors/(.*)   mockup_author.php?name=$1   [NC,L]
+
+# API calls
+RewriteRule ^api/(.*)   bionames-api/$1   [NC,L]
+
