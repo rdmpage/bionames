@@ -81,6 +81,9 @@ $id = $_GET['id'];
 							html += '<tr>';
 							html += '<td>';
 							html += data.names[i].nameComplete;
+							if (data.names[i].taxonAuthor) {
+								html += ' ' + data.names[i].taxonAuthor;
+							}
 							html += '</td>';
 							html += '<td>';
 							
