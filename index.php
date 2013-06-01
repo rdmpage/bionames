@@ -88,7 +88,14 @@ if (isset($_GET['q']))
         <h1>BioNames</h1>
         <p class="lead">Taxa, text, and trees.</p>
 <!--        <a class="btn btn-large btn-success" href="#">Sign up today</a> -->
-      </div>
+ 
+			<form class="search" method="get" action="/">
+				<input type="text" id='q' name='q' data-provide="typeahead" class="search-query large" placeholder="Search" autocomplete="off" value="<?php echo $q; ?>">
+			</form> 
+ 
+ 		</div>
+      
+      
       
       
         <div class="row-fluid marketing" style="text-align:center">
