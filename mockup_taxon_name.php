@@ -46,8 +46,7 @@ $id = $_GET['id'];
 						// Make browser window the name
 						document.title = title;
 						
-						// Human readable
-						
+						// Human readable						
 						var html = '';
 						
 						if (data.taxonAuthor)
@@ -64,6 +63,37 @@ $id = $_GET['id'];
 						}
 						$("#cluster").html(html);
 						
+						// Names in this cluster
+						add_metadata_stat('Names', data.names.length);	
+					
+						// Set badge on this tab so people know it has something to see
+						$('#names-badge').text(data.names.length);
+						// Need this to force tab update
+						$('#names-tabs li:eq(0) a').show();
+					
+				
+						var html = '';
+						
+						html += '<h4>Name(s) in cluster</h4>';
+						
+						html += '<table class="table">';
+						for (var i in data.names) {
+							html += '<tr>';
+							html += '<td>';
+							html += data.names[i].nameComplete;
+							html += '</td>';
+							html += '<td>';
+							
+							if (data.names[i].id.match(/urn:lsid:organismnames.com:name:/)) {
+								var lsid = 
+								html += '<a href="http://www.organismnames.com/details.htm?lsid=' + data.names[i].id.replace('urn:lsid:organismnames.com:name:', '') + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'lsid\', \'' + data.names[i].id + '\', 0]);" rel="tooltip" title="Life Science Identifier (LSID) for this taxon name" class="tip"><i class="icon-share"></i> ' + data.names[i].id + '</a>';
+							}						
+							html += '</td>';
+						}
+						html += '</table>';
+						
+						$('#names').html(html);
+					
 						
 						// Publications
 						var publications = [];
@@ -82,6 +112,8 @@ $id = $_GET['id'];
 								$("#cluster").html(html);
 							}
 						}
+						
+						$('.tip').tooltip();
 						
 						// Sidebar
 						
@@ -175,9 +207,13 @@ $id = $_GET['id'];
 			$.getJSON("api/name/" + encodeURIComponent(name) + "/publications?fields=title,thumbnail,identifier,author,journal,year&include_docs" + "&callback=?",
 				function(data){
 					if (data.status == 200)
-					{		
-						
+					{								
 						add_metadata_stat("Publications", data.publications.length);
+						
+						// Set badge on this tab so people know it has something to see
+						$('#bibliography-badge').text(data.publications.length);
+						// Need this to force tab update
+						$('#names-tabs li:eq(1) a').show();
 						
 	                    // Type cast years into integers
 						for (var i in data.publications)
@@ -304,12 +340,17 @@ $id = $_GET['id'];
 	<div class="container-fluid">
 	  <div class="row-fluid">
 	    <div class="main-content span8">
-			<ul class="nav nav-tabs">
-			  <li class="bibliography active"><a href="#biblio-tab" data-toggle="tab">Bibliography</a></li>
+			<ul id="names-tabs" class="nav nav-tabs">
+			  <li class="active"><a href="#names-tab" data-toggle="tab">Names <span id="names-badge" class="badge badge-info"></span></a></li>
+			  <li class="bibliography"><a href="#biblio-tab" data-toggle="tab">Bibliography <span id="bibliography-badge" class="badge badge-info"></span></a></li>
 			</ul>
 			
 			<div class="tab-content">
-			  <div class="tab-pane active no-pad" id="biblio-tab">
+			  <div class="tab-pane active" id="names-tab">
+				<div id="names">...</div>
+			  </div>
+			
+			  <div class="tab-pane no-pad" id="biblio-tab">
 		        <div id="publication-timeline" class="publication-timeline">
 					<div class="pub-timeline">
 						<div id="pubHistogram" class="chart"></div>
