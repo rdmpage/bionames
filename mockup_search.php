@@ -102,7 +102,7 @@ if (isset($_GET['q']))
 									
 									if(facet.name == 'Names') {
 	//								  facet_html += '<div class="name-cluster snippet-wrapper"><a href="mockup_taxon_name.php?id=' + id + '">' + result.term + '</a></div>';
-									  facet_html += '<div class="name-cluster snippet-wrapper"><a href="name/' + id + '">' + result.term + '</a></div>';
+									  facet_html += '<div class="name-cluster snippet-wrapper"><a href="names/' + id + '">' + result.term + '</a></div>';
 									} else {
 									  ids.push(id);	
 									  facet_html += '<div id="id'+html_id+'" class="snippet-wrapper"><span class="loading">loading</span></div>';

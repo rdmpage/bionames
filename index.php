@@ -135,7 +135,7 @@ if (isset($_GET['q']))
 
 -->
       <div class="footer">
-        <p>Cyndy, it's coming, almost certainly…</p>
+        <!-- <p>Cyndy, it's coming, almost certainly…</p> -->
       </div>
 
     </div> <!-- /container -->
