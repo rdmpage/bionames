@@ -200,7 +200,7 @@ $id = $_GET['id'];
 	
 											case 'oclc':
 //												html += '<tr><td class="muted">OCLC</td><td><a href="mockup_journal.php?oclc=' + data.journal.identifier[j].id + '">' + data.journal.identifier[j].id + '</a></td></tr>';
-												html += '<tr><td class="muted">OCLC</td><td><a href="oclc/' + data.journal.identifier[j].id + '">' + data.journal.identifier[j].id + '</a></td></tr>';
+												html += '<tr><td class="muted">OCLC</td><td><a href="oclc/' + data.journal.identifier[j].id + '" rel="tooltip" title="Online Computer Library Center, Inc. (OCLC) number ' + data.journal.identifier[j].id + '" class="tip">' + data.journal.identifier[j].id + '</a></td></tr>';
 												break;
 												
 											default:
@@ -243,11 +243,11 @@ $id = $_GET['id'];
 								switch (data.book.identifier[j].type)
 								{	
 									case "googleBooks":
-										html += '<tr><td class="muted">Google Books</td><td>' + '<a href="http://books.google.co.uk/books?id=' + data.book.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'googlebooks\', \'' + data.identifier[j].id + '\', 0]);">' + data.book.identifier[j].id + '</a>' + '</td></tr>';
+										html += '<tr><td class="muted">Google Books</td><td>' + '<a href="http://books.google.co.uk/books?id=' + data.book.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'googlebooks\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="This publication is in Google Books" class="tip">' + data.book.identifier[j].id + '</a>' + '</td></tr>';
 										break;
 
 									case "isbn":
-										html += '<tr><td class="muted">ISBN</td><td>' + data.book.identifier[j].id + '</td></tr>';
+										html += '<tr><td class="muted">ISBN</td><td>' + '<span rel="tooltip" title="ISBN" class="tip">' + data.book.identifier[j].id + '</span>' + '</td></tr>';
 										break;
 										
 									default:
@@ -265,43 +265,47 @@ $id = $_GET['id'];
 							switch (data.identifier[j].type)
 							{
 								case "ark":
-									html += '<tr><td class="muted">ARK</td><td><a href="http://gallica.bnf.fr/ark:/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'gallica\', \'' + data.identifier[j].id + '\', 0]);"><i class="icon-share"></i> ark:/' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">ARK</td><td><a href="http://gallica.bnf.fr/ark:/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'gallica\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="The Archival Resource Key (ARK) ark:/' + data.identifier[j].id + ' is a persistent identifier for this publication" class="tip"><i class="icon-share"></i> ark:/' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
 								case "biostor":
-									html += '<tr><td class="muted">BioStor</td><td><a href="http://biostor.org/reference/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' + data.identifier[j].id + '\', 0]);"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">BioStor</td><td><a href="http://biostor.org/reference/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="BioStor reference ' + data.identifier[j].id + '" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
 								case "cinii":
-									html += '<tr><td class="muted">CiNii</td><td><a href="http://ci.nii.ac.jp/naid/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'cinii\', \'' + data.identifier[j].id + '\', 0]);"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">CiNii</td><td><a href="http://ci.nii.ac.jp/naid/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'cinii\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="National Institute of Informatics Article ID (NAID)' + data.identifier[j].id + '" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 									
 								case "doi":
 									html += '<tr><td class="muted">DOI</td><td><a href="http://dx.doi.org/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="The Digital Object Identifier (DOI) ' + data.identifier[j].id + ' is the persistent identifier for this publication" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
+								case "googleBooks":
+									html += '<tr><td class="muted">Google Books</td><td>' + '<a href="http://books.google.co.uk/books?id=' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'googlebooks\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="This publication is in Google Books" class="tip">' + data.book.identifier[j].id + '</a>' + '</td></tr>';
+									break;
+
 								case "handle":
-									html += '<tr><td class="muted">Handle</td><td><a href="http://hdl.handle.net/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'handle\', \'' + data.identifier[j].id + '\', 0]);"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">Handle</td><td><a href="http://hdl.handle.net/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'handle\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="The Handle ' + data.identifier[j].id + ' is a persistent identifier for this publication" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
 								case "isbn":
-									html += '<tr><td class="muted">ISBN</td><td>' + data.identifier[j].id + '</td></tr>';
+									html += '<tr><td class="muted">ISBN</td><td>' + '<span rel="tooltip" title="ISBN" class="tip">' + data.identifier[j].id + '</span>' + '</td></tr>';
 									break;
 
 								case "jstor":
-									html += '<tr><td class="muted">JSTOR</td><td><a href="http://www.jstor.org/stable/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'jstor\', \'' + data.identifier[j].id + '\', 0]);"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">JSTOR</td><td><a href="http://www.jstor.org/stable/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'jstor\', \'' + data.identifier[j].id + '\', 0]);" target="_new" rel="tooltip" title="Available from JSTOR" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
 								case "oclc":
-									html += '<tr><td class="muted">OCLC</td><td><a href="http://www.worldcat.org/oclc/' + data.identifier[j].id + '" target="_new"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">OCLC</td><td><a href="http://www.worldcat.org/oclc/' + data.identifier[j].id + '" onClick="_gaq.push([\'_trackEvent\', \'External\', \'oclc\', \'' + data.identifier[j].id + '\', 0]);" target="_new" rel="tooltip" title="Online Computer Library Center, Inc. (OCLC) number ' + data.identifier[j].id + '" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
 								case "pmc":
-									html += '<tr><td class="muted">PMC</td><td><a href="http://www.ncbi.nlm.nih.gov/pmc/PMC' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmc\', \'' + data.identifier[j].id + '\', 0]);"><i class="icon-share"></i> ' + 'PMC' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">PMC</td><td><a href="http://www.ncbi.nlm.nih.gov/pmc/PMC' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmc\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="PubMed Central PMC' + data.identifier[j].id + '" class="tip"><i class="icon-share"></i> ' + 'PMC' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
 								case "pmid":
-									html += '<tr><td class="muted">PMID</td><td><a href="http://www.ncbi.nlm.nih.gov/pubmed/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmid\', \'' + data.identifier[j].id + '\', 0]);"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									html += '<tr><td class="muted">PMID</td><td><a href="http://www.ncbi.nlm.nih.gov/pubmed/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmid\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="PubMed ID (PMID) ' + data.identifier[j].id + '" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 									
 								default:
@@ -487,6 +491,11 @@ $id = $_GET['id'];
 						//html += '<a href="mockup_taxon_name.php?id=' + data.names[i].cluster + '">';
 						html += '<a href="names/' + data.names[i].cluster + '">';
 						html += data.names[i].nameComplete;
+						
+						if (data.names[i].taxonAuthor) {
+							html += data.names[i].taxonAuthor;
+						}
+						
 						html += '</a>';
 						html += '</td>';
 						html += '<td>';

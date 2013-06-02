@@ -107,6 +107,7 @@ if (isset($_GET['q']))
 		<a href="names/cluster/1715663"><img src="http://media.eol.org/content/2011/10/14/16/12619_88_88.jpg" /></a>
 		<a href="http://bionames.org/authors/Oldfield%20Thomas"><img style="height:88px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Portrait_of_Michael_Rogers_Oldfield_Thomas_-_ZooKeys-255-103-g003-bottom_right.jpeg/200px-Portrait_of_Michael_Rogers_Oldfield_Thomas_-_ZooKeys-255-103-g003-bottom_right.jpeg"></a>
     	<a href="taxa/ncbi/80974"><img src="http://media.eol.org/content/2008/10/08/12/27092_88_88.jpg" /></a>
+   		<a href="taxa/gbif/1541332"><img src="http://media.eol.org/content/2011/10/14/16/38103_88_88.jpg" /></a>
     	</div>
       
       
@@ -142,7 +143,7 @@ if (isset($_GET['q']))
 
 -->
       <div class="footer">
-        <!-- <p>Cyndy, it's coming, almost certainly…</p> -->
+        <a href="http://iphylo.blogspot.com">Roderic D M Page</a><img src="https://secure.gravatar.com/avatar/b16ff4bc0fc20d123b346d86f531bda2?s=32" />
       </div>
 
     </div> <!-- /container -->

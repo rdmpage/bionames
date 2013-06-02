@@ -146,9 +146,9 @@ if (isset($_GET['journal']))
 						{
 							case 'issnl':
 								html += '<tr>';
-								html += '<td class="muted">' + i.toUpperCase() + '</td>';
+								html += '<td class="muted">ISSN-L</td>';
 //								html += '<td>' + '<a href="mockup_journal.php?issn=' + data[i] + '">' + data[i] + '</a>' + '</td>';
-								html += '<td>' + '<a href="issn/' + data[i] + '">' + data[i] + '</a>' + '</td>';
+								html += '<td>' + '<a href="issn/' + data[i] + '" rel="tooltip" title="The linking ISSN (ISSN-L) ' + data[i] + ' groups together different ISSNs for the same resource" class="tip">' + data[i] + '</a>' + '</td>';
 								html += '</tr>';
 								break;
 						
@@ -157,7 +157,7 @@ if (isset($_GET['journal']))
 							//case 'rawcoverage':
 								html += '<tr>';
 								html += '<td class="muted">' + i.toUpperCase() + '</td>';
-								html += '<td>' + data[i] + '</td>';
+								html += '<td>' + '<a href="issn/' + data[i] + '" rel="tooltip" title="The International Standard Serial Number (ISSN) ' + data[i] + ' is a unique identifier for this journal" class="tip">' + data[i] + '</a>' + '</td>';
 								html += '</tr>';
 								break; 
 							case 'rssurl':
@@ -173,6 +173,8 @@ if (isset($_GET['journal']))
 					html += '</tbody>';
 					html += '</table>';
 					$('#journal_identifiers').html(html);
+					
+					$('.tip').tooltip();
 					
 					// Text details
 					if (data.rawcoverage) {
