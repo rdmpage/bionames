@@ -55,8 +55,10 @@ $id = $_GET['id'];
 	<script src="public/assets/viewer.js" type="text/javascript" charset="utf-8"></script>
 	<script src="public/assets/templates.js" type="text/javascript" charset="utf-8"></script>
 	
+	<script> var docUrl = ''; </script>
+	
 	<!-- altmetric.com -->
-	<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+	<!-- <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script> -->
 	
 	
 	
@@ -386,11 +388,11 @@ $id = $_GET['id'];
 					html += '</td>';
 					html += '</td>';
 					
-					
+					/*
 					if (doi != '') {
 						html += '<tr><td class="muted">Metrics</td><td>' +  '<div class=\'altmetric-embed\' data-badge-type=\'donut\' data-doi="' + doi + '" data-badge-details=\'right\'></div>' + '</td></tr>';
 					}
-		
+					*/
 					
 					
 					html += '</tbody>';
@@ -410,7 +412,6 @@ $id = $_GET['id'];
 					}
 					
 					// Display document viewer if we have a document
-					var docUrl = '';					
 					if (data.identifier)
 					{
 						for (var j in data.identifier)
@@ -632,10 +633,12 @@ $id = $_GET['id'];
 
 	// http://stackoverflow.com/questions/6762564/setting-div-width-according-to-the-screen-size-of-user
 	$(window).resize(function() { 
-//		var windowWidth = $('#document-viewer-span').width();
-		var windowWidth = $('#view-tab').width();
-		var windowHeight =$(window).height() -  $('#document-viewer-span').offset().top;
-		$('#doc').css({'height':windowHeight, 'width':windowWidth });
+		// Only resize document window if we have a document cloud viewer
+		if (docUrl) {
+			var windowWidth = $('#view-tab').width();
+			var windowHeight =$(window).height() -  $('#document-viewer-span').offset().top;
+			$('#doc').css({'height':windowHeight, 'width':windowWidth });
+		}
 	});	
 
 	<!-- typeahead for search box -->
