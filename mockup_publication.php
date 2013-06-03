@@ -55,6 +55,9 @@ $id = $_GET['id'];
 	<script src="public/assets/viewer.js" type="text/javascript" charset="utf-8"></script>
 	<script src="public/assets/templates.js" type="text/javascript" charset="utf-8"></script>
 	
+	<!-- altmetric.com -->
+	<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+	
 	
 	
 </head>
@@ -99,6 +102,10 @@ $id = $_GET['id'];
 					<div id="authors" class="sidebar-section"></div>
 					<div id="map" class="sidebar-section"></div>	
 				</div>
+				<div class="sidebar-metadata">
+					<div id="plugins" class="sidebar-section"></div>	
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -258,6 +265,9 @@ $id = $_GET['id'];
 					}
 					
 					// Item-level identifiers
+					
+					var doi = '';
+					
 					if (data.identifier)
 					{
 						for (var j in data.identifier)
@@ -277,6 +287,7 @@ $id = $_GET['id'];
 									break;
 									
 								case "doi":
+									doi = data.identifier[j].id;
 									html += '<tr><td class="muted">DOI</td><td><a href="http://dx.doi.org/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="The Digital Object Identifier (DOI) ' + data.identifier[j].id + ' is the persistent identifier for this publication" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
 									break;
 
@@ -313,6 +324,16 @@ $id = $_GET['id'];
 							}
 						}	
 					}
+					
+					/* 
+					if (doi != '') {
+						var plugin_html = '<h3>Metrics</h3>';;
+						plugin_html += '<div class=\'altmetric-embed\' data-badge-type=\'donut\' data-doi="' + doi + '" data-badge-details=\'right\'></div>';
+					
+						$('#plugins').html(plugin_html);
+					
+					}
+					*/
 					
 					// Item-level links
 					if (data.link)
@@ -364,6 +385,13 @@ $id = $_GET['id'];
 					html += '</div>';
 					html += '</td>';
 					html += '</td>';
+					
+					
+					if (doi != '') {
+						html += '<tr><td class="muted">Metrics</td><td>' +  '<div class=\'altmetric-embed\' data-badge-type=\'donut\' data-doi="' + doi + '" data-badge-details=\'right\'></div>' + '</td></tr>';
+					}
+		
+					
 					
 					html += '</tbody>';
 					html += '</table>';
@@ -435,36 +463,58 @@ $id = $_GET['id'];
 					}
 					else
 					{
+						var html = '';
+												
 						if (data.thumbnail)
-						{
-							var html = '';
+						{							
 							html += '<div style="text-align:center;">';
 							html += '<div class="alert">';
 							html += '<strong>Limited access!</strong> You may need a subscription to access this item.';
 							html += '</div>';
+							html += '<div id="deepdyve"></div>';
 							html += '<img style="border:1px solid rgb(128,128,128);padding:10px;background-color:white;" src="' + data.thumbnail + '" width="400" />';
 							html += '</div>';
 							
-							$('#doc').html(html);							
+													
 						}
 						else
 						{
-							var html = '';
 							html += '<div style="text-align:center;">';
 							html += '<div class="alert">';
 							html += 'Unable to display this item.';
 							html += '</div>';
+							html += '<div id="deepdyve"></div>';							
 							html += '</div>';
-							
-							$('#doc').html(html);
 						}
+						
+						if (data.title) {
+							html += '<script>deep_dyve(\'' + data.title + '\');<\/script>';
+						}						
+							
+						$('#doc').html(html);	
 					}
 					
 					$('.tip').tooltip();
 					
+					
+					
 				}
 			});
 	}
+	
+	
+	function deep_dyve(title) {
+		$.getJSON("http://www.deepdyve.com/openurl?type=jsonp&affiliateId=BioNames&atitle=" + encodeURIComponent(title) + "&callback=?",
+			function(data){
+				if (data.articleFound) {
+					var html = '';
+					html += '<a href="' + data.articleLink + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'deepdyve\', \'' + data.permId + '\', 0]);"><img src="images/logos/deepdyve_bw.png" /></a>';
+					$('#deepdyve').html(html);	
+				}
+			});
+	}
+		
+	
 	
 	function display_publication_names (id)
 	{
@@ -500,10 +550,12 @@ $id = $_GET['id'];
 						html += '</td>';
 						html += '<td>';
 						
-						if (data.names[i].id.match(/urn:lsid:organismnames.com:name:/)) {
-							var lsid = 
-							html += '<a href="http://www.organismnames.com/details.htm?lsid=' + data.names[i].id.replace('urn:lsid:organismnames.com:name:', '') + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'lsid\', \'' + data.names[i].id + '\', 0]);" rel="tooltip" title="Life Science Identifier (LSID) for this taxon name" class="tip"><i class="icon-share"></i> ' + data.names[i].id + '</a>';
-						}						
+						if (data.names[i].id) {
+							if (data.names[i].id.match(/urn:lsid:organismnames.com:name:/)) {
+								var lsid = 
+								html += '<a href="http://www.organismnames.com/details.htm?lsid=' + data.names[i].id.replace('urn:lsid:organismnames.com:name:', '') + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'lsid\', \'' + data.names[i].id + '\', 0]);" rel="tooltip" title="Life Science Identifier (LSID) for this taxon name" class="tip"><i class="icon-share"></i> ' + data.names[i].id + '</a>';
+							}
+						}
 						html += '</td>';
 					}
 					html += '</table>';
