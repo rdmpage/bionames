@@ -14,7 +14,7 @@ if (isset($_GET['q']))
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  	<base href="/" />
+	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
     <meta charset="utf-8">
     <title>BioNames</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

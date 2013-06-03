@@ -23,8 +23,7 @@ if (isset($_GET['journal']))
 <!DOCTYPE html>
 <html>
 <head>
-<!-- 	<base href="/bionames-api/" /> -->
-	<base href="/" />
+	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title>Title</title>
 	
 	<!-- standard stuff -->

@@ -10,8 +10,7 @@ if (isset($_GET['q']))
 <!DOCTYPE html>
 <html>
 <head>
-<!--	<base href="/bionames-api/" /> -->
-	<base href="/" />
+	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title>Search</title>
 	
 	<!-- standard stuff -->
