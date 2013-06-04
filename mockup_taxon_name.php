@@ -57,7 +57,7 @@ $id = $_GET['id'];
 							html += '<div class="authority">';
 							html += 'Published by ';
 							//html += '<a href="mockup_search.php?q=' + encodeURIComponent(author) + '">'+author+'</a>.';
-							html += '<a href="q/' + encodeURIComponent(author) + '">'+author+'</a>.';
+							html += '<a href="search/' + encodeURIComponent(author) + '">'+author+'</a>.';
 							html += '</div>';
 						}
 						$("#cluster").html(html);
