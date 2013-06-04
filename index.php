@@ -73,7 +73,7 @@ if (isset($_GET['q']))
 
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="dashboard">Dashboard</a></li>
           <!--
           <li><a href="about.html">About</a></li>
           <li><a href="#">Contact</a></li>
