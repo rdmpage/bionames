@@ -1,6 +1,16 @@
 <?php
 
-$coordinates = json_decode($_GET['coordinates']);
+$coordinates = array();
+
+if (isset($_GET['coordinates']))
+{
+	$coordinates = json_decode($_GET['coordinates']);
+}
+
+if (isset($_POST['coordinates']))
+{
+	$coordinates = json_decode($_POST['coordinates']);
+}
 
 $xml = '<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns:xlink="http://www.w3.org/1999/xlink" 

@@ -245,24 +245,22 @@ if (isset($_GET['id']))
 						
 						// Thumbnail
 						
-						// Taxon names
+						// Taxon names for this concept
 						if (data.identifier)
 						{
 							var num_names = 0;
 							
-							  if (data.identifier.ion)
-							  {
+							if (data.identifier.ion)
+							{
 								var publications = [];
 								
 								var html = '';
-								 for (var j in data.identifier.ion) {
-									num_names++;
+								for (var j in data.identifier.ion) {
+									html += '<div>';
 									
-									//html += '<h4>';
 									html += '<a href="names/cluster/' + j + '">';
 									html += data.identifier.ion[j].nameComplete;
 									html += '</a>';
-									//html += '</h4>';
 									
 									// publication
 									if (data.identifier.ion[j].publishedInCitation) {									
@@ -273,8 +271,11 @@ if (isset($_GET['id']))
 											html += '<div>' + data.identifier.ion[j].publication[0] + '</div>';
 										}
 									}
-								 }
-							 
+									html += '</div>';
+									
+									num_names++;
+								}
+							 	
 						  
 							 if(num_names > 0) {
 							 	add_metadata_stat("Names", num_names);

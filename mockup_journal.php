@@ -73,6 +73,7 @@ if (isset($_GET['journal']))
      					</div>
      				</div>
 					<div id="rawcoverage"></div>
+					<div id="map"></div>
 					<div id="identifiers"></div>
 					
 				</div>
@@ -234,6 +235,26 @@ if (isset($_GET['journal']))
 				}
 			});
 	}
+	
+	
+		// Map of localities (not working)
+		function show_journal_points(ns, issn)
+		{
+			$.getJSON("api/journals/issn/" + issn + "/geometry?callback=?",
+				function(data){
+					if (data.status == 200)
+					{
+						//var html = 'map here';
+						
+						//$('#map').html(html);
+						
+						$.post('map.php', JSON.stringify(data.coordinates), function(data) {
+  							$('#map').html(data);
+						});
+					}
+				});
+		}
+	
 	
 		function year_volume_articles(ns, value, volume, year)
 		{
@@ -498,6 +519,7 @@ if (isset($_GET['journal']))
 		display_journal_from_issn(issn);
 		show_journal_volumes('issn', issn);
 		show_article_identifiers('issn', issn);
+		//show_journal_points('issn', issn);
 	}
 	
 	if (oclc != '')
