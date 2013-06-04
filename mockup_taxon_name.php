@@ -295,7 +295,7 @@ $id = $_GET['id'];
 							{
 								var s = data.names[i];
 								//html += '<a href="mockup_search.php?q=' + encodeURIComponent(s) + '">' + s + '</a>' + '<br />';
-								html += '<a href="q/' + encodeURIComponent(s) + '">' + s + '</a>' + '<br />';
+								html += '<a href="search/' + encodeURIComponent(s) + '">' + s + '</a>' + '<br />';
 							}
 							html += '</div>';
 							var current_html = $("#epithet").html();
