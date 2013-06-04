@@ -507,9 +507,11 @@ $id = $_GET['id'];
 		$.getJSON("http://www.deepdyve.com/openurl?type=jsonp&affiliateId=BioNames&atitle=" + encodeURIComponent(title) + "&callback=?",
 			function(data){
 				if (data.articleFound) {
-					var html = '';
-					html += '<a href="' + data.articleLink + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'deepdyve\', \'' + data.permId + '\', 0]);"><img src="images/logos/deepdyve_bw.png" /></a>';
-					$('#deepdyve').html(html);	
+					if (data.articleFound == 'true') {
+						var html = '';
+						html += '<a href="' + data.articleLink + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'deepdyve\', \'' + data.permId + '\', 0]);"><img src="images/logos/deepdyve_bw.png" /></a>';
+						$('#deepdyve').html(html);	
+					}
 				}
 			});
 	}
