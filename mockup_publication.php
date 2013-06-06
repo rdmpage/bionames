@@ -74,7 +74,7 @@ $id = $_GET['id'];
 				<ul id="publication-tabs" class="nav nav-tabs">
 				  <li class="active"><a href="#view-tab" data-toggle="tab">View</a></li>
 				  <li><a href="#about-tab" data-toggle="tab">About</a></li>
-				  <li><a href="#data-tab" data-toggle="tab">Data <span id="data-badge" class="badge badge-info"></span></a></li>
+				  <li><a href="#data-tab" data-toggle="tab">Names <span id="data-badge" class="badge badge-info"></span></a></li>
 				</ul>
 			
 				<div class="tab-content">				  
