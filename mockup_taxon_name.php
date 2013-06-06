@@ -87,7 +87,6 @@ $id = $_GET['id'];
 							html += '<td>';
 							
 							if (data.names[i].id.match(/urn:lsid:organismnames.com:name:/)) {
-								var lsid = 
 								html += '<a href="http://www.organismnames.com/details.htm?lsid=' + data.names[i].id.replace('urn:lsid:organismnames.com:name:', '') + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'lsid\', \'' + data.names[i].id + '\', 0]);" rel="tooltip" title="Life Science Identifier (LSID) for this taxon name" class="tip"><i class="icon-share"></i> ' + data.names[i].id + '</a>';
 							}						
 							html += '</td>';
@@ -290,7 +289,9 @@ $id = $_GET['id'];
 					{	
 						if (data.names.length > 1) {					
 							var html = '<h3>Names with same epithet</h3>';
-							html += '<div style="text-align:right">';
+							//html += '<p class="muted">Possible synonyms</p>';
+							//html += '<div style="text-align:right">';
+							html += '<div>';
 							for (var i in data.names)
 							{
 								var s = data.names[i];
@@ -318,6 +319,7 @@ $id = $_GET['id'];
 						
 						if (data.related.length > 0) {					
 							var html = '<h3>Related names</h3>';
+							html += '<p class="muted">Possible synonyms</p>';
 							html += '<ul>';
 							for (var i in data.related)
 							{
