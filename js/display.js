@@ -12,7 +12,7 @@ function display_publications_ryan(id) {
 		});
 }
 
-
+//--------------------------------------------------------------------------------------------------
 function display_reference(data)
 {
 	var html = "";
@@ -93,6 +93,8 @@ function display_reference(data)
 	}
 	html += '</div>';
 	
+	
+	
   // if (data.identifier)
   // {
   //   html += '<ul>';
@@ -144,6 +146,96 @@ function display_reference(data)
 
 	return html;
 }
+
+
+//--------------------------------------------------------------------------------------------------
+function display_nonlinked_reference(data)
+{
+	var html = "";
+		
+	html += '<div>'; // RMS
+  
+	if (data.title)
+	{
+		html += '<div>' 
+			+ '<b>'
+			+ data.title 
+			+ '</b>'
+			+ '</div>';
+	}
+						
+	html += '<div class="meta">';	
+	
+	html += '<div>';
+	if (data.author)
+	{
+		html += 'by ';
+		for (var j in data.author)
+		{
+			html += data.author[j].name;
+			html += '; ';
+		}
+	}
+  
+	if (data.journal)
+	{
+		if (data.journal.name)
+		{
+			html += '<span class="journal">' + data.journal.name + '</span>';
+		}
+		if (data.journal.volume)
+		{
+			html += ' ' + data.journal.volume;
+		}
+		if (data.journal.issue)
+		{
+			html += '(' + data.journal.issue + ')';
+		}
+		if (data.journal.pages)
+		{
+			html += ' pages ' + data.journal.pages;
+		}
+	}
+	if (data.year)
+	{
+		html += ' (' + data.year + ')';
+	}
+	html += '</div>';
+	
+   if (data.identifier)
+   {
+    html += '<ul>';
+    for (var j in data.identifier)
+     {
+      switch (data.identifier[j].type)
+      {
+           
+        case "doi":
+           html += "<li><i class=\"icon-share\"></i><a href=\"http://dx.doi.org/" + data.identifier[j].id + "\" target=\"_new\">dx.doi.org/" + data.identifier[j].id + "</a></li>";
+			break;
+			
+        case "pmid":
+           html += "<li><i class=\"icon-share\"></i><a href=\"http://www.ncbi.nlm.nih.gov/pubmed/" + data.identifier[j].id + "\" target=\"_new\">pmid:	" + data.identifier[j].id + "</a></li>";
+           break;
+          
+         default:
+           break;
+       }
+    }  
+     html += '</ul>';
+  }
+  
+    
+  html += "</div>"; // RMS end <div class="meta">
+
+  
+	html += "<span class=\"Z3988\" title=\"" + referenceToOpenUrl(data) + "\"></span>";		
+	html += '</div>';
+
+	return html;
+}
+
+
 
 function display_stat(title, value, anchor) {
   var html = '';

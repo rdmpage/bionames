@@ -7,4 +7,6 @@ bionames-gallica
 
 data/darwincore/*.zip
 
+treelib-js
+
 vendor/document-viewer

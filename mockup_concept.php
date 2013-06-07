@@ -7,7 +7,6 @@ if (isset($_GET['id']))
 	$id = $_GET['id'];
 }
 
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,7 +32,8 @@ if (isset($_GET['id']))
 			<ul id="concept-tabs" class="nav nav-tabs">
 			  <li class="active" ><a href="#name-tab" data-toggle="tab">Name <span id="name-badge" class="badge badge-info"></span></a></li>
 			  <li class="bibliography"><a href="#biblio-tab" data-toggle="tab">Bibliography <span id="bibliography-badge"class="badge badge-info"></span></a></li>
-			  <li><a href="#data-tab" data-toggle="tab">Data</a></li>
+			  <li><a href="#data-tab" data-toggle="tab">Data <span id="data-badge"class="badge badge-info"></span></a></li>
+			  <li><a href="#about-tab" data-toggle="tab">About</a></li>
 			</ul>
 			
 			<div class="tab-content">
@@ -53,11 +53,9 @@ if (isset($_GET['id']))
 				</div>
 			  </div>
 			  
-			  <div class="tab-pane" id="data-tab">...</div>
+			  <div class="tab-pane" id="data-tab"><div id="data"></div></div>
+			  <div class="tab-pane" id="about-tab">...</div>
 			</div>			
-			
-			
-			
 			
 		</div>
 		
@@ -88,6 +86,9 @@ if (isset($_GET['id']))
 		show_images(concept);
 		show_classification(concept);
 		show_publications(concept);
+		
+		show_trees(concept);
+		
 		//show_timeline(concept);
 		//show_child_publications(concept);
 		
@@ -95,15 +96,48 @@ if (isset($_GET['id']))
 		
 		//show_wall(concept);
 		
+		
+		
 		function add_metadata_stat(title,value) {
 			$(display_stat(title,value)).appendTo($('#stats'));		
 		}
+		
+      function show_trees(concept)
+      {
+			$("#images").html("");
+			$.getJSON("api/taxon/" + concept + "/trees?callback=?",
+				function(data){
+					if (data.status == 200) {
+						if (data.trees.length != 0) {
+					
+							// Set badge on this tab so people know it has something to see
+							$('#data-badge').text(data.trees.length);
+							// Need this to force tab update
+							$('#concept-tabs li:eq(2) a').show();
+						
+							var html = '';
+							html += '<h3>Trees</h3>';
+							
+							html += '<ul>';
+							
+							for (var i in data.trees) {
+								html += '<li>' + '<a href="trees/' + data.trees[i] + '">' + data.trees[i] + '</a>' + '</li>';
+							}
+							
+							html += '</ul>';
+							
+						
+							$("#data").html(html);
+						}
+					}
+				});
+	 }		
+		
 	
 		
       function show_images(concept)
       {
 			$("#images").html("");
-//			$.getJSON("http://bionames.org/bionames-api/taxon/" + concept + "/thumbnail?callback=?",
 			$.getJSON("api/taxon/" + concept + "/thumbnail?callback=?",
 				function(data){
 					if (data.status == 200) {
@@ -130,7 +164,6 @@ if (isset($_GET['id']))
 			$("#classification").html("");
 			$("#namemap").html("");
 			
-//			$.getJSON("http://bionames.org/bionames-api/taxon/" + concept + "?callback=?",
 			$.getJSON("api/taxon/" + concept + "?callback=?",
 				function(data){
 					if (data.status == 200)
@@ -161,8 +194,6 @@ if (isset($_GET['id']))
 							default:
 								break;
 						}
-								
-						
 						
 						// Classification (nodes immediately above and below)
 						html += '<h3>Classification</h3>';

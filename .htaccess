@@ -29,6 +29,10 @@ RewriteRule ^oclc/(.*)   mockup_journal.php?oclc=$1   [NC,L]
 # Author
 RewriteRule ^authors/(.*)   mockup_author.php?name=$1   [NC,L]
 
+# Phylogeny
+RewriteRule ^trees/(.*)   mockup_tree.php?tree=$1   [NC,L]
+
+
 # API calls
 RewriteRule ^api/(.*)   bionames-api/$1   [NC,L]
 

@@ -120,6 +120,7 @@ body {
 body.author  .sidebar-header { border-color: #4d95be; }
 body.name    .sidebar-header { border-color: #d36e2b; }
 body.concept .sidebar-header { border-color: #899369; }
+body.phylogeny .sidebar-header { border-color: #899369; }
 
 
   .sidebar-header #title {
@@ -164,6 +165,19 @@ body.concept .sidebar-header { border-color: #899369; }
     background-position: left 1px;
     padding-left: 34px;
   }
+  
+  body.phylogeny .sidebar-header #title {
+    background-image: url(/images/icon-phylogram-white.png); 
+    background-position: left 1px;
+    padding-left: 22px;
+  }  
+  
+  body.phylogeny .toolbarbutton {
+  	padding:2px;
+  	border:2px solid rgb(228,228,228);
+  	height:24px;
+  }  
+ 
   
 
 .sidebar-section {

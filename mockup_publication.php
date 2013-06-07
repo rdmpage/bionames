@@ -73,7 +73,7 @@ $id = $_GET['id'];
 			
 				<ul id="publication-tabs" class="nav nav-tabs">
 				  <li class="active"><a href="#view-tab" data-toggle="tab">View</a></li>
-				  <li><a href="#about-tab" data-toggle="tab">About</a></li>
+				  <li><a href="#details-tab" data-toggle="tab">Details</a></li>
 				  <li><a href="#data-tab" data-toggle="tab">Names <span id="data-badge" class="badge badge-info"></span></a></li>
 				</ul>
 			
@@ -84,7 +84,7 @@ $id = $_GET['id'];
 					</div>  
 				  </div>
 
-				  <div class="tab-pane" id="about-tab">
+				  <div class="tab-pane" id="details-tab">
 					<div id="metadata" style="padding:20px;"></div>  
 				  </div>
 				  
@@ -575,7 +575,7 @@ $id = $_GET['id'];
 	display_publication(id);
 	display_publication_names(id);
 	
-	// to do: clicking on tab (e.g. "about") breaks doc viewer (it will display only a few documant pages)
+	// to do: clicking on tab (e.g. "detail") breaks doc viewer (it will display only a few documant pages)
 	// looks like an event gets sent to docviewer that is invalid
 	// horrible horrible hack to fix this redisplays the viewer :O 
 	$('a[data-toggle="tab"]').on('shown', function (e) {
