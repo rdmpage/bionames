@@ -21,6 +21,9 @@ if (isset($_GET['id']))
 	<?php require 'javascripts.inc.php'; ?>
 	<?php require 'uservoice.inc.php'; ?>
 	
+	<script src="treelib-js/treelib.js"></script>   	
+	
+	
 </head>
 <body class="concept">
 	<?php require 'analyticstracking.inc.php'; ?>
@@ -53,7 +56,9 @@ if (isset($_GET['id']))
 				</div>
 			  </div>
 			  
-			  <div class="tab-pane" id="data-tab"><div id="data"></div></div>
+			  <div class="tab-pane" id="data-tab">
+			  	<div id="data"></div>
+			  </div>
 			  <div class="tab-pane" id="about-tab">...</div>
 			</div>			
 			
@@ -102,9 +107,10 @@ if (isset($_GET['id']))
 			$(display_stat(title,value)).appendTo($('#stats'));		
 		}
 		
+	/*
       function show_trees(concept)
       {
-			$("#images").html("");
+			$("#data").html("");
 			$.getJSON("api/taxon/" + concept + "/trees?callback=?",
 				function(data){
 					if (data.status == 200) {
@@ -131,7 +137,66 @@ if (isset($_GET['id']))
 						}
 					}
 				});
+	 }	
+	 */
+	 
+	 // Other trees for this concept displayed as thumbnails
+      function show_trees(concept)
+      {
+			$("#data").html("");
+			$.getJSON("api/taxon/" + concept + "/trees?format=newick&callback=?",
+				function(data){
+					if (data.status == 200) {
+						if (data.trees.length != 0) {
+						
+							var html = '';
+							html += '<div style="background-color:#fafafa;">';
+							
+							var num_trees = 0;
+							
+							for (var i in data.trees) {
+								num_trees++;
+								html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;background-color:white;">';
+								html += '<a href="trees/' + i + '">';
+								html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="88" width="88">';
+								html += '<g id="' + i.replace(/\//, '_') + '"></g>'; 								
+								html += '</svg>';		
+								html += '</a>';
+								html += '</div>';
+							}
+							html += '<div style="clear:both;"/>';
+							html += '</div>';
+							$("#data").html(html);
+							
+							// Set badge on this tab so people know it has something to see							
+							$('#data-badge').text(num_trees);
+							// Need this to force tab update
+							$('#concept-tabs li:eq(2) a').show();
+							
+							
+							// draw trees
+							for (var i in data.trees) {
+								var t = new Tree();
+								t.Parse(data.trees[i]);
+	
+								if (t.error != 0)
+								{
+								}
+								else
+								{
+							
+									t.ComputeWeights(t.root);		
+									var td = new CirclePhylogramDrawer();
+									td.Init(t, {svg_id: i.replace(/\//, '_'), width:88, height:88, fontHeight:0, root_length:0.1} );		
+									td.CalcCoordinates();
+									td.Draw();
+								}
+							}	
+						}
+					}
+				});
 	 }		
+	 
 		
 	
 		

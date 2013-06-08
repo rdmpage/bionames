@@ -43,6 +43,7 @@ if (isset($_GET['tree']))
 		    
 				<ul id="phylogeny-tabs" class="nav nav-tabs">
 				  <li class="active"><a href="#view-tab" data-toggle="tab">Phylogeny</a></li>
+				  <li><a href="#nexus-tab" data-toggle="tab">NEXUS</a></li>
 				  <li><a href="#taxa-tab" data-toggle="tab">Taxa <span id="taxa-badge" class="badge badge-info"></span></a></li>
 				  <li><a href="#publications-tab" data-toggle="tab">Publications <span id="publications-badge" class="badge badge-info"></span></a></li>
 				  <li><a href="#about-tab" data-toggle="tab">About</span></a></li>
@@ -83,6 +84,10 @@ if (isset($_GET['tree']))
 				  
 
 				  </div>
+				  
+				  <div class="tab-pane" id="nexus-tab">
+				  	<textarea id="nexus" style="width:80%;" rows="20" readonly></textarea>
+				  </div>				  
 
 				  <div class="tab-pane" id="taxa-tab">
 				  	<div id="names">...</div>
@@ -109,8 +114,9 @@ if (isset($_GET['tree']))
 				</div>
 				<div id="metadata" class="sidebar-metadata">
 					<div id="stats" class="stats"></div>
+					<div id="concepts" class="sidebar-section"></div>
 					<div id="map" class="sidebar-section"></div>
-					
+					<div id="thumbnails" class="sidebar-section"></div>					
 				</div>
 	  		</div>
 		</div>
@@ -148,7 +154,7 @@ if (isset($_GET['tree']))
 						}
 					}
 					
-					// Update how many sequences in tree
+					// Display how many sequences in tree
 					add_metadata_stat('Sequences', sequence_count);
 					
 					// Display taxa
@@ -163,13 +169,13 @@ if (isset($_GET['tree']))
 					html += '</ul>';
 					$("#names").html(html);
 					
-					// Update how many taxa we have
+					// Display how many taxa we have
 					add_metadata_stat('Taxa', gi.length);
 					
 					// Set badge on this tab so people know it has something to see
 					$('#taxa-badge').text(gi.length);
 					// Need this to force tab update
-					$('#phylogeny-tabs li:eq(1) a').show();										
+					$('#phylogeny-tabs li:eq(2) a').show();										
 				
 					// Data sources
 					add_metadata_stat('Sources', data.data_sources.length);
@@ -179,7 +185,7 @@ if (isset($_GET['tree']))
 						// Set badge on this tab so people know it has something to see
 						$('#publications-badge').text(data.data_sources.length);
 						// Need this to force tab update
-						$('#phylogeny-tabs li:eq(2) a').show();
+						$('#phylogeny-tabs li:eq(3) a').show();
 										
 						html = '<h3>Publications</h3>';
 						html += '<p class="muted">Sources of sequence data</p>';
@@ -197,6 +203,15 @@ if (isset($_GET['tree']))
 						html += '</div>';
 						$("#sources").html(html);
 					}
+					
+					// Taxon 
+					var concept_id = 'ncbi/' + data.phylota.ti;
+					html = '<div id="id' + concept_id.replace(/\//, '_') + '"></div>';
+					$('#concepts').html(html);
+					display_snippets(concept_id);
+					
+					// Related trees (now that we know the concept)
+					display_related_trees(concept_id);
 				
 					// Map if we have points
 					if (data.geometry) {
@@ -218,9 +233,60 @@ if (isset($_GET['tree']))
 		$.get("api/api_tree.php?tree=" + tree + "&format=nexus",
 			function(nexus){
 				nexus_text = nexus;
+				
+				$('#nexus').val(nexus_text);
+				
 				showtree('circlephylogram');
 			});
 	}
+	
+	 // Other trees for this concept displayed as thumbnails
+      function display_related_trees(concept)
+      {
+			$("#thumbnails").html("");
+			$.getJSON("api/taxon/" + concept + "/trees?format=newick&callback=?",
+				function(data){
+					if (data.status == 200) {
+						if (data.trees.length != 0) {
+						
+							var html = '';
+							html += '<h3>Related trees</h3>';
+							
+							for (var i in data.trees) {
+								html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;">';
+								html += '<a href="trees/' + i + '">';
+								html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="88" width="88">';
+								html += '<g id="' + i.replace(/\//, '_') + '"></g>'; 								
+								html += '</svg>';		
+								html += '</a>';
+								html += '</div>';
+							}
+						
+							$("#thumbnails").html(html);
+							
+							// draw trees
+							for (var i in data.trees) {
+								var t = new Tree();
+								t.Parse(data.trees[i]);
+	
+								if (t.error != 0)
+								{
+								}
+								else
+								{
+							
+									t.ComputeWeights(t.root);		
+									var td = new CirclePhylogramDrawer();
+									td.Init(t, {svg_id: i.replace(/\//, '_'), width:88, height:88, fontHeight:0, root_length:0.1} );		
+									td.CalcCoordinates();
+									td.Draw();
+								}
+							}	
+						}
+					}
+				});
+	 }		
+	
 		
 		
 	function showtree(drawing_type)
@@ -370,6 +436,7 @@ if (isset($_GET['tree']))
 
 	display_tree_metadata(tree);
 	display_tree(tree);
+	
 	
 	// button handlers
 	$('.button-radial').click(function(){
