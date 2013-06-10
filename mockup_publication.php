@@ -54,7 +54,10 @@ $id = $_GET['id'];
 	<script src="public/assets/viewer.js" type="text/javascript" charset="utf-8"></script>
 	<script src="public/assets/templates.js" type="text/javascript" charset="utf-8"></script>
 	
-	<script> var docUrl = ''; </script>
+	<script> 
+		var docUrl = ''; 
+		var publication = null;	
+	</script>
 	
 	<!-- altmetric.com -->
 	<!-- <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script> -->
@@ -104,6 +107,9 @@ $id = $_GET['id'];
 					<div id="map" class="sidebar-section"></div>	
 				</div>
 				<div class="sidebar-metadata">
+					<div id="view_publisher"></div>
+					<div id="view_pdf"></div>
+					<div id="view_deepdyve"></div>
 					<div id="plugins" class="sidebar-section"></div>	
 				</div>
 				
@@ -132,6 +138,9 @@ $id = $_GET['id'];
 			function(data){
 				if (data.status == 200)
 				{
+					// keep copy of publication data
+					publication = data;
+					
 					bibdata = reference_to_bibdata(data);
 					
 					// Bibliographic details as a table
@@ -265,8 +274,7 @@ $id = $_GET['id'];
 						}
 					}
 					
-					// Item-level identifiers
-					
+					// Item-level identifiers					
 					var doi = '';
 					
 					if (data.identifier)
@@ -326,15 +334,18 @@ $id = $_GET['id'];
 						}	
 					}
 					
-					/* 
+					
 					if (doi != '') {
-						var plugin_html = '<h3>Metrics</h3>';;
-						plugin_html += '<div class=\'altmetric-embed\' data-badge-type=\'donut\' data-doi="' + doi + '" data-badge-details=\'right\'></div>';
+						//var plugin_html = '<h3>Metrics</h3>';;
+						//plugin_html += '<div class=\'altmetric-embed\' data-badge-type=\'donut\' data-doi="' + doi + '" data-badge-details=\'right\'></div>';
 					
-						$('#plugins').html(plugin_html);
-					
+						//$('#plugins').html(plugin_html);
+						
+						// Display prominent link to publisher
+						plugin_html = '<a href="http://dx.doi.org/' + doi + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' + data.identifier[j].id + '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on publisher\'s website</a>';
+						$('#view_publisher').html(plugin_html);
 					}
-					*/
+					
 					
 					// Item-level links
 					if (data.link)
@@ -345,6 +356,11 @@ $id = $_GET['id'];
 							{
 								case "PDF":
 									html += '<tr><td class="muted">PDF</td><td><a href="' + data.link[j].url + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pdf\', \'' + data.link[j].url + '\', 0]);"><i class="icon-share"></i> ' +  data.link[j].url + '</a></td></tr>';
+									
+									// Display link to PDF
+									plugin_html = '<a href="' + data.link[j].url + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pdf\', \'' + data.link[j].url + '\', 0]);" class="btn btn-block btn-info"><i class="icon-download-alt icon-white"></i> Download PDF</a>';
+									$('#view_pdf').html(plugin_html);
+
 									break;
 
 								case "LINK":
@@ -373,8 +389,7 @@ $id = $_GET['id'];
 						html += '<tr><td class="muted">Publisher</td><td>' +  data.publisher + '</td></tr>';
 					}
 					
-					html += '<tr><td class="muted">Citation</td>';
-					
+					html += '<tr><td class="muted">Citation</td>';					
 					
 					html += '<td>';
 					html += '<select id="format" onchange="show_formatted_citation(this.options[this.selectedIndex].value);"><option label="Format" disabled="disabled"></option><option label="ZooKeys" value="zookeys"><option label="Zootaxa" value="zootaxa"></option><option label="BibTeX" value="bibtex"></option></select>';
@@ -437,7 +452,6 @@ $id = $_GET['id'];
 							}
 						}
 					}					
-					html += '</div>';
 					
 					if (docUrl == '')
 					{
@@ -451,57 +465,53 @@ $id = $_GET['id'];
 					
 					}
 					
-					if (docUrl != '')
-					{
-						DV.load(docUrl, {
-							container: '#doc',
-							width:$('#document-viewer-span').width(),
-							height:$(window).height() -  $('#document-viewer-span').offset().top,
-							//height:$('#document-viewer-span').height(),
-							sidebar: false
-						});	
-					}
-					else
-					{
-						var html = '';
-												
-						if (data.thumbnail)
-						{							
-							html += '<div style="text-align:center;">';
-							html += '<div class="alert">';
-							html += '<strong>Limited access!</strong> You may need a subscription to access this item.';
-							html += '</div>';
-							html += '<div id="deepdyve"></div>';
-							html += '<img style="border:1px solid rgb(128,128,128);padding:10px;background-color:white;" src="' + data.thumbnail + '" width="400" />';
-							html += '</div>';
-							
-													
-						}
-						else
-						{
-							html += '<div style="text-align:center;">';
-							html += '<div class="alert">';
-							html += 'Unable to display this item.';
-							html += '</div>';
-							html += '<div id="deepdyve"></div>';							
-							html += '</div>';
-						}
-						
-						if (data.title) {
-							html += '<script>deep_dyve(\'' + data.title + '\');<\/script>';
-						}						
-							
-						$('#doc').html(html);	
-					}
+					display_document();
+					
+					if (data.title) {
+						deep_dyve(data.title);
+					}						
 					
 					$('.tip').tooltip();
-					
-					
-					
 				}
 			});
 	}
 	
+	function display_document() {
+		if (docUrl != '')
+		{
+			DV.load(docUrl, {
+				container: '#doc',
+				width:$('#document-viewer-span').width(),
+				height:$(window).height() -  $('#document-viewer-span').offset().top,
+				//height:$('#document-viewer-span').height(),
+				sidebar: false
+			});	
+		}
+		else
+		{
+			var html = '';
+									
+			if (publication.thumbnail)
+			{							
+				html += '<div style="text-align:center;">';
+				html += '<div class="alert">';
+				html += '<strong>Limited access!</strong> You may need a subscription to access this item.';
+				html += '</div>';
+				html += '<img style="border:1px solid rgb(128,128,128);padding:10px;background-color:white;" src="' + publication.thumbnail + '" width="400" />';
+				html += '</div>';
+			}
+			else
+			{
+				html += '<div style="text-align:center;">';
+				html += '<div class="alert">';
+				html += 'Unable to display this item.';
+				html += '</div>';
+				html += '</div>';
+			}			
+				
+			$('#doc').html(html);	
+		}	
+	}
 	
 	function deep_dyve(title) {
 		$.getJSON("http://www.deepdyve.com/openurl?type=jsonp&affiliateId=BioNames&atitle=" + encodeURIComponent(title) + "&callback=?",
@@ -509,14 +519,13 @@ $id = $_GET['id'];
 				if (data.articleFound) {
 					if (data.articleFound == 'true') {
 						var html = '';
-						html += '<a href="' + data.articleLink + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'deepdyve\', \'' + data.permId + '\', 0]);"><img src="images/logos/deepdyve_bw.png" /></a>';
-						$('#deepdyve').html(html);	
+						//html += '<a href="' + data.articleLink + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'deepdyve\', \'' + data.permId + '\', 0]);"><img src="images/logos/deepdyve_bw.png" /></a>';
+						html += '<a href="' + data.articleLink + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'deepdyve\', \'' + data.permId + '\', 0]);" class="btn btn-info btn-block"><i class="icon-share icon-white"></i>View on DeepDyve</a>';
+						$('#view_deepdyve').html(html);	
 					}
 				}
 			});
 	}
-		
-	
 	
 	function display_publication_names (id)
 	{
@@ -582,7 +591,8 @@ $id = $_GET['id'];
   
   		var t = $(e.target).text().toLowerCase();
   		if (t == 'view') {
-   			display_publication(id); // horrible
+   			//display_publication(id); // horrible
+   			display_document();
   		} else {
  			//e.stopImmediatePropagation();
   			//console.log('hi');
