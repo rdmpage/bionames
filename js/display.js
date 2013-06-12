@@ -229,7 +229,7 @@ function display_nonlinked_reference(data)
   html += "</div>"; // RMS end <div class="meta">
 
   
-	html += "<span class=\"Z3988\" title=\"" + referenceToOpenUrl(data) + "\"></span>";		
+	//html += "<span class=\"Z3988\" title=\"" + referenceToOpenUrl(data) + "\"></span>";		
 	html += '</div>';
 
 	return html;
