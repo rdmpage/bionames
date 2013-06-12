@@ -289,6 +289,10 @@ $id = $_GET['id'];
 
 								case "biostor":
 									html += '<tr><td class="muted">BioStor</td><td><a href="http://biostor.org/reference/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="BioStor reference ' + data.identifier[j].id + '" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+
+									// Display prominent link to BioStor
+									plugin_html = '<a href="http://biostor.org/reference/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' + data.identifier[j].id + '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View at BioStor</a>';
+									$('#view_publisher').html(plugin_html);
 									break;
 
 								case "cinii":
@@ -298,6 +302,10 @@ $id = $_GET['id'];
 								case "doi":
 									doi = data.identifier[j].id;
 									html += '<tr><td class="muted">DOI</td><td><a href="http://dx.doi.org/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' + data.identifier[j].id + '\', 0]);" rel="tooltip" title="The Digital Object Identifier (DOI) ' + data.identifier[j].id + ' is the persistent identifier for this publication" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									
+									// Display prominent link to publisher
+									plugin_html = '<a href="http://dx.doi.org/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' + data.identifier[j].id + '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on publisher\'s website</a>';
+									$('#view_publisher').html(plugin_html);									
 									break;
 
 								case "googleBooks":
@@ -314,6 +322,10 @@ $id = $_GET['id'];
 
 								case "jstor":
 									html += '<tr><td class="muted">JSTOR</td><td><a href="http://www.jstor.org/stable/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'jstor\', \'' + data.identifier[j].id + '\', 0]);" target="_new" rel="tooltip" title="Available from JSTOR" class="tip"><i class="icon-share"></i> ' + data.identifier[j].id + '</a></td></tr>';
+									
+									// Display prominent link to JSTOR
+									plugin_html = '<a href="http://www.jstor.org/stable/' + data.identifier[j].id + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'jstor\', \'' + data.identifier[j].id + '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View at JSTOR</a>';
+									$('#view_publisher').html(plugin_html);
 									break;
 
 								case "oclc":
@@ -340,10 +352,6 @@ $id = $_GET['id'];
 						//plugin_html += '<div class=\'altmetric-embed\' data-badge-type=\'donut\' data-doi="' + doi + '" data-badge-details=\'right\'></div>';
 					
 						//$('#plugins').html(plugin_html);
-						
-						// Display prominent link to publisher
-						plugin_html = '<a href="http://dx.doi.org/' + doi + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' + data.identifier[j].id + '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on publisher\'s website</a>';
-						$('#view_publisher').html(plugin_html);
 					}
 					
 					
@@ -360,7 +368,6 @@ $id = $_GET['id'];
 									// Display link to PDF
 									plugin_html = '<a href="' + data.link[j].url + '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pdf\', \'' + data.link[j].url + '\', 0]);" class="btn btn-block btn-info"><i class="icon-download-alt icon-white"></i> Download PDF</a>';
 									$('#view_pdf').html(plugin_html);
-
 									break;
 
 								case "LINK":
@@ -389,18 +396,21 @@ $id = $_GET['id'];
 						html += '<tr><td class="muted">Publisher</td><td>' +  data.publisher + '</td></tr>';
 					}
 					
-					html += '<tr><td class="muted">Citation</td>';					
-					
+					html += '<tr><td class="muted">Citation</td>';										
 					html += '<td>';
 					html += '<select id="format" onchange="show_formatted_citation(this.options[this.selectedIndex].value);"><option label="Format" disabled="disabled"></option><option label="ZooKeys" value="zookeys"><option label="Zootaxa" value="zootaxa"></option><option label="BibTeX" value="bibtex"></option></select>';
 					html += '<div>';
 					html += '<div id="citation" style="width:400px"></div>';
 					html += '</div>';
-					html += '<div>';
+					html += '</td>';
+					html += '</tr>';
+					
+					html += '<tr><td></td>';
+					html += '<td>';
 					html += '<span class="Z3988" title="' + referenceToOpenUrl(data) + '"></span>';
-					html += '</div>';
 					html += '</td>';
-					html += '</td>';
+					html += '</tr>';
+	
 					
 					/*
 					if (doi != '') {
