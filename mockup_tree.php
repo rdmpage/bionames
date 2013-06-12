@@ -31,6 +31,69 @@ if (isset($_GET['tree']))
 		var nexus_text;
 	</script>
 	
+	<script>
+		function openurl(co, id)
+		{
+			$('#find_' + id).html("Searching...");
+			//alert(encodeURIComponent(co, id));
+//				$.getJSON("openurl.php?" + co + "&callback=?",
+//				$.getJSON("http://biostor-cloud.pagodabox.com/openurl.php?" + co + "&callback=?",
+			$.getJSON("http://bionames.org/bionames-api/openurl.php?" + co + "&callback=?",
+				function(data){
+					$('#find_' + id).html("Find in BioNames");
+					if (data.results.length > 0)
+					{
+						//alert(data.results[0].id);
+						var html = '';
+						
+						if (data.results.length == 1)
+						{
+							html += '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>';
+							html += '<h4>Found</h4>';
+						}
+						else
+						{
+							html += '<div class="alert"><button type="button" class="close" data-dismiss="alert">×</button>';
+							html += '<h4>Possible matches</h4>';							
+						}
+						
+						
+						html += '<p/>';
+						html += '<table>';
+						
+						for (var i in data.results)
+						{							
+							html += '<tr>';
+							if (data.results[i].reference.thumbnail) {
+								html += '<td width="100">' + '<img style="box-shadow:2px 2px 2px #ccc;width:64px;background-color:white;" src="' + data.results[i].reference.thumbnail + '"/>' + '</td>';
+							}
+							html += '<td>' + '<b>' + data.results[i].reference.title + '</b>' + '<br/>';
+							
+							html += '<a class="btn btn-primary" href="references/' + data.results[i].reference._id + '">View</a>';
+							
+							html += '</td>';
+							html += '</tr>';
+						}
+						html += '</table>';
+						
+						html += '</div>';
+						
+						$('#reference_' + id).html(html);
+					}
+					else
+					{
+						var html = '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><h4>Not found</h4>';
+						html += '</div>';
+						
+						$('#reference_' + id).html(html);
+					
+					}
+				}
+			);
+		}
+	
+	</script>	
+	
 </head>
 <body class="phylogeny">
 	<?php require 'analyticstracking.inc.php'; ?>
@@ -51,8 +114,7 @@ if (isset($_GET['tree']))
 			
 				<div class="tab-content">				  
 				  <div class="tab-pane active" id="view-tab">
-				  
-				  
+				  				  
 						<div style="text-align:center;">
 							<!-- tree viewer -->
 							<div style="background-color:white;">
@@ -80,8 +142,7 @@ if (isset($_GET['tree']))
 							</div>
 						</div>
 						
-						<div id="message"></div>				  
-				  
+						<div id="message"></div>				  				  
 
 				  </div>
 				  
@@ -193,12 +254,18 @@ if (isset($_GET['tree']))
 						for (var i in data.data_sources) {
 							//html += '<li>' + display_reference(data.data_sources[i]) + '</li>';
 							
-							html += '<div style="padding:10px;">';
+							// Reference
+							html += '<div style="padding:10px;border-top:1px solid rgb(192,192,192);margin-top:10px;">';
 							html += display_nonlinked_reference(data.data_sources[i]);
 							html += '</div>';
 							
-							// for now these aren't linkable until we figure ou what to do with them
-							// maybe local OpenURL
+							// Button for local OpenURL lookup for this reference
+							html += '<button id="find_' + i + '" class="btn btn-info" onclick="openurl(\''
+							 +  referenceToOpenUrl(data.data_sources[i]) + 
+							 '\',\'' + i + '\')">Find in BioNames</button>';
+							 
+							html += '<div id="reference_' + i + '"></div>';
+							
 						}
 						html += '</div>';
 						$("#sources").html(html);
