@@ -1,3 +1,5 @@
+<link href='images/favicon.png' rel='icon' type='image/png'>
+
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
