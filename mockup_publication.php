@@ -78,6 +78,7 @@ $id = $_GET['id'];
 				  <li class="active"><a href="#view-tab" data-toggle="tab">View</a></li>
 				  <li><a href="#details-tab" data-toggle="tab">Details</a></li>
 				  <li><a href="#data-tab" data-toggle="tab">Names <span id="data-badge" class="badge badge-info"></span></a></li>
+				  <li><a href="#grid-tab" data-toggle="tab">Grid</span></a></li>
 				</ul>
 			
 				<div class="tab-content">				  
@@ -94,6 +95,11 @@ $id = $_GET['id'];
 				  <div class="tab-pane" id="data-tab">
 					<div id="names">...</div>
 				  </div>
+
+				  <div class="tab-pane" id="grid-tab">
+					<div id="grid" style="overflow:auto;">...</div>
+				  </div>
+
 				</div>
 			</div>
 			
@@ -112,6 +118,11 @@ $id = $_GET['id'];
 					<div id="view_deepdyve"></div>
 					<div id="plugins" class="sidebar-section"></div>	
 				</div>
+				
+				<div>
+					<?php require 'disqus.inc.php'; ?>
+    			</div>
+				
 				
 			</div>
 		</div>
@@ -398,7 +409,7 @@ $id = $_GET['id'];
 					
 					html += '<tr><td class="muted">Citation</td>';										
 					html += '<td>';
-					html += '<select id="format" onchange="show_formatted_citation(this.options[this.selectedIndex].value);"><option label="Format" disabled="disabled"></option><option label="ZooKeys" value="zookeys"><option label="Zootaxa" value="zootaxa"></option><option label="BibTeX" value="bibtex"></option></select>';
+					html += '<select id="format" onchange="show_formatted_citation(this.options[this.selectedIndex].value);"><option label="Format" disabled="disabled" selected="selected"></option><option label="ZooKeys" value="zookeys"><option label="Zootaxa" value="zootaxa"></option><option label="BibTeX" value="bibtex"></option></select>';
 					html += '<div>';
 					html += '<div id="citation" style="width:400px"></div>';
 					html += '</div>';
@@ -479,7 +490,9 @@ $id = $_GET['id'];
 					
 					if (data.title) {
 						deep_dyve(data.title);
-					}						
+					}	
+					
+					display_grid();
 					
 					$('.tip').tooltip();
 				}
@@ -586,6 +599,62 @@ $id = $_GET['id'];
 					$('.tip').tooltip();
 				}
 			});
+	}
+	
+	function display_grid() {
+	  if (publication.bhl_pages && publication.names) {
+			var html = '';
+			html += '<table class="table table-striped table-hover">';
+			html += '<thead>';
+			
+			// Page numbers		
+			html += '<tr>';
+			html += '<td>';
+			html += '</td>';
+			html += '<td>';
+			
+			for (j=0;j<8;j++) {
+				html += '<span style="display:block;font-family:monospace;">';
+				for (var i in publication.bhl_pages) {
+					html += String(publication.bhl_pages[i]).charAt(j);
+				   }
+				html += '</span>';
+			}
+			html += '</td>';
+			html += '</tr>';
+			
+			html += '</thead>';
+			html += '<tbody>';
+			
+			if (publication.names)
+			for (var j in publication.names) {
+				html += '<tr>';
+				html += '<td>';
+				html += '<a href="search/' + encodeURIComponent(publication.names[j].namestring) + '">';
+				html += publication.names[j].namestring;
+				html += '</a>';
+				html += '</td>';
+				html += '<td>';
+				
+				html += '<span style="font-family:monospace">';
+				
+				for (var i in publication.bhl_pages) {
+				   if (publication.names[j].pages.indexOf(publication.bhl_pages[i]) == -1) {
+					html += '&nbsp;';
+				   } else {
+					html += '●';
+				   }
+				}
+				html += '</span>';
+				
+				html += '</td>';
+				html += '</tr>';
+			}
+			html += '</tbody>';			
+			html += '</table>';
+			
+			$('#grid').html(html);
+		}
 	}
 					
 					

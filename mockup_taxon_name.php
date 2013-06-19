@@ -147,6 +147,9 @@ $id = $_GET['id'];
 						// Publications with this name string
 						show_publications(data.nameComplete);
 						
+						// species with this name as the genus
+						show_species(data.nameComplete);
+						
 						// Now flesh out publication details
 						if (data.publishedInCitation) {
 							show_name_publications(data.publishedInCitation);
@@ -178,7 +181,7 @@ $id = $_GET['id'];
 			$("#concepts").html("");
 			
 //			$.getJSON("http://bionames.org/bionames-api/name/" + id + "/concepts?callback=?",
-			$.getJSON("api/name/" + id + "/concepts?callback=?",
+			$.getJSON("api/name/id/" + id + "/concepts?callback=?",
 				function(data){
 					if (data.status == 200)
 					{	
@@ -335,6 +338,49 @@ $id = $_GET['id'];
 				});
 		}
 		
+		function show_species(name)
+		{
+			$("#species").html("");
+			
+			$.getJSON("api/name/" + encodeURIComponent(name) + "/species?callback=?",
+				function(data){
+					if (data.status == 200) {
+						
+						if (data.species.length > 0) {	
+							// Set badge on this tab so people know it has something to see
+							$('#species-badge').text(data.species.length);
+							// Need this to force tab update
+							$('#names-tabs li:eq(2) a').show();
+						
+							
+							var html = '';
+							html += '<div style="background-color:white;">';
+							html += '<h4>Species names</h4>';
+							html += '<p class="muted">Species names with "' + name + '" as genus</p>';
+							html += '<table class="table table-striped table-hover table-bordered">';
+							html += '<thead>';
+							html += '<tr>';
+							html += '<td>Year</td><td>Name</td>';
+							html += '</tr>';
+							html += '</thead>';
+							html += '<tbody>';
+							for (var i in data.species)
+							{
+								html += '<tr>';
+								html += '<td>' + data.species[i].year + '</td>';
+								html += '<td>' + '<a href="names/' + data.species[i].id + '">' + data.species[i].name + '</a>' + '</td>';
+								html += '</tr>';
+							}
+							html += '</tbody>';
+							html += '</table>';
+							html += '</div>';
+							$("#species").html(html);
+						}
+					}
+				});
+		}
+		
+		
 	</script>	
 </head>
 <body class="name">
@@ -347,6 +393,7 @@ $id = $_GET['id'];
 			<ul id="names-tabs" class="nav nav-tabs">
 			  <li class="active"><a href="#names-tab" data-toggle="tab">Names <span id="names-badge" class="badge badge-info"></span></a></li>
 			  <li class="bibliography"><a href="#biblio-tab" data-toggle="tab">Bibliography <span id="bibliography-badge" class="badge badge-info"></span></a></li>
+			  <li><a href="#species-tab" data-toggle="tab">Species <span id="species-badge" class="badge badge-info"></span></a></li>
 			</ul>
 			
 			<div class="tab-content">
@@ -362,6 +409,12 @@ $id = $_GET['id'];
 		            <div id="pubList"></div>
 		        </div>
 			  </div>
+			  
+			  <div class="tab-pane" id="species-tab">
+				<div id="species">...</div>
+			  </div>
+			  
+			  
 		  </div>
 	    </div>
 	    <div class="sidebar span4">
@@ -375,6 +428,11 @@ $id = $_GET['id'];
 	    	<div id="concepts" class="sidebar-section"></div>
 	    	<div id="related" class="sidebar-section"></div>
 	    	<div id="epithet" class="sidebar-section"></div>
+	    	
+				<div>
+					<?php require 'disqus.inc.php'; ?>
+    			</div>
+	    	
 	    </div>
 	  </div>
 	</div>

@@ -21,6 +21,8 @@ if (isset($_GET['q']))
     <meta name="description" content="">
     <meta name="author" content="">
     
+    <link rel="alternate" href="api/rss" type="application/atom+xml"  />
+    
 	<?php require 'stylesheets.inc.php'; ?>
 	
 	<?php require 'javascripts.inc.php'; ?>
@@ -73,9 +75,10 @@ if (isset($_GET['q']))
 
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="dashboard">Dashboard</a></li>
-          <!--
-          <li><a href="about.html">About</a></li>
+          <li  class="active"><a href="#myModal" data-toggle="modal">About</a></li>
+          <li><a href="dashboard">Dashboard</a></li>
+
+         <!--
           <li><a href="#">Contact</a></li>
           -->
         </ul>
@@ -131,7 +134,7 @@ if (isset($_GET['q']))
     	</div>
     	
     	<div style="border:1px solid rgb(228,228,228);float:left;">
-   			<a href="taxa/gbif/1541332"><img src="http://media.eol.org/content/2011/10/14/16/38103_88_88.jpg" /></a> -->
+   			<a href="taxa/gbif/1541332"><img src="http://media.eol.org/content/2011/10/14/16/38103_88_88.jpg" /></a>
 		</div>
 		
 		<div style="border:1px solid rgb(228,228,228);float:left;">
@@ -140,46 +143,74 @@ if (isset($_GET['q']))
     
     	</div>
     	
-    	 <div class="row-fluid marketing" style="text-align:center">
-			<!-- names -->
-			<a href="http://www.organismnames.com/" rel="tooltip" title="Index of Organism Names (ION)" class="tip"><img style="height:48px;" src="images/logos/ion.png" /></a>
-			<a href="http://data.gbif.org/" rel="tooltip" title="GBIF" class="tip"><img style="height:48px;" src="images/logos/GBIFwww_4.png" /></a>
-			<a href="http://www.ncbi.nlm.nih.gov/" rel="tooltip" title="NCBI" class="tip"><img style="height:48px;" src="images/logos/ncbi-twitter.jpg" /></a>
-			
-			<!-- bibliography -->
-			<a href="http://gallica.bnf.fr/" rel="tooltip" title="Gallica" class="tip"><img style="height:48px;" src="images/logos/gallica.jpg" /></a>
-			<a href="http://ci.nii.ac.jp/" rel="tooltip" title="CiNii" class="tip"><img style="height:48px;" src="images/logos/twitter_bigger.png" /></a>
-			<a href="http://www.worldcat.org/" rel="tooltip" title="WorldCat" class="tip"><img style="height:48px;" src="images/logos/twitter-worldcat.png" /></a>
-			<a href="http://biostor.org/" rel="tooltip" title="BioStor" class="tip"><img style="height:48px;" src="images/logos/biostor-shadow.png" /></a>
-			<a href="http://biodiversitylibrary.org/" rel="tooltip" title="Biodiversity Heritage Library" class="tip"><img style="height:48px;" src="images/logos/BHL_Small_Logo.jpg" /></a>
-			<a href="http://www.crossref.org/" rel="tooltip" title="CrossRef" class="tip"><img style="height:48px;" src="images/logos/crossrefsquare.gif" /></a>
-			<a href="http://retro.seals.ch/digbib/en/home" rel="tooltip" title="retro.seals.ch" class="tip"><img style="height:48px;" src="images/logos/logo_e-lib.ch.png" /></a>
-			<a href="http://www.mendeley.com/" rel="tooltip" title="Mendeley" class="tip"><img style="height:48px;" src="images/logos/MendeleyIcon.png" /></a>
-			
-			<!-- software -->
-			
-			<a href="http://gallica.bnf.fr/" rel="tooltip" title="Gallica" class="tip">
-			
-			<a href="http://couchdb.apache.org/" rel="tooltip" title="CouchDB" class="tip"><img style="height:48px;" src="images/logos/couch.png" /></a>
-			<a href="https://github.com/documentcloud/" rel="tooltip" title="DocumentCloud" class="tip"><img style="height:48px;" src="images/logos/documentcloud.png" /></a>
-			<a href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home/" rel="tooltip" title="Citeproc-js" class="tip"><img style="height:48px;" src="images/logos/citeproc-js-logo_avatar.png" /></a>
-			<a href="http://twitter.github.io/bootstrap/" rel="tooltip" title="Boostrap" class="tip"><img style="height:48px;" src="images/logos/bootstrap-docs-readme.png" /></a>
-			
-			<!-- people -->
-			
-			<a href="https://trello.com/cynthiaparr" rel="tooltip" title="Adult supervision" class="tip"><img style="height:48px;" src="images/logos/170.png" /></a>
-			<a href="https://github.com/rschenk/" rel="tooltip" title="Interface funkiness" class="tip"><img style="height:48px;" src="images/logos/ab4f2861e1f40c2092c09ba993a87462.jpeg" /></a>
-			<a href="https://github.com/rdmpage/" rel="tooltip" title="Data wrangling" class="tip"><img style="height:48px;" src="images/logos/Mairi_drawing256x256.png" /></a>
-			
-			<!-- funding -->
-			
-			<a href="http://eol.org/" rel="tooltip" title="Funding" class="tip"><img style="height:48px;" src="images/logos/follow_eol_on_twitter.png" /></a>
+    	<!--
+
     	
+    	-->
     	
-    	</div>
+		<!-- Modal -->
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">About BioNames</h3>
+		  </div>
+		  <div class="modal-body">
+			<p>BioNames is a database of taxa, texts, and trees. It includes taxonomic names for 
+			animals (and other organisms covered by the ICZN), full text literature from BioStor and BHL,
+			links to digital literature (via CrossRef, CiNii, Gallica, JSTOR, and other archives), 
+			taxonomic classifications (GBIF and NCBI, cross-linked using EOL, which also provides the images),
+			and phylogenetic trees from PhyLoTA.</p>
+			<p>BioNames is being developed by <a href="mailto:rdmpage@gmail.com?subject=BioNames">Roderic D M Page</a>. 
+			Funding for the first release (including development work by Ryan Schenk) was provided by EOL.</p>
+			
+			<h4>Credits</h4>
+			 <div>
+				<!-- names -->
+				<a href="http://www.organismnames.com/" rel="tooltip" title="Index of Organism Names (ION)" class="tip"><img style="height:48px;" src="images/logos/ion.png" /></a>
+				<a href="http://data.gbif.org/" rel="tooltip" title="GBIF" class="tip"><img style="height:48px;" src="images/logos/GBIFwww_4.png" /></a>
+				<a href="http://www.ncbi.nlm.nih.gov/" rel="tooltip" title="NCBI" class="tip"><img style="height:48px;" src="images/logos/ncbi-twitter.jpg" /></a>
+				
+				<!-- bibliography -->
+				<a href="http://gallica.bnf.fr/" rel="tooltip" title="Gallica" class="tip"><img style="height:48px;" src="images/logos/gallica.jpg" /></a>
+				<a href="http://ci.nii.ac.jp/" rel="tooltip" title="CiNii" class="tip"><img style="height:48px;" src="images/logos/twitter_bigger.png" /></a>
+				<a href="http://www.worldcat.org/" rel="tooltip" title="WorldCat" class="tip"><img style="height:48px;" src="images/logos/twitter-worldcat.png" /></a>
+				<a href="http://biostor.org/" rel="tooltip" title="BioStor" class="tip"><img style="height:48px;" src="images/logos/biostor-shadow.png" /></a>
+				<a href="http://biodiversitylibrary.org/" rel="tooltip" title="Biodiversity Heritage Library" class="tip"><img style="height:48px;" src="images/logos/BHL_Small_Logo.jpg" /></a>
+				<a href="http://www.crossref.org/" rel="tooltip" title="CrossRef" class="tip"><img style="height:48px;" src="images/logos/crossrefsquare.gif" /></a>
+				<a href="http://retro.seals.ch/digbib/en/home" rel="tooltip" title="retro.seals.ch" class="tip"><img style="height:48px;" src="images/logos/logo_e-lib.ch.png" /></a>
+				<a href="http://www.mendeley.com/" rel="tooltip" title="Mendeley" class="tip"><img style="height:48px;" src="images/logos/MendeleyIcon.png" /></a>
+				
+				<!-- software -->
+				
+				<a href="http://gallica.bnf.fr/" rel="tooltip" title="Gallica" class="tip">
+				
+				<a href="http://couchdb.apache.org/" rel="tooltip" title="CouchDB" class="tip"><img style="height:48px;" src="images/logos/couch.png" /></a>
+				<a href="https://github.com/documentcloud/" rel="tooltip" title="DocumentCloud" class="tip"><img style="height:48px;" src="images/logos/documentcloud.png" /></a>
+				<a href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home/" rel="tooltip" title="Citeproc-js" class="tip"><img style="height:48px;" src="images/logos/citeproc-js-logo_avatar.png" /></a>
+				<a href="http://twitter.github.io/bootstrap/" rel="tooltip" title="Boostrap" class="tip"><img style="height:48px;" src="images/logos/bootstrap-docs-readme.png" /></a>
+				
+				<!-- people -->
+				
+				<a href="https://trello.com/cynthiaparr" rel="tooltip" title="Adult supervision" class="tip"><img style="height:48px;" src="images/logos/170.png" /></a>
+				<a href="https://github.com/rschenk/" rel="tooltip" title="Interface funkiness" class="tip"><img style="height:48px;" src="images/logos/ab4f2861e1f40c2092c09ba993a87462.jpeg" /></a>
+				<a href="https://github.com/rdmpage/" rel="tooltip" title="Data wrangling" class="tip"><img style="height:48px;" src="images/logos/Mairi_drawing256x256.png" /></a>
+				
+				<!-- funding -->
+				
+				<a href="http://eol.org/" rel="tooltip" title="Funding" class="tip"><img style="height:48px;" src="images/logos/follow_eol_on_twitter.png" /></a>
+			</div>			
+			
+		  </div>
+		</div>    	
+		
+		<div id="recentcomments" class="dsq-widget">
+			<h4 class="dsq-widget-title">Recent Comments</h4>
+			<script type="text/javascript" src="http://disqus.com/forums/bionames/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200"></script>
+		</div>
+
       
       <div class="footer">
-        <a href="http://iphylo.blogspot.com">Roderic D M Page</a><img src="https://secure.gravatar.com/avatar/b16ff4bc0fc20d123b346d86f531bda2?s=32" />
+       <!-- <a href="http://iphylo.blogspot.com">Roderic D M Page</a><img src="https://secure.gravatar.com/avatar/b16ff4bc0fc20d123b346d86f531bda2?s=32" /> -->
       </div>
 
     </div> <!-- /container -->

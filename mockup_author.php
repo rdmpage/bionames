@@ -62,6 +62,12 @@ if (isset($_GET['name']))
 				</div>
 				<div id="coauthors" class="sidebar-section"></div>
 				<div id="taxa" class="sidebar-section"></div>
+				
+				<div>
+					<?php require 'disqus.inc.php'; ?>
+    			</div>
+				
+				
 	  		</div>
 		</div>
 	</div>

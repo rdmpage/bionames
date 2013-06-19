@@ -78,6 +78,11 @@ if (isset($_GET['id']))
 			</div>
 			<div id="images" class="sidebar-section"></div>
 			<div id="classification" class="sidebar-section"></div>
+			
+				<div>
+					<?php require 'disqus.inc.php'; ?>
+    			</div>
+			
   		</div>
 	</div>
 </div>
@@ -162,16 +167,26 @@ if (isset($_GET['id']))
 								html += '<g id="' + i.replace(/\//, '_') + '"></g>'; 								
 								html += '</svg>';		
 								html += '</a>';
+								
+								if (data.tags[i]) {
+									//html += '<div style="width:88px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + data.tags[i].join() + '</div>';
+									html += '<div style="width:88px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + data.tags[i][0] + '</div>';
+								}
+								
+								
 								html += '</div>';
 							}
 							html += '<div style="clear:both;"/>';
 							html += '</div>';
 							$("#data").html(html);
 							
-							// Set badge on this tab so people know it has something to see							
+							// Set badge on this tab so people know it has something to see	
+							$('#concept-tabs li:eq(2) a').html('Phylogeny <span id="data-badge"class="badge badge-info">');
+							
 							$('#data-badge').text(num_trees);
 							// Need this to force tab update
 							$('#concept-tabs li:eq(2) a').show();
+							
 							
 							
 							// draw trees

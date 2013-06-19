@@ -91,6 +91,150 @@ if (isset($_GET['tree']))
 				}
 			);
 		}
+		
+//--------------------------------------------------------------------------------------------------
+/**
+*
+*  Base64 encode / decode
+*  http://www.webtoolkit.info/
+*
+**/
+ 
+var Base64 = {
+ 
+	// private property
+	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+ 
+	// public method for encoding
+	encode : function (input) {
+		var output = "";
+		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+		var i = 0;
+ 
+		input = Base64._utf8_encode(input);
+ 
+		while (i < input.length) {
+ 
+			chr1 = input.charCodeAt(i++);
+			chr2 = input.charCodeAt(i++);
+			chr3 = input.charCodeAt(i++);
+ 
+			enc1 = chr1 >> 2;
+			enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+			enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+			enc4 = chr3 & 63;
+ 
+			if (isNaN(chr2)) {
+				enc3 = enc4 = 64;
+			} else if (isNaN(chr3)) {
+				enc4 = 64;
+			}
+ 
+			output = output +
+			this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+			this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+ 
+		}
+ 
+		return output;
+	},
+ 
+	// public method for decoding
+	decode : function (input) {
+		var output = "";
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+ 
+		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+ 
+		while (i < input.length) {
+ 
+			enc1 = this._keyStr.indexOf(input.charAt(i++));
+			enc2 = this._keyStr.indexOf(input.charAt(i++));
+			enc3 = this._keyStr.indexOf(input.charAt(i++));
+			enc4 = this._keyStr.indexOf(input.charAt(i++));
+ 
+			chr1 = (enc1 << 2) | (enc2 >> 4);
+			chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+			chr3 = ((enc3 & 3) << 6) | enc4;
+ 
+			output = output + String.fromCharCode(chr1);
+ 
+			if (enc3 != 64) {
+				output = output + String.fromCharCode(chr2);
+			}
+			if (enc4 != 64) {
+				output = output + String.fromCharCode(chr3);
+			}
+ 
+		}
+ 
+		output = Base64._utf8_decode(output);
+ 
+		return output;
+ 
+	},
+ 
+	// private method for UTF-8 encoding
+	_utf8_encode : function (string) {
+		string = string.replace(/\r\n/g,"\n");
+		var utftext = "";
+ 
+		for (var n = 0; n < string.length; n++) {
+ 
+			var c = string.charCodeAt(n);
+ 
+			if (c < 128) {
+				utftext += String.fromCharCode(c);
+			}
+			else if((c > 127) && (c < 2048)) {
+				utftext += String.fromCharCode((c >> 6) | 192);
+				utftext += String.fromCharCode((c & 63) | 128);
+			}
+			else {
+				utftext += String.fromCharCode((c >> 12) | 224);
+				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+				utftext += String.fromCharCode((c & 63) | 128);
+			}
+ 
+		}
+ 
+		return utftext;
+	},
+ 
+	// private method for UTF-8 decoding
+	_utf8_decode : function (utftext) {
+		var string = "";
+		var i = 0;
+		var c = c1 = c2 = 0;
+ 
+		while ( i < utftext.length ) {
+ 
+			c = utftext.charCodeAt(i);
+ 
+			if (c < 128) {
+				string += String.fromCharCode(c);
+				i++;
+			}
+			else if((c > 191) && (c < 224)) {
+				c2 = utftext.charCodeAt(i+1);
+				string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+				i += 2;
+			}
+			else {
+				c2 = utftext.charCodeAt(i+1);
+				c3 = utftext.charCodeAt(i+2);
+				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+				i += 3;
+			}
+ 
+		}
+ 
+		return string;
+	}
+ 
+} 		
 	
 	</script>	
 	
@@ -126,13 +270,11 @@ if (isset($_GET['tree']))
 									<a class="button-phylogram"><img class="toolbarbutton" src="treelib-js/demos/images/phylogram.svg"  /></a>
 									<a class="button-circle"><img class="toolbarbutton" src="treelib-js/demos/images/circle.svg"  /></a>
 									<a class="button-circlephylogram"><img class="toolbarbutton" src="treelib-js/demos/images/circlephylogram.svg" /></a>
-									<!--
 									<div style="float:right">
 									<a style="display:none;" id="download" href-lang="image/svg+xml" href="" download="tree.svg">
-										<img style="padding:2px;border:1px solid rgb(228,228,228);" src="images/download.svg" height="24"/>		
+										<img class="toolbarbutton" src="treelib-js/demos/images/download.svg" height="24"/>		
 									</a>
 									</div>
-									-->
 								</div>
 											
 								<!-- tree will be drawn here -->
@@ -179,6 +321,11 @@ if (isset($_GET['tree']))
 					<div id="map" class="sidebar-section"></div>
 					<div id="thumbnails" class="sidebar-section"></div>					
 				</div>
+				
+				<div>
+					<?php require 'disqus.inc.php'; ?>
+    			</div>
+				
 	  		</div>
 		</div>
 	</div>
@@ -320,12 +467,18 @@ if (isset($_GET['tree']))
 							html += '<h3>Related trees</h3>';
 							
 							for (var i in data.trees) {
-								html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;">';
+								html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;background-color:white;">';
 								html += '<a href="trees/' + i + '">';
 								html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="88" width="88">';
 								html += '<g id="' + i.replace(/\//, '_') + '"></g>'; 								
 								html += '</svg>';		
 								html += '</a>';
+								
+								if (data.tags[i]) {
+									//html += '<div style="width:88px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + data.tags[i].join() + '</div>';
+									html += '<div style="width:88px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + data.tags[i][0] + '</div>';
+								}
+								
 								html += '</div>';
 							}
 						
@@ -480,11 +633,49 @@ if (isset($_GET['tree']))
 					svg.appendChild(cssStyle);				
 					
 					td.DrawLabels(nexus);
+					
+					
+					// get unique leaf labels
+					var u = get_unique_labels(nexus, t, false);
+					
+					// Colour scheme from d3js
+					// https://github.com/mbostock/d3/wiki/Ordinal-Scales
+					var category20  = ['#1f77b4','#aec7e8','#ff7f0e','#ffbb78','#2ca02c','#98df8a','#d62728','#ff9896','#9467bd','#c5b0d5','#8c564b','#c49c94','#e377c2','#f7b6d2','#7f7f7f','#c7c7c7','#bcbd22','#dbdb8d','#17becf','#9edae5'];
+					var category20c = ['#3182bd','#6baed6','#9ecae1','#c6dbef','#e6550d','#fd8d3c','#fdae6b','#fdd0a2','#31a354','#74c476','#a1d99b','#c7e9c0','#756bb1','#9e9ac8','#bcbddc','#dadaeb','#636363','#969696','#bdbdbd','#d9d9d9'];
+										
+					// Get global transform matrix
+					gCTM = g.getCTM();
+					
+					// color stuff
+					$( "text" ).each(function( index ) {
+											
+						// idea from http://srufaculty.sru.edu/david.dailey/svg/getCTM.svg
+						SVGRect = this.getBBox();
+						
+						var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+							rect.setAttribute("x", SVGRect.x);
+							rect.setAttribute("y", SVGRect.y);
+							rect.setAttribute("width", SVGRect.width);
+							rect.setAttribute("height", SVGRect.height);
+							
+							// Pick a colour
+							var index = u.indexOf($(this).text()) % 20;							
+							var colour = category20[index];
+							
+							rect.setAttribute("fill", colour);
+							rect.setAttribute("opacity", 0.5);
+							
+							CTM=this.getCTM();
+							s=CTM.a+" "+CTM.b+" "+CTM.c+" "+CTM.d+" "+CTM.e+" "+CTM.f;
+							rect.setAttributeNS(null,"transform","translate("+ -gCTM.e + "," + -gCTM.f + "),matrix("+s+")");
+							
+							g.insertBefore(rect, this);						
+					});
 								
 					// pan
 					$('svg').svgPan('viewport');
 					
-					/*
+					
 					// Make SVG downloadable
 					// http://stackoverflow.com/questions/8379923/save-svg-image-rendered-by-a-javascript-to-local-disk-as-png-file/8861315#8861315
 					// http://stackoverflow.com/a/4228053/9684
@@ -493,7 +684,7 @@ if (isset($_GET['tree']))
 					var b64 = Base64.encode(svgString);
 					$("#download").attr('href', "data:image/svg+xml;base64,\n" + b64);
 					$("#download").show();
-					*/
+					
 					
 				}
 			}	

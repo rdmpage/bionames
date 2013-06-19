@@ -78,6 +78,11 @@ if (isset($_GET['journal']))
 					
 				</div>
 				
+				<div>
+					<?php require 'disqus.inc.php'; ?>
+    			</div>
+				
+				
 				
 			</div>
 			
