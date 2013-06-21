@@ -58,7 +58,27 @@
 			  	</div>
 		    </div>
 		</div> 
+		
 		<div class="row-fluid">
+			<div class="span6">
+		    	<div class="widget">
+		    		<h4>Documents</h4>
+		    		<p class="muted">Numbers of documents by category</p>
+			  		<div id="documents"></div>
+			  	</div>
+		    </div>
+		    <div class="span6">
+		    	<div class="widget">
+		    		<h4>Links</h4>
+		    		<p class="muted">Numbers of URL and PDF links </p>
+			  		<div id="links"></div>
+			  	</div>
+		    </div>
+		</div>
+		
+		
+		<div class="row-fluid">
+
 		    <div class="span6">
 		    	<div class="widget">
 		    		<h4>Journals</h4>
@@ -66,7 +86,9 @@
 			  		<div id="issn"></div>
 			  	</div>
 		    </div>
+		
 		</div>
+		
 	</div>
 
 	<script type="text/javascript">
@@ -143,7 +165,7 @@
 							//html += data.rows[i].key;
 							html += '</td>';
 							html += '<td style="text-align:right">';
-							html += data.rows[i].value;
+							html += data.rows[i].value.toLocaleString();
 							html += '</td>';
 							html += '</tr>';
 						}
@@ -194,10 +216,85 @@
 					}
 				});
 		}
+		
+		function show_links()
+		{
+			$("#links").html("");
+			
+			$.getJSON("http://bionames.org/bionames-api/api_dashboard.php?links&callback=?",
+				function(data){
+					if (data.status == 200)
+					{		
+						var html = '';
+						html += '<table class="table table-striped">';
+						for (var i in data.rows)
+						{
+							html += '<tr>';
+							html += '<td>';
+							
+							switch (data.rows[i].key)
+							{
+								default:
+									html += data.rows[i].key.toUpperCase();
+									break;
+							}
+							
+							//html += data.rows[i].key;
+							html += '</td>';
+							html += '<td style="text-align:right">';
+							html += data.rows[i].value.toLocaleString();
+							html += '</td>';
+							html += '</tr>';
+						}
+						html += '</table>';
+						
+						$("#links").html(html);
+					}
+				});
+		}
+
+		function show_documents()
+		{
+			$("#documents").html("");
+			
+			$.getJSON("http://bionames.org/bionames-api/api_dashboard.php?documents&callback=?",
+				function(data){
+					if (data.status == 200)
+					{		
+						var html = '';
+						html += '<table class="table table-striped">';
+						for (var i in data.rows)
+						{
+							html += '<tr>';
+							html += '<td>';
+							
+							switch (data.rows[i].key)
+							{
+								default:
+									html += data.rows[i].key.toUpperCase();
+									break;
+							}
+							
+							//html += data.rows[i].key;
+							html += '</td>';
+							html += '<td style="text-align:right">';
+							html += data.rows[i].value.toLocaleString();
+							html += '</td>';
+							html += '</tr>';
+						}
+						html += '</table>';
+						
+						$("#documents").html(html);
+					}
+				});
+		}
+		
         
         show_identifiers();
 		show_publishers();
 		show_issn();
+		show_links();
+		show_documents();
 	</script>
 
 	
