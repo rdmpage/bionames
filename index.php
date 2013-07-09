@@ -77,6 +77,10 @@ if (isset($_GET['q']))
         <ul class="nav nav-pills pull-right">
           <li  class="active"><a href="#myModal" data-toggle="modal">About</a></li>
           <li><a href="dashboard">Dashboard</a></li>
+          <li><a href="https://plus.google.com/106571273288129011973" rel="publisher">BioNames on Google+</a></li>
+
+
+
 
          <!--
           <li><a href="#">Contact</a></li>

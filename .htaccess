@@ -14,13 +14,19 @@ RewriteBase /
 RewriteRule ^search/(.*)   mockup_search.php?q=$1   [NC,L]
 
 # Taxon concept
-RewriteRule ^taxa/(.*)   mockup_concept.php?id=$1   [NC,L]
+# RewriteRule ^taxa/(.*)   mockup_concept.php?id=$1   [NC,L]
+RewriteRule ^taxa/(.*)   display_concept.php?id=$1   [NC,L]
 
 # Taxon name
-RewriteRule ^names/(.*)   mockup_taxon_name.php?id=$1   [NC,L]
+# RewriteRule ^names/(.*)   mockup_taxon_name.php?id=$1   [NC,L]
+# PHP template so Google has something to see
+RewriteRule ^names/(.*)   display_cluster.php?id=$1   [NC,L]
 
 # Reference
-RewriteRule ^references/(.*)   mockup_publication.php?id=$1   [NC,L]
+#RewriteRule ^references/(.*)   mockup_publication.php?id=$1   [NC,L]
+#RewriteRule ^references/(.*)   api/api_view.php?id=$1   [NC,L]
+# PHP template so Google has something to see
+RewriteRule ^references/(.*)   display_publication.php?id=$1   [NC,L]
 
 # Journal
 RewriteRule ^issn/(.*)   mockup_journal.php?issn=$1   [NC,L]
@@ -31,7 +37,6 @@ RewriteRule ^authors/(.*)   mockup_author.php?name=$1   [NC,L]
 
 # Phylogeny
 RewriteRule ^trees/(.*)   mockup_tree.php?tree=$1   [NC,L]
-
 
 # API calls
 RewriteRule ^api/(.*)   bionames-api/$1   [NC,L]

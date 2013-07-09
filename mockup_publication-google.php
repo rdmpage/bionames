@@ -1,20 +1,119 @@
 <?php
 
+require_once('bionames-api/lib.php');
+
 // mockup template
 
 // do PHP stuff here to get query parameters...
 $id = $_GET['id'];
+
+// OK, we need some HTML content that Google can see when it crawls the page...
+$json = get('http://bionames.org/api/id/' . $id);
+$obj = null;
+$summary_html = '';
+if ($json != '')
+{
+	$obj = json_decode($json);
+	
+	// simple table dump so Googlebot can see something	
+	$summary_html = '';
+	$summary_html .= '<table>';
+	
+	foreach ($obj as $k => $v)
+	{
+		switch ($k)
+		{				
+			case 'author':
+				foreach ($obj->author as $author)
+				{
+					$summary_html .= '<tr>';
+					$summary_html .= '<td>';
+					$summary_html .=  'Author';
+					$summary_html .= '</td>';
+					$summary_html .= '<td>';
+					$summary_html .=  '<a href="authors/' . $author->name . '">' . $author->name . '</a>';
+					$summary_html .= '</td>';
+					$summary_html .= '</tr>';
+				}
+				break;
+				
+			case 'journal':
+				foreach ($obj->journal as $jk => $jv)
+				{
+					switch ($jk)
+					{
+						case 'identifier':
+							foreach ($jv as $identifier)
+							{
+								switch ($identifier->type)
+								{
+									case 'issn':
+										$summary_html .= '<tr>';
+										$summary_html .= '<td>';
+										$summary_html .=  'ISSN';
+										$summary_html .= '</td>';
+										$summary_html .= '<td>';
+										$summary_html .=  '<a href="issn/' . $identifier->id . '">' . $identifier->id . '</a>';
+										$summary_html .= '</td>';
+										$summary_html .= '</tr>';
+										break;
+										
+									default:
+										break;
+								}
+							}
+							break;
+									
+							
+						default:
+							$summary_html .= '<tr>';
+							$summary_html .= '<td>';
+							$summary_html .=  $jk;
+							$summary_html .= '</td>';
+							$summary_html .= '<td>';
+							$summary_html .=  $jv;
+							$summary_html .= '</td>';
+							$summary_html .= '</tr>';								
+							break;
+					}
+				}
+				break;	
+								
+			case 'thumbnail':
+				$summary_html .= '<img src="' . $v . '" />';
+				break;
+				
+			default:
+				if (is_string($v))
+				{
+					$summary_html .= '<tr>';
+					$summary_html .= '<td>';
+					$summary_html .=  $k;
+					$summary_html .= '</td>';
+					$summary_html .= '<td>';
+					$summary_html .=  $v;
+					$summary_html .= '</td>';
+					$summary_html .= '</tr>';
+				}
+				break;
+		}
+	}
+	$summary_html .= '</table>';
+	
+}
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
-	<title>Title</title>
+	<title><?php if ($obj) { echo $obj->title; } else { echo 'Title'; } ?></title>
 	
 	<!-- standard stuff -->
 	<meta charset="utf-8" />
 	
+	<?php if ($obj) { echo '<meta name="description" content="' . $obj->citation_string . '" />'; } ?>
+
 	<?php require 'stylesheets.inc.php'; ?>
 	<?php require 'javascripts.inc.php'; ?>
 	<?php require 'uservoice.inc.php'; ?>
@@ -85,7 +184,7 @@ $id = $_GET['id'];
 				  </div>
 
 				  <div class="tab-pane" id="details-tab">
-					<div id="metadata" style="padding:20px;"></div>  
+					<div id="metadata" style="padding:20px;"><?php echo $summary_html; ?></div>  
 				  </div>
 				  
 				  <div class="tab-pane" id="data-tab">

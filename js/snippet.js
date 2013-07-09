@@ -1,3 +1,24 @@
+function has_doi(data)
+{
+	var doi = '';
+	if (data.identifier)
+	{
+	  for (var j in data.identifier)
+	  {
+	    switch (data.identifier[j].type)
+	    {	        
+	      case "doi":
+	        doi = data.identifier[j].id;
+	        break;
+	        
+	      default:
+	        break;
+	    }
+	  }  
+	}
+	return doi;
+}
+
 /* Display a snippet of information about an object */
 
 function show_snippet (element_id, doc) {
@@ -16,7 +37,13 @@ function show_snippet (element_id, doc) {
 			if (doc.thumbnail) {
 				html += '<img class="thumbnail" src="' + doc.thumbnail + '"/>';
 			} else {
-				html += '<div class="thumbnail_blank"></div>';
+				html += '<div class="thumbnail_blank">';
+				doi = has_doi(doc);
+				if (doi != '')
+				{
+					html += '<img src="images/doi16x16.png" style="float:right;"/>';
+				}				
+				html += '</div>';
 			}
 						
 			html += '<div class="details">';

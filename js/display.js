@@ -35,7 +35,8 @@ function display_reference(data)
 	
 	if (!has_thumbnail)
 	{
-		html += '<div class="thumbnail"></div>';
+		html += '<div class="thumbnail">';
+		html += '</div>';
 	}
 	
 	html += '<div class="citation">'; // RMS
