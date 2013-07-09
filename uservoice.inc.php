@@ -11,7 +11,7 @@ UserVoice.push(['showTab', 'classic_widget', {
   forum_id: 208867,
   tab_label: 'Feedback',
   tab_color: '#cc6d00',
-  tab_position: 'middle-right',
+  tab_position: 'middle-left',
   tab_inverted: false
 }]);
 </script>
