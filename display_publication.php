@@ -146,7 +146,7 @@ else
 {
 	echo '<div style="text-align:center;">';
 	echo '<div class="alert">';
-	echo 'Unable to display this item.';
+	echo 'Unable to display either full text or preview of this item.';
 	echo '</div>';
 	echo '</div>';
 }

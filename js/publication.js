@@ -13,6 +13,28 @@ function display_publications(id) {
 		});
 }
 
+/* Display article (possibly multiple elements with same id) */
+function display_publications_matching(id) {
+	$.getJSON("api/id/" + id + "?callback=?",
+		function(data){
+			if (data.status == 200) 
+			{
+				$('div').each(function() {
+					if ($(this).attr('id')) {
+						
+						var pattern = '/' + id + '/';
+						if( $(this).attr('id').match(/id/) ) 
+					 	{
+					 	  console.log($(this).attr('id'));
+						  show_publication($(this).attr('id'), data);
+					 	}						
+						
+					}
+				});
+			}
+		});
+}
+
 /* Display publication thumbnail where id is also id of DOM element (with 'id' prefix) */
 function display_publication_thumbnails(id) {
 //	$.getJSON("http://bionames.org/bionames-api/id/" + id + "?callback=?",
