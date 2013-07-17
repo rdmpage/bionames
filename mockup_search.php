@@ -20,6 +20,8 @@ if (isset($_GET['q']))
 	<?php require 'javascripts.inc.php'; ?>
 	<?php require 'uservoice.inc.php'; ?>
 	
+	<script src="treelib-js/treelib.js"></script>	
+	
 </head>
 <body class="search">
 	<?php require 'analyticstracking.inc.php'; ?>	
@@ -51,6 +53,34 @@ if (isset($_GET['q']))
 		function add_metadata_stat(title,value,anchor) {
 			$(display_stat(title,value,anchor)).appendTo($metadata_stats);
 		}
+		
+		function display_trees(id) {
+			$.getJSON("api/tree/" + id + "?callback=?",
+				function(data){
+					if (data.status == 200)
+					{		
+						var t = new Tree();
+						t.Parse(data.tree.newick);
+
+						if (t.error != 0)
+						{
+						}
+						else
+						{							
+							t.ComputeWeights(t.root);		
+							var td = new CirclePhylogramDrawer();
+							td.Init(t, {svg_id: id.replace(/\//, '_'), width:88, height:88, fontHeight:0, root_length:0.1} );		
+							td.CalcCoordinates();
+							td.Draw();
+						}
+						
+						if (data.tags) {
+							$('#tag' + id.replace(/\//, '_')).html(data.tags[0]);
+						}
+						
+					}
+				});
+		}		
 	
 		function search(q) {
 		
@@ -62,14 +92,17 @@ if (isset($_GET['q']))
 
 			    if (data.results) {
 			      var ids = [];
+			      
+			      var trees = [];
 
 			      // order in which we want to display facets
 				  
 				  var facet_display_categories = [
 				  	{ name: 'Names',         facet_keys: ['nameCluster'] },
-					{ name: 'Taxa' ,         facet_keys: ['taxonConcept'] },
-					{ name: 'Articles' ,     facet_keys: ['article'] },
-					{ name: 'Publications' , facet_keys: ['book', 'chapter', 'generic'] },
+					{ name: 'Taxa',          facet_keys: ['taxonConcept'] },
+					{ name: 'Phylogenies',   facet_keys: ['tree'] },
+					{ name: 'Articles',      facet_keys: ['article'] },
+					{ name: 'Publications',  facet_keys: ['book', 'chapter', 'generic'] },
 				  ];
 				  
 				  
@@ -99,12 +132,30 @@ if (isset($_GET['q']))
 									var html_id = id.replace(/\//, '_');
 									var result = data.results.facets[facet_key][id];
 									
-									if(facet.name == 'Names') {
-	//								  facet_html += '<div class="name-cluster snippet-wrapper"><a href="mockup_taxon_name.php?id=' + id + '">' + result.term + '</a></div>';
-									  facet_html += '<div class="name-cluster snippet-wrapper"><a href="names/' + id + '">' + result.term + '</a></div>';
-									} else {
-									  ids.push(id);	
-									  facet_html += '<div id="id'+html_id+'" class="snippet-wrapper"><span class="loading">loading</span></div>';
+									switch (facet.name)
+									{
+										case 'Names':
+									  		facet_html += '<div class="name-cluster snippet-wrapper"><a href="names/' + id + '">' + result.term + '</a></div>';
+									  		break;
+									  		
+									  	case 'Phylogenies':
+									  		trees.push(id);
+									  	
+									  		facet_html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;background-color:white;">';
+											facet_html += '<a href="trees/' + id + '">';
+											facet_html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="88" width="88">';
+											facet_html += '<g id="' + id.replace(/\//, '_') + '"></g>'; 								
+											facet_html += '</svg>';		
+											facet_html += '</a>';
+											facet_html += '<div id="tag' + id.replace(/\//, '_') + '" style="width:88px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>';
+											facet_html += '</div>';
+									  		break;
+									  		
+									  	default:
+										  	ids.push(id);	
+									  		facet_html += '<div id="id'+html_id+'" class="snippet-wrapper"><span class="loading">loading</span></div>';
+									  		break;
+									  	
 									}
 								}
 							}
@@ -120,10 +171,15 @@ if (isset($_GET['q']))
 						  html += facet_html;
 					  }
 				  }
+			    
+			    for (var id in trees) {
+			    	html += '<script>display_trees("' + trees[id] + '");<\/script>';
+			    }
+			    
 			    for (var id in ids) {
 			      html += '<script>display_snippets("' + ids[id] + '");<\/script>';
 			    }
-
+			    
 
 			    $('#results').html(html);
 			  }
