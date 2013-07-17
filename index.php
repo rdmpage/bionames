@@ -146,19 +146,19 @@ if (isset($_GET['q']))
               <div class="item active">
                 <img src="images/carousel/fly-carousel.png" alt="">
                 <div class="carousel-caption">
-                  <h2 class="stats">Taxon descriptions</h2>
+                  <h4 class="stats">28,000 articles from BioStor</h4>
                 </div>
               </div>
               <div class="item">
                 <img src="images/carousel/tree-carousel.png" alt="">
                 <div class="carousel-caption">
-                  <h2 class="stats">Phylogenies</h2>
+                  <h4 class="stats">93,000 phylogenies from PhyLoTA</h4>
                 </div>
               </div>
               <div class="item">
                 <img src="images/carousel/taxa-carousel.png" alt="">  
                 <div class="carousel-caption">
-                  <h2 class="stats">Taxa</h2>
+                  <h4 class="stats">3,000,000 taxa from NCBI and GBIF</h4>
                 </div>
               </div>
             </div>
