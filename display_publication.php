@@ -571,6 +571,34 @@ if (isset($doc->geometry))
 				<div class="sidebar-metadata">
 					<div id="view_publisher">
 <?php
+
+if ($doc->identifier)
+{
+	foreach ($doc->identifier as $identifier)
+	{
+		switch ($identifier->type)
+		{		
+			case "biostor":
+				echo '<a href="http://biostor.org/reference/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' . $identifier->id . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on BioStor</a>';
+				break;
+
+			case "doi":
+				echo '<a href="http://dx.doi.org/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' . $identifier->id . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on publisher\'s website</a>';
+				break;
+				
+			case "jstor":
+				echo '<a href="http://www.jstor.org/stable/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'jstor\', \'' . $identifier->id . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on JSTOR</a>';
+				break;			
+													
+			default:
+				break;
+		}
+	}
+}						
+
+
+
+/*
 if ($biostor != 0)
 {
 	echo '<a href="http://biostor.org/reference/' . $biostor . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' . $biostor . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on BioStor</a>';
@@ -578,7 +606,8 @@ if ($biostor != 0)
 if ($doi != '')
 {
 	echo '<a href="http://dx.doi.org/' . $doi . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' . $doi . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on publisher\'s website</a>';
-}					
+}
+*/
 ?>					
 					</div>
 					<div id="view_pdf"></div>
