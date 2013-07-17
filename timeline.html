@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+	<script src="js/publication.js" type="text/javascript" charset="utf-8"></script>
+
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+
+<style>
+#chart_container {
+        position: relative;
+        font-family: Arial, Helvetica, sans-serif;
+}
+#chart {
+        position: relative;
+        left: 40px;
+}
+#y_axis {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+}
+</style>
+
+<script>
+
+	google.load("visualization", "1", {packages:["corechart"]});
+
+	var datatable = null;
+	
+	
+	function list_group_year(group, year)
+	{
+		$('#details').html('');
+		$.getJSON('http://bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&year=' + year + '&callback=?',
+			function(data){
+				if (data.status == 200)
+				{
+					var html = '';
+					var ids = [];
+					html += '<b>' + group + ' ' + year + '</b>';
+					
+					html += '<div style="display:none;">';
+					html += '<table>';
+					for (var i in data.clusters)
+					{
+						html += '<tr>';
+						html += '<td>' + data.clusters[i].nameComplete + '</td>';
+						html += '<td>';
+						
+						html += '<div>';
+						if (data.clusters[i].publishedInCitation)
+						{
+							if (ids.indexOf(data.clusters[i].publishedInCitation[0]) === -1)
+							{
+								ids.push(data.clusters[i].publishedInCitation[0]);
+							}
+							html += '<a href="timeline.html#id' + data.clusters[i].publishedInCitation[0] + '">View</a>';
+						}
+						if (data.clusters[i].publication)
+						{
+							html += data.clusters[i].publication[0];
+						}
+						html += '</div>';
+						html += '</td>';
+						html += '</tr>';
+					}
+					html += '</table>';
+					html += '</div>';
+					
+					for (var id in ids) {
+						html += '<div id="id' + ids[id] + '">' + ids[id] + '</div>';
+					}
+					
+					$('#details').html(html);
+					
+										
+						for (var id in ids) {
+							display_publications(ids[id]);
+							//display_snippets(ids[id]);
+						}
+					
+					
+
+				}
+			});
+		
+	}
+
+	function timeline (group)
+	{
+		$.getJSON('http://bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&callback=?',
+			function(data){
+				if (data.status == 200)
+				{
+					$('#chart').html('');
+						var chart_data = [];
+						chart_data.push(new Array('Year','Count'));		
+						
+						for (var year in data.years)
+						{						
+							chart_data.push(new Array(year, data.years[year]));
+						}
+						// $("#chart").height(100);
+						
+						var options = { title: name };
+						var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+						datatable = google.visualization.arrayToDataTable(chart_data);
+        				chart.draw(datatable, options);
+        				
+        				google.visualization.events.addListener(chart, 'select', 
+        					function() {
+        						var selection = chart.getSelection();
+        						var item = selection[0];
+  								//$('#details').html(JSON.stringify(group) + ' ' + 'year=' + datatable.getFormattedValue(item.row,0) + ' ' + datatable.getFormattedValue(item.row,item.column));
+  								
+  								list_group_year(group, datatable.getFormattedValue(item.row,0));
+  							});
+				
+				
+				
+					//$('#chart').html('');
+					/*
+					var html = '';
+					for (var year in data.years)
+					{
+						html += year + ' ' + data.years[year] + '<br />';
+					}
+					$('#timeline').html(html);
+					*/
+					
+					/*
+					var years = [];
+					for (var year in data.years)
+					{
+						var item = {};
+						item.x = parseInt(year);
+						item.y = parseInt(data.years[year]);
+						years.push(item);
+					}
+
+					
+					var graph = new Rickshaw.Graph( {
+							element: document.querySelector("#chart"),
+							width: 580,
+							height: 250,
+							series: [ {
+									color: 'steelblue',
+									data: years
+							} ]
+					} );	
+	
+					graph.render();
+					*/
+					
+					/*
+					var years = [];
+					years.push(['Years','Names']);
+					for (var year in data.years)
+					{
+						var item = [];
+						item.push(parseInt(year));
+						item.push(parseInt(data.years[year]));
+						years.push(item);
+					}
+					
+					
+					  google.load("visualization", "1", {packages:["corechart"]});
+					  google.setOnLoadCallback(drawChart);
+					  
+				  function drawChart() {
+					var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+			
+					var options = {
+					  title: 'Names'
+					};
+			
+					var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+					chart.draw(data, options);
+				}
+				*/
+					
+				}
+			});
+	}
+	
+	
+
+function selectHandler(e) {
+  alert('A table row was selected');
+}	
+</script>
+
+</head>
+
+<body>
+
+
+<ul>
+	<li><span onclick="timeline(['Animalia']);">Animalia</span>
+		<ul>
+			<li>Acanthocephala</li>
+			<li><span onclick="timeline(['Animalia','Annelida']);">Annelida</span></li>
+			<li>...</li>
+			<li><span onclick="timeline(['Animalia','Chordata']);">Chordata</span>
+				<ul>
+					<li><span onclick="timeline(['Animalia','Chordata','Vertebrata']);">Vertebrata</span>
+						<ul>
+							<li><span onclick="timeline(['Animalia','Chordata','Vertebrata','Amphibia']);">Amphibia</span>
+								<ul>
+									<li><span onclick="timeline(['Animalia','Chordata','Vertebrata','Amphibia','Lissamphibia']);">Lissamphibia</span>
+										<ul>
+											<li><span onclick="timeline(['Animalia','Chordata','Vertebrata','Amphibia','Lissamphibia','Anura']);">Anura</span>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							<li>
+							<li><span onclick="timeline(['Animalia','Chordata','Vertebrata','Mammalia']);">Mammalia</span>
+								<ul>
+									<li><span onclick="timeline(['Animalia','Chordata','Vertebrata','Mammalia','Chiroptera']);">Chiroptera</span>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><span onclick="timeline(['Animalia','Chordata','Urochordata']);">Urochordata</span></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<div id="chart" style="width: 900px; height: 500px;">xxx</div>
+<div id="details" style="padding:20px">details</div>
+   
+
+</body>
+
+</html>
