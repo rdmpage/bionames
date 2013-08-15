@@ -76,19 +76,32 @@ function show_publication (element_id, doc) {
 	html += '<div class="media" style="border-top:1px solid #e5e5e5;margin-bottom:10px;padding-top:10px;">';
 	
 	switch (doc.type) {
+		case 'generic':
+			// Unparsed publication?
+			html += '<div class="media-body" style="background-color:orange;">';			
+			html += '<a href="references/' + doc._id + '">';
+			html += doc.citation_string;
+			html += '</a>';
+			html += '</div><!-- class="media-body" -->';
+			break;
+		
 		case 'article':
 		case 'book':
 		case 'chapter':
-		case 'generic':
 			// Publication snippet
 //			html += '<a class="pull-right" href="mockup_publication.php?id=' + doc._id + '">';
 			html += '<a class="pull-right" href="references/' + doc._id + '">';
 			if (doc.thumbnail) {
 				html += '<img class="media-object" style="border:1px solid #e5e5e5;background-color:white;" width="64" src="' + doc.thumbnail + '"/>';
-			} 
-			/*else {
-				html += '<div class="thumbnail_blank"></div>';
-			}*/
+			} else {
+				html += '<div class="thumbnail_blank">';
+				doi = has_doi(doc);
+				if (doi != '')
+				{
+					html += '<img src="images/doi16x16.png" style="float:right;"/>';
+				}				
+				html += '</div>';
+			}
 			html += '</a>';
 						
 			html += '<div class="media-body">';

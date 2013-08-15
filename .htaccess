@@ -10,6 +10,9 @@ RewriteBase /
 #---------------------------------------------------------------------------------------------------
 # HTML	
 
+# Timeline
+RewriteRule ^timeline/(.*)   display_timeline.php?q=$1   [NC,L]
+
 # Search
 RewriteRule ^search/(.*)   mockup_search.php?q=$1   [NC,L]
 

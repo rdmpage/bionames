@@ -27,10 +27,20 @@ function show_snippet (element_id, doc) {
 	html += '<div class="snippet">';
 	
 	switch (doc.type) {
+		case 'generic':
+			// Unparsed publication?
+			html += '<a href="references/' + doc._id + '">';
+			html += '<div class="details">';
+			html += '<div class="metadata">';
+			html += doc.citation_string;
+			html += '</div><!-- end metadata -->';
+			html += '</a>';
+			html += '</div>';
+			break;
+	
 		case 'article':
 		case 'book':
-		case 'chapter':
-		case 'generic':
+		case 'chapter':		
 			// Publication snippet	
 //			html += '<a href="mockup_publication.php?id=' + doc._id + '">';
 			html += '<a href="references/' + doc._id + '">';

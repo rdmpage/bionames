@@ -805,7 +805,7 @@ if ($doi != '')
 <?php
 	if (isset($doc->title))
 	{
-		echo 'deep_dyve(\'' . $doc->title . '\');';
+		echo 'deep_dyve(\'' . addcslashes($doc->title, "'") . '\');';
 	}
 	
 	$docUrl = '';
