@@ -343,7 +343,7 @@ for ($i = 0; $i < $n-1; $i++)
 	// path
 	$breadcrumb = $breadcrumb . '/' . $g[$i];
 	// display
-	echo '<li><a href="timeline/' . $breadcrumb . '">' . $g[$i] . '</a><span class="divider">/</span></li>';
+	echo '<li><a href="timeline' . $breadcrumb . '">' . $g[$i] . '</a><span class="divider">/</span></li>';
 }
 echo '<li class="active">' . $g[$i] . '</li>';
 echo '</ul>';
