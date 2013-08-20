@@ -33,6 +33,7 @@
 	<?php require 'uservoice.inc.php'; ?>
 
 	<script src="vendor/d3js/d3.v3.min.js"></script>
+	<script src="js/humanized_time_span.js"></script>
 	
 </head>
 <body class="search">
@@ -41,6 +42,17 @@
 	
 	<div class="container-fluid">
 		<div class="row-fluid">
+		
+		    <div class="span6">
+		    	<div class="widget">
+		    		<h4>Database</h4>
+		    		<p class="muted">Tasks running in database</p>
+			  		<div id="tasks"></div>
+			  	</div>
+		    </div>
+		
+		
+		
 		    <div class="span6">
 		    	<div class="widget">
 		    		<h4>Publishers</h4>
@@ -289,7 +301,97 @@
 				});
 		}
 		
-        
+		function show_tasks()
+		{
+			$("#tasks").html("");
+			
+			$.getJSON("http://bionames.org/bionames-api/api_status.php?callback=?",
+				function(data){
+					if (data.status == 200)
+					{		
+						var html = '';
+						html += '<table class="table table-striped">';
+						for (var i in data.tasks)
+						{
+							html += '<tr>';
+							
+							/*
+							html += '<td>';
+							
+							html += data.tasks[i].type;
+							
+							html += '</td>';
+							*/
+							
+							html += '<td>';
+							if (data.tasks[i].design_document)
+							{
+								html += data.tasks[i].design_document;
+							}
+							html += '</td>';
+
+							/*
+							html += '<td>';
+							if (data.tasks[i].changes_done)
+							{
+								html += data.tasks[i].changes_done + '/' + data.tasks[i].total_changes + ' ';
+							}
+							if (data.tasks[i].progress)
+							{
+								html += '(' + data.tasks[i].progress + '%)';
+							}
+							html += '</td>';
+							*/
+							
+							
+							html += '<td>';
+							html += humanized_time_span(+new Date(data.tasks[i].started_on * 1000));
+							html += '</td>';
+							
+							html += '</tr>';
+							
+							html += '<tr>';
+							html += '<td colspan="2">';
+							html += data.tasks[i].type;
+							if (data.tasks[i].changes_done)
+							{
+								html += ' ' + data.tasks[i].changes_done + '/' + data.tasks[i].total_changes + ' ';
+							}
+							if (data.tasks[i].progress)
+							{
+								
+								html += '(' + data.tasks[i].progress + '%)';
+							}
+							html += '</td>';							
+							html += '</tr>';
+							
+							
+							html += '<tr>';
+							html += '<td colspan="2">';
+							if (data.tasks[i].progress)
+							{
+								
+								html += '<div class="progress progress-info">';
+  								html += '<div class="bar" style="width: ' + data.tasks[i].progress + '%"></div>';
+								html += '</div>';
+								
+							}
+							html += '</td>';							
+							html += '</tr>';
+							
+							
+														
+							
+						}
+						html += '</table>';
+						
+						$("#tasks").html(html);
+					}
+				});
+		}
+		
+		
+        show_tasks();
         show_identifiers();
 		show_publishers();
 		show_issn();
