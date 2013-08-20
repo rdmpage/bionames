@@ -244,6 +244,12 @@ if (isset($_GET['q']))
     </div> <!-- /container -->
     
     <script>$('.tip').tooltip();</script>
+    
+<script type="text/javascript">
+	$('.carousel').carousel({
+  			interval: 3000
+	})
+</script>    
 
 
   </body>
