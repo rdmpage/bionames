@@ -41,15 +41,19 @@
 	<?php require 'navbar.inc.php'; ?>
 	
 	<div class="container-fluid">
+	
 		<div class="row-fluid">
-		
-		    <div class="span6">
+			<div class="span12">
 		    	<div class="widget">
 		    		<h4>Database</h4>
 		    		<p class="muted">Tasks running in database</p>
 			  		<div id="tasks"></div>
 			  	</div>
 		    </div>
+		</div>
+
+	
+		<div class="row-fluid">
 		
 		
 		
