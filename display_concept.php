@@ -35,9 +35,130 @@ else
 	<script src="treelib-js/treelib.js"></script>   
 	<script src="js/publication.js"></script>  
 	
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?sensor=false">
+    </script>
+    
+    <script type="text/javascript">    
+		var map; // Google map
+	
+		
+		var gbifTypeOptions = {
+		  getTileUrl: function(coord, zoom) {
+			  var normalizedCoord = getNormalizedCoord(coord, zoom);
+			  if (!normalizedCoord) {
+				return null;
+			  }
+			  var bound = Math.pow(2, zoom);
+		
+				// GBIF custom tiles    
+			  return "http://a.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/69341/256" +
+				  "/" + zoom + "/" + normalizedCoord.x + "/" +
+				  normalizedCoord.y + ".png";
+		  },
+		  tileSize: new google.maps.Size(256, 256),
+		  maxZoom: 9,
+		  minZoom: 0,
+		  radius: 1738000,
+		  name: "GBIF"
+		};
+		
+		// Normalizes the coords that tiles repeat across the x axis (horizontally)
+		// like the standard Google map tiles.
+		function getNormalizedCoord(coord, zoom) {
+		  var y = coord.y;
+		  var x = coord.x;
+		
+		  // tile range in one direction range is dependent on zoom level
+		  // 0 = 1 tile, 1 = 2 tiles, 2 = 4 tiles, 3 = 8 tiles, etc
+		  var tileRange = 1 << zoom;
+		
+		  // don't repeat across y-axis (vertically)
+		  if (y < 0 || y >= tileRange) {
+			return null;
+		  }
+		
+		  // repeat across x-axis
+		  if (x < 0 || x >= tileRange) {
+			x = (x % tileRange + tileRange) % tileRange;
+		  }
+		
+		  return {
+			x: x,
+			y: y
+		  };
+		}
+		
+		var gbifMapType = new google.maps.ImageMapType(gbifTypeOptions);
+		
+		var bounds = new google.maps.LatLngBounds();		
+     
+		function initialize() {
+		
+			// Make Map
+<?php
+	if (isset($doc->geometry))
+	{
+		echo 'var geometry = ' . json_encode($doc->geometry) . ';';
+	}
+	else
+	{
+		echo 'var geometry = null;';
+	}
+	echo "\n";
+?>
+			if (geometry)
+			{
+				$('#concept-tabs li:eq(2) a').html('Map');
+			 
+				var myOptions = {
+					center: new google.maps.LatLng(0, 0),
+					zoom: 2,
+					streetViewControl: false,
+					mapTypeId: 'GBIF',
+					mapTypeControlOptions: {
+						mapTypeIds: ['GBIF', google.maps.MapTypeId.TERRAIN],
+						style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+						}
+					};
+				map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+				
+				// Now attach the coordinate map type to the map's registry
+				map.mapTypes.set('GBIF', gbifMapType);
+				
+				
+				for (var i in geometry.coordinates)
+				{
+				   var square = [
+					new google.maps.LatLng(geometry.coordinates[i][0][0][1], geometry.coordinates[i][0][0][0]),
+					new google.maps.LatLng(geometry.coordinates[i][0][1][1], geometry.coordinates[i][0][1][0]),
+					new google.maps.LatLng(geometry.coordinates[i][0][2][1], geometry.coordinates[i][0][2][0]),
+					new google.maps.LatLng(geometry.coordinates[i][0][3][1], geometry.coordinates[i][0][3][0]),
+					new google.maps.LatLng(geometry.coordinates[i][0][4][1], geometry.coordinates[i][0][4][0])
+					];
+								
+					bounds.extend(square[0]);
+					bounds.extend(square[2]);
+					
+					var polygon = new google.maps.Polygon({
+						paths: square,
+						strokeColor: "#FFFF00",
+						strokeOpacity: 0.8,
+						strokeWeight: 1.0,
+						fillColor: "#FFFF00",
+						fillOpacity: 0.8
+						});
+					polygon.setMap(map);
+				}
+				//map.fitBounds(bounds); 
+			}
+		  }
+	</script>    
+	
+	
 	
 </head>
-<body class="concept">
+<body class="concept" onload="initialize()">
 	<?php require 'analyticstracking.inc.php'; ?>
 	<?php require 'navbar.inc.php'; ?>
 	
@@ -109,7 +230,9 @@ if (isset($doc->identifier))
 			  </div>
 			  
 			  <div class="tab-pane" id="data-tab">
-			  	<div id="data"></div>
+			  	<div id="data">
+			  		<div id="map_canvas" style="width:100%; height:400px;"></div>
+			  	</div>
 			  </div>
 			  
 			  <div class="tab-pane" id="about-tab">...</div>
@@ -276,7 +399,7 @@ if (isset($doc->identifier))
 	  // Other trees for this concept displayed as thumbnails
       function show_trees(concept)
       {
-			$("#data").html("");
+			//$("#data").html("");
 			$.getJSON("api/taxon/" + concept + "/trees?format=newick&callback=?",
 				function(data){
 					if (data.status == 200) {
@@ -684,6 +807,25 @@ if (isset($doc->identifier))
 			});
 			
 		}
+		
+	// If we click on maps tab, resize map otherwise we get only part of window filled with map
+	// http://stackoverflow.com/questions/6455536/google-maps-api-v3-jquery-ui-tabs-map-not-resizing
+	$('a[data-toggle="tab"]').on('shown', function (e) {
+  
+  	
+  		var t = $(e.target).text().toLowerCase();
+  		switch (t)
+  		{
+  			case 'map':
+   				google.maps.event.trigger(map, 'resize');
+  				map.fitBounds(bounds); 
+  				break;
+  				
+  			default:
+  				break;
+  		}
+	})	
+		
 
 <!-- typeahead for search box -->
 	$("#q").typeahead({
@@ -697,7 +839,11 @@ if (isset($doc->identifier))
 		  process(suggestions)
 		})
 	  }
-	})		
+	})	
+	
+	
+	
+	
 
 	
 </script>
