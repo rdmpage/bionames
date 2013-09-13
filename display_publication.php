@@ -3,6 +3,86 @@
 require_once('bionames-api/lib.php');
 require_once('bionames-api/reference.php');
 
+
+function show_reference($reference, $link = false)
+{
+	$html = '<div class="media" style="border-top:1px solid #e5e5e5;margin-bottom:10px;padding-top:10px;">';
+	
+	$html .= '<div class="pull-right">';
+	if (isset($reference->thumbnail))
+	{
+		$html .= '<img class="media-object" style="border:1px solid #e5e5e5;background-color:white;" width="64" src="' . $reference->thumbnail . '" />';
+	}
+	else
+	{
+		$html .= '<div class="thumbnail_blank">';
+		$html .= '</div>';
+	}
+	$html .= '</div>';
+	
+	$html .= '<h5>';
+	
+	if ($link)
+	{
+		$link = isset($reference->_id);
+	}
+	
+	if ($link)
+	{
+		$html .= '<a href="references/' . $reference->_id . '">';
+	}
+	
+	$html .= $reference->title;
+	
+	if ($link)
+	{
+		$html .= '</a>';
+	}
+	
+	$html .= '</h5>';
+	
+	
+	if ($reference->author)
+	{
+		$authors = array();
+		foreach ($reference->author as $author)
+		{
+			$authors[] = $author->name;
+		}
+		$html .= '<div>by ' . join(';', $authors) . '</div>';
+		
+	}
+	switch ($reference->type)
+	{
+		case 'article':
+			$html .= '<span class="journal">' . $reference->journal->name . '</span>';
+			$html .= ' <span class="volume">' . $reference->journal->volume . '</span>';
+			$html .= ' pages ' . $reference->journal->pages;
+			$html .= ' (' . $reference->year . ')';
+			break;
+			
+		default:
+			break;
+	}
+	
+	// identifiers
+	if ($reference->identifier)
+	{
+		$html .= '<ul>';
+		foreach ($reference->identifier as $identifier)
+		{
+			$html .= '<li>' . $identifier->id . '</li>';
+		}
+		$html .= '</ul>';
+	}
+	
+	$html .= reference_to_coins($reference);
+	
+	$html .= '</div>';
+	
+	return $html;
+}
+
 // mockup template
 
 // do PHP stuff here to get query parameters...
@@ -13,6 +93,74 @@ $json = get('http://bionames.org/api/id/' . $id);
 
 $doc = json_decode($json);
 
+//echo "http://bionames.org/api/publication/" . urlencode($id) . "/citedby";
+
+$url = "http://bionames.org/api/api_publication.php?id=" . urlencode($id) . "&citedby";
+
+$json = get($url);
+$obj = json_decode($json);
+if (isset($obj->citedby))
+{
+	$doc->citedby = $obj->citedby;
+}	
+
+
+// Meta tags
+
+$meta = '';
+// Google Scholar
+$meta .= "\n<!-- Google Scholar metadata -->\n";
+$meta .= '<meta name="citation_title" content="' . htmlentities($doc->title) . '" />' . "\n";
+$meta .= '<meta name="citation_date" content="' . $doc->year . '" />' . "\n";
+
+if (isset($doc->author))
+{
+	$author_names = array();
+	foreach ($doc->author as $author)
+	{
+		$author_names[] = $author->name;
+	}
+	$meta .= '<meta name="citation_authors" content="' . join(";", $author_names) . '" />' . "\n";
+}
+
+if ($doc->type == 'article')
+{
+	$meta .= '<meta name="citation_journal_title" content="' . htmlentities($doc->journal->name) . '" />' . "\n";
+	$meta .= '<meta name="citation_volume" content="' . $doc->journal->volume . '" />' . "\n";
+	if (isset($doc->journal->issue))
+	{
+		$html .= '<meta name="citation_issue" content="' . $doc->journal->issue . '" />' . "\n";
+	}
+	
+	if (preg_match('/^(?<spage>.*)-[-]?(?<epage>.*)$/', $doc->journal->pages, $m))
+	{
+		$meta .= '<meta name="citation_firstpage" content="' . $m['spage'] . '" />' . "\n";
+		$meta .= '<meta name="citation_lastpage" content="' . $m['epage'] . '" />' . "\n";
+	}
+}
+
+if ($doc->identifier)
+{
+	foreach ($doc->identifier as $identifier)
+	{
+		switch ($identifier->type)
+		{
+			case 'doi':
+				$meta .= '<meta name="citation_doi" content="' . $identifier->id . '" />' . "\n";
+				break;
+				
+			default:
+				break;
+		}
+	}
+}
+				
+$meta .= '<meta name="citation_abstract_html_url" content="http://bionames.org/references/' . $doc->_id . '" />' . "\n";
+//$meta .= '<meta name="citation_fulltext_html_url" content="' . $config['web_root'] . 'reference/' . $reference->reference_id . '" />' . "\n";
+//$meta .= '<meta name="citation_pdf_url" content="' . $config['web_root'] . 'reference/' . $reference->reference_id . '.pdf" />' . "\n";
+
+
+// Citeproc
 $citeproc_obj = reference_to_citeprocjs($doc, 'ITEM-1');
 $bibdata['ITEM-1'] = $citeproc_obj;
 $bibdata_json =  json_encode($bibdata);
@@ -30,6 +178,9 @@ $bibdata_json =  json_encode($bibdata);
 	<?php require 'stylesheets.inc.php'; ?>
 	<?php require 'javascripts.inc.php'; ?>
 	<?php require 'uservoice.inc.php'; ?>
+	
+	<!-- metadata -->
+	<?php echo $meta; ?>
 	
 	<script src="js/openurl.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/display.js" type="text/javascript" charset="utf-8"></script>
@@ -125,6 +276,8 @@ $bibdata_json =  json_encode($bibdata);
 				  <li><a href="#details-tab" data-toggle="tab">Details</a></li>
 				  <li><a href="#data-tab" data-toggle="tab">Names <span id="data-badge" class="badge badge-info"></span></a></li>
 				  <li><a href="#grid-tab" data-toggle="tab">Grid</span></a></li>
+				  <li><a href="#references-tab" data-toggle="tab">References <span id="references-badge" class="badge badge-info"></span></a></li>
+				  <li><a href="#citedby-tab" data-toggle="tab">Cited by <span id="citedby-badge" class="badge badge-info"></span></a></li>
 				</ul>
 			
 				<div class="tab-content">				  
@@ -148,6 +301,16 @@ else
 	echo '<div class="alert">';
 	echo 'Unable to display either full text or preview of this item.';
 	echo '</div>';
+	
+	if (isset($doc->abstract))
+	{
+		echo '<div style="text-align:left;">';
+		echo '<h4>Abstract</h4>';
+		echo $doc->abstract;
+		echo '</div>';
+	}
+	
+	
 	echo '</div>';
 }
 ?>						
@@ -420,7 +583,17 @@ if (isset($doc->publisher))
 {
 	echo '<tr><td class="muted">Publisher</td><td>';
 	echo '<span itemprop="publisher">';
-	echo $doc->publisher;
+	if (is_object($doc->publisher))
+	{
+		if (isset($doc->publisher->name))
+		{
+			echo $doc->publisher->name;
+		}
+	}
+	else
+	{
+		echo $doc->publisher;
+	}
 	echo '</span>';	
 	echo '</td></tr>';
 }
@@ -519,6 +692,67 @@ if (isset($doc->bhl_pages) && isset($doc->names))
 ?>					
 					</div>
 				  </div>
+				  
+				  <div class="tab-pane" id="references-tab">
+					<div id="references">
+
+<?php
+	if (isset($doc->references))
+	{
+		$html = '';
+		$html .= '<ol>';
+		foreach ($doc->references as $reference)
+		{
+			$html .= '<li>';
+			$html .= show_reference($reference, true);
+			$html .= '</li>';
+		}
+		$html .= '</ol>';
+		echo $html;	
+	}
+	else
+	{
+		echo '<div style="text-align:center;">';
+		echo '<div class="alert">';
+		echo 'No references are available for this publication';
+		echo '</div>';
+		echo '</div>';
+	}
+?>	
+					</div>
+				  </div>	
+				  
+				  <div class="tab-pane" id="citedby-tab">
+					<div id="citedby">
+<?php
+if(isset($doc->citedby))
+{
+	echo '<div style="text-align:center;">';
+	echo '<div class="alert">';
+	echo 'Only known citations between publications in BioNames are listed here.';
+	echo '</div>';
+	echo '</div>';
+
+	echo '<div style="text-align:left;">';
+
+	$html = '';
+	$html .= '<ol>';
+	foreach ($doc->citedby as $reference)
+	{
+		$html .= '<li>';
+		$html .= show_reference($reference, true);
+		$html .= '</li>';
+	}
+	$html .= '</ol>';
+	echo $html;	
+	
+	echo '</div>';
+}
+
+?>
+					</div>
+				  </div>	
+				  
 
 				</div>
 			</div>
@@ -808,6 +1042,22 @@ if ($doi != '')
 		echo 'deep_dyve(\'' . addcslashes($doc->title, "'") . '\');';
 	}
 	
+	if (isset($doc->references))
+	{
+		$n = 0;
+		foreach ($doc->references as $id => $reference)
+		{
+			$n++;
+		}
+		echo "$('#references-badge').text(" . $n . ");\n";
+		echo "$('#publication-tabs li:eq(4) a').show();\n";
+	}
+	if (isset($doc->citedby))
+	{
+		echo "$('#citedby-badge').text(" . count($doc->citedby) . ");\n";
+		echo "$('#publication-tabs li:eq(5) a').show();\n";
+	}
+	
 	$docUrl = '';
 	
 	if ($doc->identifier)
@@ -848,6 +1098,7 @@ if ($doi != '')
 		echo 'docUrl = \'' . $docUrl . '\';';
 		echo 'display_document();';
 	}
+
 ?>
 
 </script>

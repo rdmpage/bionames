@@ -5,8 +5,13 @@ function display_publications(id) {
 		function(data){
 			if (data.status == 200)
 			{		
+				
 				var element_id = 'id' + id;
 				element_id = element_id.replace(/\//, '_');
+				
+				//console.log (element_id);
+				
+				$('#' + element_id).html('hello');
 				
 				show_publication(element_id, data);
 			}
@@ -280,6 +285,9 @@ function show_publication (element_id, doc) {
 			break;
 	}
 	html += '</div>'; <!-- class="media" -->
+	
+	//console.log(html);
+	//console.log(element_id);
 	
 	$('#' + element_id).html(html);
 }
