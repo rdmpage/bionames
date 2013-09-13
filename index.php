@@ -62,7 +62,7 @@ if (isset($_GET['q']))
       <hr>
 
       <div class="container-fluid">
-      	<div class="span7">
+      	<div class="span6">
         	<h1>BioNames</h1>
         	<p class="lead">Taxa, text, and trees.</p>
 			<form class="search" method="get" action="/">
