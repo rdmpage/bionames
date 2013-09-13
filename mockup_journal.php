@@ -73,6 +73,8 @@ if (isset($_GET['journal']))
      					</div>
      				</div>
 					<div id="rawcoverage"></div>
+					<div id="history"></div>
+					<div id="credit"></div>
 					<div id="map"></div>
 					<div id="identifiers"></div>
 					
@@ -107,6 +109,7 @@ if (isset($_GET['journal']))
 					
 					document.title = data.title;
 					
+					/*
 					$('#metadata').html('');
 					
 					var html = '';
@@ -120,6 +123,7 @@ if (isset($_GET['journal']))
 					html += '</table>';
 					
 					$('#metadata').html(html);
+					*/
 					
 				}
 			});
@@ -186,9 +190,9 @@ if (isset($_GET['journal']))
 						$('#rawcoverage').html(data.rawcoverage);
 					}
 					
-					// Credit
 					
-					/*
+					// History
+					html = '';
 					if (data.preceding)
 					{
 						if (data.preceding.length > 0 )
@@ -217,6 +221,8 @@ if (isset($_GET['journal']))
 							html += '</ul>';
 						}
 					}
+					
+					/*
 					if (data.other)
 					{
 						if (data.other.length > 0 )
@@ -232,11 +238,14 @@ if (isset($_GET['journal']))
 						}
 					}
 					*/
+					$('#history').html(html);
 					
-					//html += '<small>Data from WorldCat</small>';
+					// Credit
+					html = '<small>Data from <a href="http://www.worldcat.org/issn/' + issn + '" target="_new">WorldCat</a></small>';
+					$('#credit').html(html);
 					
 					
-					//$('#metadata').html(html);
+					
 				}
 			});
 	}
