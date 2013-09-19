@@ -460,7 +460,7 @@ if (isset($doc->identifier))
 				break;
 
 			case "handle":
-				echo '<tr><td class="muted">DOI</td><td>';				
+				echo '<tr><td class="muted">Handle</td><td>';				
 				echo '<a href="http://hdl.handle.net/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'handle\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="The Handle ' . $identifier->id . ' is a persistent identifier for this publication" class="tip">';
 				echo '<i class="icon-share"></i>';
 				echo '<span vocab="http://purl.org/ontology/bibo/" typeof="' . $bibo_type . '">';
