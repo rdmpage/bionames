@@ -52,9 +52,15 @@ else
 			  var bound = Math.pow(2, zoom);
 		
 				// GBIF custom tiles    
+			
 			  return "http://a.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/69341/256" +
 				  "/" + zoom + "/" + normalizedCoord.x + "/" +
 				  normalizedCoord.y + ".png";
+			
+				// GBIF API
+//				return "http://api.gbif.org/v0.9/map/density/tile?x=" + zoom + "&y=" + normalizedCoord.x + "&z=" + normalizedCoord.y;
+//				return "http://api.gbif.org/v0.9/map/density/tile?x=" + normalizedCoord.x + "&y=" + normalizedCoord.y + "&z=" + zoom;
+//				return "http://api.gbif.org/v0.9/map/density/tile?x=" + normalizedCoord.x + "&y=" + normalizedCoord.y + "&z=" + zoom + "&type=COUNTRY" + "&key=" + "NZ";
 		  },
 		  tileSize: new google.maps.Size(256, 256),
 		  maxZoom: 9,
@@ -116,6 +122,7 @@ else
 					zoom: 2,
 					streetViewControl: false,
 					mapTypeId: 'GBIF',
+					//mapTypeId: google.maps.MapTypeId.TERRAIN
 					mapTypeControlOptions: {
 						mapTypeIds: ['GBIF', google.maps.MapTypeId.TERRAIN],
 						style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -319,6 +326,30 @@ if (isset($doc->identifier))
 					}
 ?>
 					
+				</div>
+			</div>
+			<div id="sourcelink" class="sidebar-section">
+				<div>
+<?php
+				switch ($sourcePrefix[$doc->source])
+				{
+					case 'gbif':
+						echo '<a href="http://www.gbif.org/species/' . $doc->sourceIdentifier . '" target="_new" onclick="_gaq.push([\'_trackEvent\', \'External\', \'gbif\', $doc->sourceIdentifier, 0]);" rel="tooltip" title="" class="tip" data-original-title="GBIF taxon concept">';
+						echo '<i class="icon-share"></i> species:' . $doc->sourceIdentifier . '</a>';					
+						break;
+						
+					case 'ncbi':
+						echo '<a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' . $doc->sourceIdentifier . '" target="_new" onclick="_gaq.push([\'_trackEvent\', \'External\', \'ncbi\', $doc->sourceIdentifier, 0]);" rel="tooltip" title="" class="tip" data-original-title="NCBI taxon concept">';
+						echo '<i class="icon-share"></i> taxonomy:' . $doc->sourceIdentifier . '</a>';					
+						break;
+						
+					default:
+						break;
+				}
+
+
+
+?>
 				</div>
 			</div>
 			<div id="images" class="sidebar-section"></div>
@@ -826,6 +857,7 @@ if (isset($doc->identifier))
   		}
 	})	
 		
+	$('.tip').tooltip();
 
 <!-- typeahead for search box -->
 	$("#q").typeahead({

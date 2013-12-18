@@ -6,6 +6,7 @@ function display_publications_ryan(id) {
 			{		
 				var element_id = 'id' + id;
 				element_id = element_id.replace(/\//, '_');
+				element_id = element_id.replace(/-/, '_');
 				
 				$('#' + element_id).html(display_reference(data));
 			}

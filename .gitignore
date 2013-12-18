@@ -8,6 +8,9 @@ bionames-archive
 bionames-design
 bionames-gallica
 
+# Symlinks 
+archive
+
 data/darwincore/*.zip
 
 labs/zookeys-viewer
@@ -15,3 +18,11 @@ labs/zookeys-viewer
 treelib-js
 
 vendor/document-viewer
+
+# Experiments
+
+# Exhibit
+test3.php
+convert.json
+vendor/exhibit3
+
