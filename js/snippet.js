@@ -345,6 +345,13 @@ function display_snippets(id) {
 			{		
 				var element_id = 'id' + id;
 				element_id = element_id.replace(/\//, '_');
+				element_id = element_id.replace(/\-/g, '_');
+				element_id = element_id.replace(/\./g, '_');
+				
+				//console.log(element_id);
+				//alert(element_id);
+				
+				//$('#' + element_id).html(html);
 				
 				show_snippet(element_id, data);
 			}
