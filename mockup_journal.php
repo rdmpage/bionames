@@ -299,7 +299,12 @@ if (isset($_GET['journal']))
 						var ids = [];
 						for (var id in data.articles)
 						{
-							html += '<div id="id' + data.articles[id] + '">' + data.articles[id] + '</div>';
+							var html_id = data.articles[id];
+							html_id = html_id.replace(/\//, '_');
+							html_id = html_id.replace(/-/g, '_');
+							html_id = html_id.replace(/\./g, '_');
+
+							html += '<div id="id' + html_id + '">' + data.articles[id] + '</div>';
 							ids.push(data.articles[id]);
 						}
 						// display details

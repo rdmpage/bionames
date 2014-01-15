@@ -8,8 +8,10 @@ function display_publications(id) {
 				
 				var element_id = 'id' + id;
 				element_id = element_id.replace(/\//, '_');
+				element_id = element_id.replace(/\-/g, '_');
+				element_id = element_id.replace(/\./, '_');
 				
-				//console.log (element_id);
+				console.log (element_id);
 				
 				$('#' + element_id).html('hello');
 				
