@@ -50,6 +50,7 @@ if (isset($_GET['q']))
           <li  class="active"><a href="#myModal" data-toggle="modal">About</a></li>
           <li><a href="timeline/Animalia">Timeline</a></li>
           <li><a href="dashboard">Dashboard</a></li>
+		  <li><a href="apidocs">API</a></li>          
           <li><a href="labs">Labs</a></li>
           <li><a href="https://plus.google.com/106571273288129011973" rel="publisher">BioNames on Google+</a></li>
          <!--
@@ -70,6 +71,8 @@ if (isset($_GET['q']))
 				
 			</form> 
 			<p>Try <a href="search/Pristimantis">Pristimantis</a> as an example</p>
+			
+			<p>For background see Page RDM. (2013) BioNames: linking taxonomy, texts, and trees. PeerJ 1:e190 <a href="http://dx.doi.org/10.7717/peerj.190">http://dx.doi.org/10.7717/peerj.190</a>.</p>
 			
 		<!--	
        <table>
