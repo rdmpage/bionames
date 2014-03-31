@@ -7,7 +7,9 @@
 				<input type="text" id='q' name='q' data-provide="typeahead" class="search-query" placeholder="Search" autocomplete="off" value="<?php echo $q; ?>">
 				</form> 
 			  </li>
+			  <li><a href="timeline/Animalia">Timeline</a></li>
 			  <li><a href="dashboard">Dashboard</a></li>
+			  <li><a href="apidocs">API</a></li>
 			  </ul>
 		  </div>
 	</div>
