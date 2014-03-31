@@ -4,7 +4,7 @@ require_once('bionames-api/lib.php');
 require_once('bionames-api/reference.php');
 
 
-function show_reference($reference, $link = false)
+function show_reference($reference, $link = false, $show_find = true)
 {
 	$html = '<div class="media" style="border-top:1px solid #e5e5e5;margin-bottom:10px;padding-top:10px;">';
 	
@@ -32,7 +32,14 @@ function show_reference($reference, $link = false)
 		$html .= '<a href="references/' . $reference->_id . '">';
 	}
 	
-	$html .= $reference->title;
+	if (isset($reference->title))
+	{
+		$html .= $reference->title;
+	}
+	else
+	{
+		$html .= $reference->citation_string;
+	}
 	
 	if ($link)
 	{
@@ -61,6 +68,12 @@ function show_reference($reference, $link = false)
 			$html .= ' (' . $reference->year . ')';
 			break;
 			
+		case 'book':
+			break;
+			
+		case 'chapter':
+			break;
+			
 		default:
 			break;
 	}
@@ -77,6 +90,18 @@ function show_reference($reference, $link = false)
 	}
 	
 	$html .= reference_to_coins($reference);
+	
+	if ($show_find)
+	{
+		// Button for local OpenURL lookup for this reference
+		$html .= '<div>';
+		$html .= '<button id="find_' . $reference->id . '" class="btn btn-info" onclick="openurl(\''
+		 .  reference_to_openurl($reference) . 
+		 '\',\'' . $reference->id . '\')">Find in BioNames</button>';
+		 
+		$html .= '<div id="reference_' . $reference->id . '"></div>';
+		$html .= '</div>';
+	}
 	
 	$html .= '</div>';
 	
@@ -219,6 +244,65 @@ $bibdata_json =  json_encode($bibdata);
 	<script> 
 		var docUrl = ''; 
 	</script>	
+	
+	<script>
+		function openurl(co, id)
+		{
+			$('#find_' + id).html("Searching...");
+			$.getJSON("http://bionames.org/bionames-api/openurl.php?" + co + "&callback=?",
+				function(data){
+					$('#find_' + id).html("Find in BioNames");
+					if (data.results.length > 0)
+					{
+						//alert(data.results[0].id);
+						var html = '';
+						
+						if (data.results.length == 1)
+						{
+							html += '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button>';
+							html += '<h4>Found</h4>';
+						}
+						else
+						{
+							html += '<div class="alert"><button type="button" class="close" data-dismiss="alert">×</button>';
+							html += '<h4>Possible matches</h4>';							
+						}
+						
+						
+						html += '<p/>';
+						html += '<table>';
+						
+						for (var i in data.results)
+						{							
+							html += '<tr>';
+							if (data.results[i].reference.thumbnail) {
+								html += '<td width="100">' + '<img style="box-shadow:2px 2px 2px #ccc;width:64px;background-color:white;" src="' + data.results[i].reference.thumbnail + '"/>' + '</td>';
+							}
+							html += '<td>' + '<b>' + data.results[i].reference.title + '</b>' + '<br/>';
+							
+							html += '<a class="btn btn-primary" href="references/' + data.results[i].reference._id + '">View</a>';
+							
+							html += '</td>';
+							html += '</tr>';
+						}
+						html += '</table>';
+						
+						html += '</div>';
+						
+						$('#reference_' + id).html(html);
+					}
+					else
+					{
+						var html = '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><h4>Not found</h4>';
+						html += '</div>';
+						
+						$('#reference_' + id).html(html);
+					
+					}
+				}
+			);
+		}
+	</script>
 		
 	<!-- altmetric.com -->
 	<!-- <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script> -->
@@ -343,12 +427,24 @@ if (isset($doc->title))
 	echo '</td></tr>';
 }
 
+
+
 if (isset($doc->thumbnail))
 {
 	echo '<tr><td class="muted">Thumbnail</td><td><img class="img-polaroid" src="' . $doc->thumbnail . '" width="100" /></td</tr>';
 	echo '<meta itemprop="thumbnailUrl" content="' . 'http://bionames.org/api/id/' . $doc->_id . '/thumbnail/image" />';
 }					
-					
+	
+	
+if (isset($doc->abstract))
+{
+	echo '<tr><td class="muted">Abstract</td><td>';
+	echo '<span itemprop="description">';
+	echo $doc->abstract;
+	echo '</span>';	
+	echo '</td></tr>';
+}
+
 if (isset($doc->author))
 {
 	echo '<tr><td class="muted">Author(s)</td><td>';
@@ -740,7 +836,7 @@ if(isset($doc->citedby))
 	foreach ($doc->citedby as $reference)
 	{
 		$html .= '<li>';
-		$html .= show_reference($reference, true);
+		$html .= show_reference($reference, true, false);
 		$html .= '</li>';
 	}
 	$html .= '</ol>';
