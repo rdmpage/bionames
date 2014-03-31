@@ -11,7 +11,7 @@ if (isset($_GET['q']))
 <html>
 <head>
 	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
-	<title>Search</title>
+	<title><?php if ($q != '') { echo htmlspecialchars($q) . ' - ' ; } ?>BioNames Search</title>
 	
 	<!-- standard stuff -->
 	<meta charset="utf-8" />
