@@ -9,9 +9,15 @@ function display_publications(id) {
 				var element_id = 'id' + id;
 				element_id = element_id.replace(/\//, '_');
 				element_id = element_id.replace(/\-/g, '_');
-				element_id = element_id.replace(/\./, '_');
+				element_id = element_id.replace(/\./g, '_');
+				element_id = element_id.replace(/\]/g, '_');
+				element_id = element_id.replace(/\[/g, '_');
+				element_id = element_id.replace(/\)/g, '_');
+				element_id = element_id.replace(/\(/g, '_');
+				element_id = element_id.replace(/;/g, '_');
+				element_id = element_id.replace(/:/g, '_');
 				
-				console.log (element_id);
+				console.log ('element_id=' + element_id);
 				
 				$('#' + element_id).html('hello');
 				
@@ -51,6 +57,14 @@ function display_publication_thumbnails(id) {
 			{		
 				var element_id = 'id' + id;
 				element_id = element_id.replace(/\//, '_');
+				element_id = element_id.replace(/\./g, '_');
+				element_id = element_id.replace(/\-/g, '_');
+				element_id = element_id.replace(/\]/g, '_');
+				element_id = element_id.replace(/\[/g, '_');
+				element_id = element_id.replace(/\)/g, '_');
+				element_id = element_id.replace(/\(/g, '_');
+				element_id = element_id.replace(/;/g, '_');
+				element_id = element_id.replace(/:/g, '_');
 				
 				show_publication_thumbnail(element_id, data);
 			}

@@ -347,6 +347,12 @@ function display_snippets(id) {
 				element_id = element_id.replace(/\//, '_');
 				element_id = element_id.replace(/\-/g, '_');
 				element_id = element_id.replace(/\./g, '_');
+				element_id = element_id.replace(/\]/g, '_');
+				element_id = element_id.replace(/\[/g, '_');
+				element_id = element_id.replace(/\)/g, '_');
+				element_id = element_id.replace(/\(/g, '_');
+				element_id = element_id.replace(/;/g, '_');
+				element_id = element_id.replace(/:/g, '_');
 				
 				//console.log(element_id);
 				//alert(element_id);
