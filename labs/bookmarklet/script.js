@@ -90,20 +90,31 @@ function releasetheKraken() {
          doi = metas[i].getAttribute("content"); 
       } 
       // Dublin Core
+      // Taylor and Francis
       if (metas[i].getAttribute("name") == "dc.Identifier") {
       	if (metas[i].getAttribute("scheme") == "doi") {
          doi = metas[i].getAttribute("content"); 
         }
       } 
+      // Ingenta
+      if (metas[i].getAttribute("name") == "DC.identifier") {
+      	if (metas[i].getAttribute("scheme") == "URI") {
+      	 if (metas[i].getAttribute("content").match(/info:doi\//)) {
+         	doi = metas[i].getAttribute("content"); 
+         	doi = doi.replace(/info:doi\//, "");
+         }
+        }
+      } 
+      
       
     }
     
     if (doi != '') {
-   		
+   		e.html(e.html() + '<div>doi:' + doi + '</div>');
    		// Format citation using CrossRef services 
 		$.ajax({
 			url: 'http://search.crossref.org/citation?format=apa&doi=' 
-			+ encodeURIComponent('http://dx.doi.org/' + doi) + '&callback=?',
+			+ encodeURIComponent('http://dx.doi.org/' + doi),
 			success: function(data){
 				
 					var html = '<div style="padding:20px;">';
