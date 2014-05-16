@@ -376,7 +376,7 @@ if (isset($doc->thumbnail))
 	echo '<div class="alert">';
 	echo '<strong>Limited access!</strong> You may need a subscription to access this item.';
 	echo '</div>';
-	echo '<img style="border:1px solid rgb(128,128,128);padding:10px;background-color:white;" src="' . $doc->thumbnail . '" width="400" />';
+	echo '<img style="border:1px solid rgb(228,228,228);padding:10px;background-color:white;" src="' . $doc->thumbnail . '" width="400" />';
 	echo '</div>';
 }
 else

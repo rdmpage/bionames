@@ -52,10 +52,15 @@ else
 			  var bound = Math.pow(2, zoom);
 		
 				// GBIF custom tiles    
-			
+			/*
 			  return "http://a.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/69341/256" +
 				  "/" + zoom + "/" + normalizedCoord.x + "/" +
 				  normalizedCoord.y + ".png";
+			*/  
+			  return "http://c.tiles.mapbox.com/v3/timrobertson100.map-x2mlizjd" +
+				  "/" + zoom + "/" + normalizedCoord.x + "/" +
+				  normalizedCoord.y + ".png";
+			
 			
 				// GBIF API
 //				return "http://api.gbif.org/v0.9/map/density/tile?x=" + zoom + "&y=" + normalizedCoord.x + "&z=" + normalizedCoord.y;

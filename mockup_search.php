@@ -126,8 +126,17 @@ if (isset($_GET['q']))
 								var skip = false;
 								if ((facet_key == 'nameCluster') && (results_in_facet == 5)) {
 									skip = true;
+									//facet_html += '<div class="snippet-wrapper">more...</div>';
+									/*facet_html += '<div class="cards accordion" id="accordion" >';
+									facet_html += '<div class="class="accordion-heading" >';
+									facet_html +=  '  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse'">';
+									facet_html +=  'more';
+									facet_html += '</a>';
+									facet_html += '</div>';*/
+									
 								}
-								if (!skip) {								
+								if (!skip) 
+								{								
 									results_in_facet++;
 									var html_id = id.replace(/\//, '_');
 									html_id = html_id.replace(/-/g, '_');
@@ -168,6 +177,12 @@ if (isset($_GET['q']))
 									}
 								}
 							}
+							/*
+							if ((facet_key == 'nameCluster') && (results_in_facet > 5)) {
+									//skip = true;
+									facet_html += '</div>';
+							}
+							*/
 						}
 					  }
 					  

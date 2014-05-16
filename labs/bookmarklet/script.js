@@ -233,11 +233,11 @@ function releasetheKraken() {
 				if (data.key == hit[1]) {
 					var html = '<div style="text-align:left;">';
 					html += '<div>' + data.institutionCode + ' ' + data.catalogNumber + '</div>';
-					html += '<span>[' + data.latitude + ',' + data.longitude + ']</span>';
-					if (data.longitude && data.latitude) {
+					html += '<span>[' + data.decimalLatitude + ',' + data.decimalLongitude + ']</span>';
+					if (data.decimalLongitude && data.decimalLatitude) {
 						html += '<img src="http://maps.googleapis.com/maps/api/staticmap?' 
 							+ 'size=300x100&zoom=6&maptype=terrain&markers=size:mid|' 
-							+  data.latitude + ',' + data.longitude + '&sensor=false'
+							+  data.decimalLatitude + ',' + data.decimalLongitude + '&sensor=false'
 							+ '" />';
 					}
 					html += '</div>';
