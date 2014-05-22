@@ -30,6 +30,20 @@ function show_snippet (element_id, doc) {
 		case 'generic':
 			// Unparsed publication?
 			html += '<a href="references/' + doc._id + '">';
+			
+			if (doc.thumbnail) {
+				html += '<img class="thumbnail" src="' + doc.thumbnail + '"/>';
+			} else {
+				html += '<div class="thumbnail_blank">';
+				doi = has_doi(doc);
+				if (doi != '')
+				{
+					html += '<img src="images/doi16x16.png" style="float:right;"/>';
+				}				
+				html += '</div>';
+			}
+			
+			
 			html += '<div class="details">';
 			html += '<div class="metadata">';
 			html += doc.citation_string;
@@ -353,6 +367,8 @@ function display_snippets(id) {
 				element_id = element_id.replace(/\(/g, '_');
 				element_id = element_id.replace(/;/g, '_');
 				element_id = element_id.replace(/:/g, '_');
+				element_id = element_id.replace(/</g, '_');
+				element_id = element_id.replace(/>/g, '_');
 				
 				//console.log(element_id);
 				//alert(element_id);

@@ -147,6 +147,8 @@ if (isset($_GET['q']))
 									html_id = html_id.replace(/\]/g, '_');
 									html_id = html_id.replace(/;/g, '_');
 									html_id = html_id.replace(/:/g, '_');
+									html_id = html_id.replace(/</g, '_');
+									html_id = html_id.replace(/>/g, '_');
 									
 									var result = data.results.facets[facet_key][id];
 									
