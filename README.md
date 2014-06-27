@@ -67,3 +67,31 @@ Now we are indexing the publications.
 	http://localhost:9200/bionames/_search?q=replacement
 
 	curl -XPOST 'localhost:9200/bionames/_search?pretty=true' -d ' { "query" : { "match" : { "title" : "New Zealand Bopyridae" } } }'
+	
+### Replication
+	
+Check that CouchDB can be accessed externally.
+
+
+	netstat -an | grep 5984
+
+
+You are looking for a line like this - see http://serverfault.com/questions/79453/why-cant-i-access-my-couchdb-instance-externally-on-ubuntu-9-04-server
+
+
+	tcp4       0      0  *.5984                 *.*                    LISTEN     
+
+
+#### Run replication
+
+Local bionames database is source, remote instance (in this case cloudant) is target.
+
+
+	curl http://localhost:5984/_replicate -H 'Content-Type: application/json' -d '{ "source": "bionames", "target": "https://<username>:<password>@rdmpage.cloudant.com/bionames", "continuous":true }'
+
+
+You should get a response like this:
+
+
+	{"ok":true,"_local_id":"7bf516ee63001a188a8186d7cf718194+continuous"}
+
