@@ -3,6 +3,8 @@
 <script src="js/lib/d3.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/lib/crossfilter.1.2.0.js" type="text/javascript" charset="utf-8"></script>
 
+<script src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js" type="text/javascript"></script>
+
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
