@@ -10,6 +10,19 @@ RewriteBase /
 #---------------------------------------------------------------------------------------------------
 # HTML	
 
+# URLs of the form ^/identifier
+RewriteRule ^(urn:lsid.*)   display_identifier.php?namespace=lsid&id=$1   [NC,L]
+RewriteRule ^doi/(.*)   display_identifier.php?namespace=doi&id=$1   [NC,L]
+RewriteRule ^doi:(.*)   display_identifier.php?namespace=doi&id=$1   [NC,L]
+RewriteRule ^hdl/(.*)   display_identifier.php?namespace=handle&id=$1   [NC,L]
+RewriteRule ^hdl:(.*)   display_identifier.php?namespace=handle&id=$1   [NC,L]
+RewriteRule ^handle/(.*)   display_identifier.php?namespace=handle&id=$1   [NC,L]
+RewriteRule ^pmid/(.*)   display_identifier.php?namespace=pmid&id=$1   [NC,L]
+RewriteRule ^pmid:(.*)   display_identifier.php?namespace=pmid&id=$1   [NC,L]
+RewriteRule ^pmc/(.*)   display_identifier.php?namespace=pmc&id=$1   [NC,L]
+RewriteRule ^pmc:(.*)   display_identifier.php?namespace=pmc&id=$1   [NC,L]
+
+
 # Timeline
 RewriteRule ^timeline/(.*)   display_timeline.php?q=$1   [NC,L]
 
