@@ -898,6 +898,51 @@ if (isset($doc->geometry))
 ?>
 					</div>	
 				</div>
+				
+				
+			<div class="sidebar-metadata">
+					<div class="sidebar-section">
+<?php
+$data_string = '';
+if ($doc->identifier)
+{
+	foreach ($doc->identifier as $identifier)
+	{
+		switch ($identifier->type)
+		{		
+			case "doi":
+				$data_string = 'data-doi="' . $identifier->id . '"';
+				break;
+				
+			case "handle":
+				if ($data_string == '')
+				{
+					$data_string = 'data-handle="' . $identifier->id . '"';
+				}
+				break;			
+
+			case "pmid":
+				if ($data_string == '')
+				{
+					$data_string = 'data-pmid="' . $identifier->id . '"';
+				}
+				break;			
+													
+			default:
+				break;
+		}
+	}
+}
+if ($data_string != '')
+{
+	echo '<div data-badge-details="right" data-badge-type="medium-donut" ' . $data_string . ' data-hide-no-mentions="true" class="altmetric-embed"></div>';					
+}
+?>
+					</div>
+			</div>
+				
+				
+				
 				<div class="sidebar-metadata">
 					<div id="view_publisher">
 <?php
