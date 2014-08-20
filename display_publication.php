@@ -1239,6 +1239,11 @@ if ($doi != '')
 		echo 'docUrl = \'' . $docUrl . '\';';
 		echo 'display_document();';
 	}
+	else
+	{
+		// If we don't have full text then display details
+		echo "$('#publication-tabs li:eq(1) a').tab('show');\n";
+	}
 
 ?>
 
