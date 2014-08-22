@@ -12,6 +12,10 @@ bionames-gallica
 archive
 
 data/darwincore/*.zip
+data/darwincore/latest
+data/darwincore/20*
+data/junk
+data/sql
 
 labs/zookeys-viewer
 
