@@ -151,16 +151,29 @@ if (isset($doc->author))
 if ($doc->type == 'article')
 {
 	$meta .= '<meta name="citation_journal_title" content="' . htmlentities($doc->journal->name) . '" />' . "\n";
+	
+	// ISSN
+	if (isset($doc->journal->identifier))
+	{
+		foreach ($doc->journal->identifier as $identifier)
+		{
+			if ($identifier->type == 'issn')
+			{
+				$meta .= '<meta name="citation_issn" content="' . $identifier->id . '" />' . "\n";
+			}
+		}
+	}
+	
 	$meta .= '<meta name="citation_volume" content="' . $doc->journal->volume . '" />' . "\n";
 	if (isset($doc->journal->issue))
 	{
-		$html .= '<meta name="citation_issue" content="' . $doc->journal->issue . '" />' . "\n";
+		$meta .= '<meta name="citation_issue" content="' . $doc->journal->issue . '" />' . "\n";
 	}
 	
 	if (preg_match('/^(?<spage>.*)-[-]?(?<epage>.*)$/', $doc->journal->pages, $m))
 	{
-		$meta .= '<meta name="citation_firstpage" content="' . $m['spage'] . '" />' . "\n";
-		$meta .= '<meta name="citation_lastpage" content="' . $m['epage'] . '" />' . "\n";
+		$meta .= '<meta name="citation_firstpage" content="' . str_replace('-', '', $m['spage']) . '" />' . "\n";
+		$meta .= '<meta name="citation_lastpage" content="' . str_replace('-', '', $m['epage']) . '" />' . "\n";
 	}
 }
 
@@ -172,6 +185,22 @@ if ($doc->identifier)
 		{
 			case 'doi':
 				$meta .= '<meta name="citation_doi" content="' . $identifier->id . '" />' . "\n";
+				break;
+				
+			default:
+				break;
+		}
+	}
+}
+
+if ($doc->link)
+{
+	foreach ($doc->link as $link)
+	{
+		switch ($link->anchor)
+		{
+			case 'PDF':
+				$meta .= '<meta name="citation_pdf_url" content="' . $link->url . '" />' . "\n";
 				break;
 				
 			default:
@@ -594,6 +623,10 @@ if (isset($doc->identifier))
 			case "pmid":
 				echo '<tr><td class="muted">PMID</td><td><a href="http://www.ncbi.nlm.nih.gov/pubmed/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmid\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="PubMed ID (PMID) ' . $identifier->id . '" class="tip"><i class="icon-share"></i> ' . $identifier->id . '</a></td></tr>';
 				break;
+
+			case "zoobank":
+				echo '<tr><td class="muted">ZooBank</td><td><a href="http://zoobank.org/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'zoobank\', \'' . strtolower($identifier->id) . '\', 0]);" rel="tooltip" title="ZooBank UUID ' . strtolower($identifier->id) . '" class="tip"><i class="icon-share"></i> ' . strtolower($identifier->id) . '</a></td></tr>';
+				break;
 				
 			default:
 				break;
@@ -963,6 +996,10 @@ if ($doc->identifier)
 				
 			case "jstor":
 				echo '<a href="http://www.jstor.org/stable/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'jstor\', \'' . $identifier->id . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on JSTOR</a>';
+				break;			
+
+			case "zoobank":
+				echo '<a href="http://zoobank.org/' . strtolower($identifier->id) . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'zoobank\', \'' . strtolower($identifier->id) . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on ZooBank</a>';
 				break;			
 													
 			default:
