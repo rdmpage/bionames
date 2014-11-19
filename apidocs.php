@@ -127,6 +127,23 @@
 				</div>
 			</div>
 		</div>
+		
+		<p />
+		
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget">
+					<h3>Taxon name</h3>
+					<p class="muted">Methods specific to taxon names</p>
+
+					<h4>api/name/&lt;namestring&gt;/didyoumean</h4>
+					<p class="muted">Name strings that are similar to query string</p>
+					<a href="http://bionames.org/api/name/Simulium%20selwynense/didyoumean" target="_new">http://bionames.org/api/name/Simulium%20selwynense/didyoumean</a>
+					
+				</div>
+			</div>
+		</div>
+		
 
 		<p />
 		
