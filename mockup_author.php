@@ -6,6 +6,8 @@
 if (isset($_GET['name']))
 {
 	$name = $_GET['name'];
+	
+	$name = str_replace('.', '', $name);
 }
 
 
