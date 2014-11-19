@@ -64,7 +64,7 @@ if (isset($_GET['q']))
       </div>
 
       <hr>
-
+      
       <div class="container-fluid">
       
       	<div class="hero-unit">
@@ -74,9 +74,11 @@ if (isset($_GET['q']))
 			<form class="search" method="get" action="/">
 				<input type="text" id='q' name='q' data-provide="typeahead" class="input search-query" placeholder="Search" autocomplete="off" value="<?php echo $q; ?>">				
 			</form> 
+			
       	</div>
       
-      	<div class="row">
+      	<div class="row">      	
+      	
       		<div class="span6">
       			<h3>Taxonomic names</h3>
 				<div class="media">
@@ -134,6 +136,27 @@ if (isset($_GET['q']))
 					</div>
 				</div>
 			</div>
+
+      		<div class="span6">
+      			<h3>Examples of use</h3>
+				<div class="media">
+					<!--
+					<a class="pull-left" href="dashboard">
+						<img src="images/dashboard.png" width="100"/>
+					</a>
+					-->
+					<div class="media-body">
+      					<ul>
+      						<li>Mesibov, R. (2014, July 7). A dataset for examining trends in publication of new Australian insects. BDJ. Pensoft Publishers. <a href="http://dx.doi.org/10.3897/bdj.2.e1160">doi:10.3897/bdj.2.e1160</a>
+      						</li>
+      					</ul>
+      		
+					</div>
+				</div>
+			</div>
+			
+			
+
 
 					
 				
@@ -211,7 +234,7 @@ if (isset($_GET['q']))
 	$('.carousel').carousel({
   			interval: 3000
 	})
-</script>    
+</script>  
 
 
   </body>
