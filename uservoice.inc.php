@@ -1,3 +1,8 @@
+<?php
+if (0)
+{
+?>
+
 <!-- UserVoice JavaScript SDK (only needed once on a page) -->
 <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/c3F4NBjddqKXajc7buiKtQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
 
@@ -15,3 +20,7 @@ UserVoice.push(['showTab', 'classic_widget', {
   tab_inverted: false
 }]);
 </script>
+
+<?php
+}
+?>
