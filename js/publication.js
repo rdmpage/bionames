@@ -16,6 +16,8 @@ function display_publications(id) {
 				element_id = element_id.replace(/\(/g, '_');
 				element_id = element_id.replace(/;/g, '_');
 				element_id = element_id.replace(/:/g, '_');
+				element_id = element_id.replace(/</g, '_');
+				element_id = element_id.replace(/>/g, '_');
 				
 				console.log ('element_id=' + element_id);
 				
@@ -65,6 +67,8 @@ function display_publication_thumbnails(id) {
 				element_id = element_id.replace(/\(/g, '_');
 				element_id = element_id.replace(/;/g, '_');
 				element_id = element_id.replace(/:/g, '_');
+				element_id = element_id.replace(/</g, '_');
+				element_id = element_id.replace(/>/g, '_');
 				
 				show_publication_thumbnail(element_id, data);
 			}
@@ -109,6 +113,7 @@ function show_publication (element_id, doc) {
 		case 'article':
 		case 'book':
 		case 'chapter':
+		case 'thesis':
 			// Publication snippet
 //			html += '<a class="pull-right" href="mockup_publication.php?id=' + doc._id + '">';
 			html += '<a class="pull-right" href="references/' + doc._id + '">';
