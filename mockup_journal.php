@@ -75,6 +75,9 @@ if (isset($_GET['journal']))
 					<div id="rawcoverage"></div>
 					<div id="history"></div>
 					<div id="credit"></div>
+					
+					<div id="romeo"></div>
+					
 					<div id="map"></div>
 					<div id="identifiers"></div>
 					
@@ -533,9 +536,106 @@ if (isset($_GET['journal']))
 	
 					
 					
+			 function show_romeo(issn)
+			  {
+				$("#romeo").html("");
+				
+				var url = 'http://bionames.org/bionames-api/journals/issn/' + issn + '/romeo?callback=?';
+				
+				$.getJSON(url,
+					function(data){
+						var html = '';
+						if (data.status == 200)
+						{						
+							html += '<h5>Publisher copyright and archiving</h5>';
+							if (data.romeocolour) {
+							   switch (data.romeocolour) {
+							   		case 'green':
+							   			html += '<div style="background-color:#D0F9D2;">This is a ROMEO green journal</div>';
+							   			break;
+							   		case 'blue':
+							   			html += '<div style="background-color:#D3ECFA;">This is a ROMEO blue journal</div>';
+							   			break;
+							   		case 'yellow':
+							   			html += '<div style="background-color:#FFFF99;">This is a ROMEO yellow journal</div>';
+							   			break;
+							   		case 'white':
+							   			html += '<div style="background-color:#FFFFFF;">This is a ROMEO white journal</div>';
+							   			break;
+							   	}
+							} else {
+								html += '<div>Not in ROMEO</div>';
+							}
+							html += '<ul class="unstyled">';
+							
+							
+							if (data.paidaccessnotes) {
+								html += '<li><i class="icon-info-sign"></i>' + data.paidaccessnotes + '</li>';
+							}
+							
+							
+							if (data.prearchiving) {
+								switch (data.prearchiving) {
+									case 'can':
+										html += '<li><i class="icon-ok"></i>Author can archive pre-print</li>';
+										break;
+									case 'cannot':
+										html += '<li><i class="icon-ban-circle"></i>Author cannot archive pre-print</li>';
+										break;
+									case 'restricted':
+										html += '<li><i class="icon-warning-sign"></i>Author can archive pre-print (restricted)</li>';
+										break;
+									default:
+										break;
+								}
+							}
+							if (data.postarchiving) {
+								switch (data.postarchiving) {
+									case 'can':
+										html += '<li><i class="icon-ok"></i>Author can archive post-print</li>';
+										break;
+									case 'cannot':
+										html += '<li><i class="icon-ban-circle"></i>Author cannot archive post-print</li>';
+										break;
+									case 'restricted':
+										html += '<li><i class="icon-warning-sign"></i>Author can archive post-print (restricted)</li>';
+										break;
+									default:
+										break;
+								}
+							}
+							if (data.pdfarchiving) {
+								switch (data.pdfarchiving) {
+									case 'can':
+										html += '<li><i class="icon-ok"></i>Author can archive PDF</li>';
+										break;
+									case 'cannot':
+										html += '<li><i class="icon-ban-circle"></i>Author cannot archive PDF</li>';
+										break;
+									case 'restricted':
+										html += '<li><i class="icon-warning-sign"></i>Author can archive PDF (restricted)</li>';
+										break;
+									default:
+										break;
+								}
+							}
+							html += '</ul>';
+							
+							html += '<div><small>Data from <a href="http://www.sherpa.ac.uk/romeo/issn/' + issn + '/" target="_new">SHERPA/ROMEO</a></small></div>';
+						}
+						else
+						{
+							html += 'Badness';
+						}
+						$("#romeo").html(html);
+					});
+				}
+					
+					
 	if (issn != '')
 	{
 		display_journal_from_issn(issn);
+		show_romeo(issn);
 		show_journal_volumes('issn', issn);
 		show_article_identifiers('issn', issn);
 		//show_journal_points('issn', issn);
