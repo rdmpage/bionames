@@ -27,6 +27,9 @@ if (isset($doc->taxonAuthor))
 	<?php require 'stylesheets.inc.php'; ?>
 	<?php require 'javascripts.inc.php'; ?>
 	<?php require 'uservoice.inc.php'; ?>
+	
+	<script src="js/publication.js" type="text/javascript" charset="utf-8"></script>
+	
 
 	<script>	
 	
@@ -73,6 +76,150 @@ for ($i=0; $i < count($doc->names);$i++)
 }
 ?>		
 					</table>
+<?php
+	// Synonym wheel
+	
+	echo '<div>';
+	
+	$url = 'http://bionames.org/api/api_taxon_name.php?name=' . urlencode($doc->nameComplete) . '&synonym';
+	$json = get($url);
+	
+	//echo $json;
+	
+	$obj = json_decode($json);
+	
+	if (isset($obj->nodes) && count($obj->nodes) > 1)
+	{
+		echo '<h5>Possible synonyms</h5>';
+		
+		$references = array();
+		
+		$svg = '<svg xmlns:xlink="http://www.w3.org/1999/xlink" 
+		xmlns="http://www.w3.org/2000/svg" 
+		width="600px" height="300px">';
+	
+		$pi 	= 3.14159265;
+		$radius = 100;
+		$cx 	= 300;
+		$cy 	= 120;
+
+
+		$svg .= '<circle cx="' . $cx . '" cy="' . $cy . '" r="' . $radius . '" stroke="black" stroke-width="0" fill="white" style="opacity:1.0"/>';
+
+		// Nodes
+		$nodes_xy = array();
+		
+		$n = count($obj->nodes);
+		$wedge = 360/$n;
+		for ($i = 0; $i < $n; $i++)
+		{
+			$p = $wedge * $i;
+			$x = cos(deg2rad($p)) * $radius + $cx;
+			$y = sin(deg2rad($p)) * $radius + $cy;
+			
+			$nodes_xy[$obj->nodes[$i]->_id] = array($x, $y);
+		}
+
+
+		// Edges
+		
+		
+		foreach ($obj->edges as $edge)
+		{
+			$references = array_merge($references, $edge->references);
+		
+		
+			$x1 = $nodes_xy[$edge->_source][0];
+			$y1 = $nodes_xy[$edge->_source][1];
+		
+			$x2 = $nodes_xy[$edge->_target][0];
+			$y2 = $nodes_xy[$edge->_target][1];
+		
+			
+			$svg .= '<path d="M' . $x1 . ',' . $y1 . ' Q' . $cx . ',' . $cy . '  ' . $x2 . ',' . $y2 . '"
+					fill="none" stroke="black" stroke-width="' . count($edge->references) . '" style="opacity:0.4" />';
+		
+		}
+
+		for ($i = 0; $i < $n; $i++)
+		{
+			$x = $nodes_xy[$obj->nodes[$i]->_id][0];
+			$y = $nodes_xy[$obj->nodes[$i]->_id][1];
+			
+			$svg .= '<circle cx="' . $x . '" cy="' . $y . '" r="' . '6' . '" stroke="black"
+				stroke-width="1" fill="white"/>';
+				
+			if ($x < $cx)
+			{
+				$x -= 10;
+			}
+			else
+			{
+				$x += 10;
+			}
+				
+				
+			$svg .= '<text x="' . $x . '" y="' . $y . '"';
+			
+			if ($x < $cx)
+			{
+				$svg .= ' text-anchor="end"';
+			}
+			
+			$svg .=  '>' . $obj->nodes[$i]->caption . '</text>';
+		}
+
+		$svg .= '	
+			</svg>';
+			
+		echo $svg;
+		
+		$references = array_unique($references);
+		
+		echo '<div>';
+		foreach ($references as $reference)
+		{
+			//echo $reference . '<br/>';
+			
+			$div_id = $reference;
+			$div_id = str_replace('/', '_', $div_id);
+			$div_id = str_replace('-', '_', $div_id);
+			$div_id = str_replace('(', '_', $div_id);
+			$div_id = str_replace(')', '_', $div_id);
+			$div_id = str_replace('<', '_', $div_id);
+			$div_id = str_replace('>', '_', $div_id);
+			$div_id = str_replace('.', '_', $div_id);
+			$div_id = str_replace(':', '_', $div_id);
+			$div_id = str_replace(';', '_', $div_id);
+			
+			echo '<div id="id' . $div_id . '">' . $reference . '</div>';
+			
+		}
+
+		
+		echo '<script>';
+			foreach ($references as $reference)
+			{
+				echo 'display_publications("' . $reference . '");';
+			}
+		
+		echo '</script>';
+		
+		
+		echo '</div>';
+	}
+		
+	
+	
+	
+	echo '</div>';
+	
+
+
+
+
+
+?>
 				</div>
 			  </div>
 			
