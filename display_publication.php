@@ -133,10 +133,28 @@ if (isset($obj->citedby))
 // Meta tags
 
 $meta = '';
+
+
+
 // Google Scholar
 $meta .= "\n<!-- Google Scholar metadata -->\n";
 $meta .= '<meta name="citation_title" content="' . htmlentities($doc->title) . '" />' . "\n";
 $meta .= '<meta name="citation_date" content="' . $doc->year . '" />' . "\n";
+
+
+$twitter = '';
+$twitter .= '<meta name="twitter:card" content="summary"/>' . "\n";
+$twitter .= '<meta name="twitter:title" content="' . htmlentities($doc->title) . '" />' . "\n";
+$twitter .= '<meta name="twitter:site" content="BioNames"/>' . "\n";
+
+if (isset($doc->thumbnail))
+{
+	$twitter .= '<meta name="twitter:image" content="' . 'http://bionames.org/api/id/' . $doc->_id . '/thumbnail/image" />' . "\n";
+}
+if (isset($doc->citation_string))
+{
+	$twitter .= '<meta name="twitter:description" content="' . htmlentities($doc->citation_string) . '" />' . "\n";
+}
 
 if (isset($doc->author))
 {
@@ -235,6 +253,9 @@ $bibdata_json =  json_encode($bibdata);
 	
 	<!-- metadata -->
 	<?php echo $meta; ?>
+	
+	<!-- Twitter -->
+	<?php echo $twitter; ?>
 	
 	<script src="js/openurl.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/display.js" type="text/javascript" charset="utf-8"></script>
@@ -495,9 +516,40 @@ if (isset($doc->author))
 
 if (isset($doc->journal))
 {
+	$issn = '';
+	if (isset($doc->journal->identifier))
+	{
+		foreach ($doc->journal->identifier as $identifier)
+		{
+			if ($identifier->type == 'issn')
+			{
+				$issn = $identifier->id;
+			}
+		}
+	}
+
 	if (isset($doc->journal->name))
 	{
-		echo '<tr><td class="muted">Journal</td><td>' . $doc->journal->name . '</td></tr>';
+		echo '<tr><td class="muted">Journal</td><td>';
+		
+		echo '<span itemscope itemtype="http://schema.org/Periodical">';
+		echo '<span itemprop="name">';
+		echo $doc->journal->name;
+		echo '</span>';
+		
+		if ($issn)
+		{
+			echo '<span style="display:none;" itemprop="issn">';
+			echo $issn;
+			echo '</span>';
+			echo '<a style="display:none;" itemprop="sameAs" href="http://bionames.org/issn/' . $issn . '">';
+			echo $issn;
+			echo '</span>';
+		}
+		
+		echo '</span>';
+			
+		echo '</td></tr>';
 		
 		if (isset($doc->journal->identifier))
 		{
@@ -507,13 +559,15 @@ if (isset($doc->journal))
 				{
 					case 'issn':
 						echo '<tr><td class="muted">ISSN</td><td>';
-						echo '<a href="issn/' . $identifier->id . '" rel="tooltip" title="The International Standard Serial Number (ISSN) ' . $identifier->id . ' is a unique identifier for this journal" class="tip">';
+						
+						echo '<a itemprop="isPartOf" href="issn/' . $identifier->id . '" rel="tooltip" title="The International Standard Serial Number (ISSN) ' . $identifier->id . ' is a unique identifier for this journal" class="tip">';
 						echo '<span vocab="http://purl.org/ontology/bibo/" typeof="' . $bibo_type . '">';
 						echo '<span property="issn">';
 						echo $identifier->id;
 						echo '</span>';
 						echo '</span>';
 						echo '</a>';
+						
 						echo '</td></tr>';
 						break;
 
@@ -538,7 +592,7 @@ if (isset($doc->journal))
 	}
 	if (isset($doc->journal->pages))
 	{
-		echo '<tr><td class="muted">Pages</td><td>' . $doc->journal->pages . '</td></tr>';
+		echo '<tr><td class="muted">Pages</td><td><span itemprop="pagination">' . $doc->journal->pages . '</span></td></tr>';
 	}
 }
 
@@ -557,7 +611,7 @@ if (isset($doc->identifier))
 
 			case "biostor":
 				$biostor = $identifier->id;
-				echo '<tr><td class="muted">BioStor</td><td><a href="http://biostor.org/reference/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="BioStor reference ' . $identifier->id . '" class="tip"><i class="icon-share"></i> ' . $identifier->id . '</a></td></tr>';
+				echo '<tr><td class="muted">BioStor</td><td><a itemprop="sameAs" href="http://biostor.org/reference/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'biostor\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="BioStor reference ' . $identifier->id . '" class="tip"><i class="icon-share"></i> ' . $identifier->id . '</a></td></tr>';
 				break;
 
 			case "cinii":
@@ -568,7 +622,7 @@ if (isset($doc->identifier))
 				$doi = $identifier->id;
 				
 				echo '<tr><td class="muted">DOI</td><td>';				
-				echo '<a href="http://dx.doi.org/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="The Digital Object Identifier (DOI) ' . $identifier->id . ' is the persistent identifier for this publication" class="tip">';
+				echo '<a itemprop="sameAs" href="http://dx.doi.org/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'doi\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="The Digital Object Identifier (DOI) ' . $identifier->id . ' is the persistent identifier for this publication" class="tip">';
 				echo '<i class="icon-share"></i>';
 				echo '<span vocab="http://purl.org/ontology/bibo/" typeof="' . $bibo_type . '">';
 				echo '<span property="doi">';
@@ -576,6 +630,9 @@ if (isset($doc->identifier))
 				echo '</span>';
 				echo '</span>';
 				echo '</a>';
+				
+				
+				echo '<span id="agency"></span>';
 				
 				echo '</td></tr>';
 				break;
@@ -621,7 +678,7 @@ if (isset($doc->identifier))
 				break;
 
 			case "pmid":
-				echo '<tr><td class="muted">PMID</td><td><a href="http://www.ncbi.nlm.nih.gov/pubmed/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmid\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="PubMed ID (PMID) ' . $identifier->id . '" class="tip"><i class="icon-share"></i> ' . $identifier->id . '</a></td></tr>';
+				echo '<tr><td class="muted">PMID</td><td><a itemprop="sameAs" href="http://www.ncbi.nlm.nih.gov/pubmed/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmid\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="PubMed ID (PMID) ' . $identifier->id . '" class="tip"><i class="icon-share"></i> ' . $identifier->id . '</a></td></tr>';
 				break;
 
 			case "zoobank":
@@ -1059,6 +1116,19 @@ if ($doi != '')
 		}
 	}	
 	
+	function show_doi_agency (doi)
+	{
+		$.getJSON("http://api.crossref.org/works/" + doi + "/agency",
+			function(data){
+				if (data.status == 'ok') {
+					if (data.message.agency.label) {
+						$('#agency').html('   [' + data.message.agency.label + ']');
+					}
+				}
+			});
+	}
+
+	
 	function display_publication_names (id)
 	{
 		$.getJSON("http://bionames.org/bionames-api/publication/" + id + "/names?callback=?",
@@ -1215,6 +1285,11 @@ if ($doi != '')
 	
 	display_publication_names(id);
 <?php
+	if ($doi != '')
+	{
+		echo 'show_doi_agency(\'' . $doi . '\');';
+	}
+
 	if (isset($doc->title))
 	{
 		echo 'deep_dyve(\'' . addcslashes($doc->title, "'") . '\');';
