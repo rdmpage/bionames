@@ -62,7 +62,7 @@ for ($i=0; $i < count($doc->names);$i++)
 	echo '<tr>' . "\n";
 	echo '<td>';
 	echo $doc->names[$i]->nameComplete;
-	if ($doc->names[$i]->taxonAuthor) {
+	if (isset($doc->names[$i]->taxonAuthor)) {
 		echo ' ' . $doc->names[$i]->taxonAuthor;
 	}
 	echo '</td>' . "\n";

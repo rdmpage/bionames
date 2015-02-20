@@ -49,7 +49,7 @@ function show_reference($reference, $link = false, $show_find = true)
 	$html .= '</h5>';
 	
 	
-	if ($reference->author)
+	if (isset($reference->author))
 	{
 		$authors = array();
 		foreach ($reference->author as $author)
@@ -182,7 +182,10 @@ if ($doc->type == 'article')
 		}
 	}
 	
-	$meta .= '<meta name="citation_volume" content="' . $doc->journal->volume . '" />' . "\n";
+	if (isset($doc->journal->volume))
+	{
+		$meta .= '<meta name="citation_volume" content="' . $doc->journal->volume . '" />' . "\n";
+	}
 	if (isset($doc->journal->issue))
 	{
 		$meta .= '<meta name="citation_issue" content="' . $doc->journal->issue . '" />' . "\n";
@@ -195,7 +198,7 @@ if ($doc->type == 'article')
 	}
 }
 
-if ($doc->identifier)
+if (isset($doc->identifier))
 {
 	foreach ($doc->identifier as $identifier)
 	{
@@ -211,7 +214,7 @@ if ($doc->identifier)
 	}
 }
 
-if ($doc->link)
+if (isset($doc->link))
 {
 	foreach ($doc->link as $link)
 	{
@@ -702,7 +705,7 @@ if (isset($doc->book))
 	{
 		echo '<tr><td class="muted">Pages</td><td>' . $doc->book->pages . '</td></tr>';
 	}
-	if ($doc->book->identifier)
+	if (isset($doc->book->identifier))
 	{
 		foreach ($doc->book->identifier as $identifier)
 		{
@@ -737,11 +740,11 @@ if (isset($doc->link))
 		switch ($link->anchor)
 		{
 			case "PDF":
-				echo '<tr><td class="muted">PDF</td><td><a href="' . $link->url . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pdf\', \'' . $doc->link->url . '\', 0]);"><i class="icon-share"></i> ' .  $link->url . '</a></td></tr>';
+				echo '<tr><td class="muted">PDF</td><td><a href="' . $link->url . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pdf\', \'' . $link->url . '\', 0]);"><i class="icon-share"></i> ' .  $link->url . '</a></td></tr>';
 				break;
 
 			case "LINK":
-				echo '<tr><td class="muted">URL</td><td><a href="' . $link->url . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'url\', \'' . $doc->link->url . '\', 0]);"><i class="icon-share"></i> ' . $link->url . '</a></td></tr>';
+				echo '<tr><td class="muted">URL</td><td><a href="' . $link->url . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'url\', \'' . $link->url . '\', 0]);"><i class="icon-share"></i> ' . $link->url . '</a></td></tr>';
 				break;
 				
 			default:
@@ -994,7 +997,7 @@ if (isset($doc->geometry))
 					<div class="sidebar-section">
 <?php
 $data_string = '';
-if ($doc->identifier)
+if (isset($doc->identifier))
 {
 	foreach ($doc->identifier as $identifier)
 	{
@@ -1037,7 +1040,7 @@ if ($data_string != '')
 					<div id="view_publisher">
 <?php
 
-if ($doc->identifier)
+if (isset($doc->identifier))
 {
 	foreach ($doc->identifier as $identifier)
 	{
@@ -1313,7 +1316,7 @@ if ($doi != '')
 	
 	$docUrl = '';
 	
-	if ($doc->identifier)
+	if (isset($doc->identifier))
 	{
 		foreach ($doc->identifier as $identifier)
 		{

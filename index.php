@@ -77,7 +77,16 @@ if (isset($_GET['q']))
 			
       	</div>
       
-      	<div class="row">      	
+      	<div class="row">      
+      	
+      		<div class="span6">
+      			<h3>Recent additions</h3>
+				<div>
+				<a class="twitter-timeline" href="https://twitter.com/Bionames" data-widget-id="507444120533487617">Tweets by @Bionames</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+				</div>
+      			
+      		</div>
+      		
       	
       		<div class="span6">
       			<h3>Taxonomic names</h3>
@@ -94,8 +103,8 @@ if (isset($_GET['q']))
 						you can discover related publications, such as taxonomic revisions.-->
 					</div>
 				</div>
-      			
       		</div>
+      		
       		<div class="span6">
       			<h3>Publications</h3>  
 				<div class="media">
@@ -137,14 +146,10 @@ if (isset($_GET['q']))
 				</div>
 			</div>
 
+			<!--
       		<div class="span6">
       			<h3>Examples of use</h3>
 				<div class="media">
-					<!--
-					<a class="pull-left" href="dashboard">
-						<img src="images/dashboard.png" width="100"/>
-					</a>
-					-->
 					<div class="media-body">
       					<ul>
       						<li>Mesibov, R. (2014, July 7). A dataset for examining trends in publication of new Australian insects. BDJ. Pensoft Publishers. <a href="http://dx.doi.org/10.3897/bdj.2.e1160">doi:10.3897/bdj.2.e1160</a>
@@ -154,7 +159,7 @@ if (isset($_GET['q']))
 					</div>
 				</div>
 			</div>
-			
+			-->
 			
 
 
