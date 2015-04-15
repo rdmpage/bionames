@@ -198,7 +198,7 @@ function show_publication (element_id, doc) {
 			
 			if (doc.identifier)
 			{
-				html += '<ul class="identifier">';
+				html += '<ul class="identifier" style="color:rgb(128,128,128);">';
 				for (var j in doc.identifier)
 				{
 					switch (doc.identifier[j].type)
@@ -264,6 +264,14 @@ function show_publication (element_id, doc) {
 							html += '<li>';
 							//html += '<a href="http://www.jstor.org/stable' + doc.identifier[j].id + '" target="_new">';
 							html += 'PMID ' + doc.identifier[j].id;
+							//html += '</a>';
+							html += '</li>';
+							break;
+
+						case "zoobank":
+							html += '<li>';
+							//html += '<a href="http://zoobank.org/stable' + doc.identifier[j].id + '" target="_new">';
+							html += 'ZOOBANK ' + doc.identifier[j].id;
 							//html += '</a>';
 							html += '</li>';
 							break;
