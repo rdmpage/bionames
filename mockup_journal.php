@@ -433,7 +433,7 @@ if (isset($_GET['journal']))
 						html += '<div style="position:relative;">';
 
 						html += '<h5>Identifier coverage</h5>';
-						html += '<small>DOI, Handle, BioStor, JSTOR, CiNii, PMID, PMC</small>';
+						html += '<small>DOI, Handle, BioStor, JSTOR, CiNii, PMID, PMC, ZooBank</small>';
 						html += '<div style="position:relative;">';
 						for (var i in data.years)
 						{
@@ -476,6 +476,11 @@ if (isset($_GET['journal']))
 									if (data.years[i][j][k].indexOf('pmid') != -1)
 									{
 										ids.push('PMID');
+										opacity += 0.2;
+									}									
+									if (data.years[i][j][k].indexOf('zoobank') != -1)
+									{
+										ids.push('ZOOBANK');
 										opacity += 0.2;
 									}									
 								}
