@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<archive xmlns="http://rs.tdwg.org/dwc/text/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://rs.tdwg.org/dwc/text/  http://rs.tdwg.org/dwc/text/tdwg_dwc_text.xsd">
+	<core encoding="UTF-8" fieldsTerminatedBy="\t" ignoreHeaderLines="1" linesTerminatedBy="\n" rowType="http://rs.tdwg.org/dwc/terms/Taxon">
+		<files>
+			<location>taxa.tsv</location>
+		</files>
+		
+		<id index="0"/>
+		<!-- classic Darwin Core -->
+		<field index="0" term="http://rs.tdwg.org/dwc/terms/scientificNameID"/>
+		<field index="1" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
+		<field index="2" term="http://rs.tdwg.org/dwc/terms/scientificNameAuthorship"/>
+		<field index="3" term="http://rs.tdwg.org/dwc/terms/taxonRank"/>
+		
+		<!-- LSID Vocabulary -->
+		<field index="4" term="http://rs.tdwg.org/ontology/voc/TaxonName#uninomial"/>
+		<field index="5" term="http://rs.tdwg.org/ontology/voc/TaxonName#genusPart"/>
+		<field index="6" term="http://rs.tdwg.org/ontology/voc/TaxonName#infragenericEpithet"/>
+		<field index="7" term="http://rs.tdwg.org/ontology/voc/TaxonName#specificEpithet"/>
+		<field index="8" term="http://rs.tdwg.org/ontology/voc/TaxonName#infraspecificEpithet"/>
+
+		<!-- classic Darwin Core -->
+		<field index="9" term="http://rs.tdwg.org/dwc/terms/nomenclaturalCode"/>
+		<field index="10" term="http://rs.tdwg.org/dwc/terms/higherClassification"/>		
+		
+		<!-- identifier is local to BioNames -->
+		<field index="11" term="http://eol.org/schema/reference/referenceID"/>
+	</core>
+		
+	<extension encoding="UTF-8" fieldsTerminatedBy="\t" ignoreHeaderLines="1" linesTerminatedBy="\n" rowType="http://eol.org/schema/reference/Reference">
+		<files>
+			<location>references.tsv</location>
+		</files>
+		<coreid index="0"/>
+		
+		<!-- identifier is local to BioNames -->
+		<field index="0" term="http://purl.org/dc/terms/identifier"/>
+		<!-- type is an instance of the Bibo vocabulary -->
+		<field index="1" term="http://purl.org/dc/terms/type"/>
+		<field index="2" term="http://purl.org/dc/terms/creator"/>
+		
+		<!-- this is the title of the work, e.g. article title -->
+		<field index="3" term="http://eol.org/schema/reference/primaryTitle"/>
+		
+		<!-- Bibo terms where possible -->
+		<field index="4" term="http://purl.org/dc/terms/created"/>
+		<field index="5" term="http://purl.org/dc/terms/title"/>
+		<field index="6" term="http://purl.org/ontology/bibo/issn"/>
+		<field index="7" term="http://purl.org/ontology/bibo/oclcnum"/>
+		<field index="8" term="http://purl.org/ontology/bibo/volume"/>
+		<field index="9" term="http://purl.org/ontology/bibo/issue"/>
+		<field index="10" term="http://purl.org/ontology/bibo/pageStart"/>
+		<field index="11" term="http://purl.org/ontology/bibo/pageEnd"/>
+		<field index="12" term="http://purl.org/ontology/bibo/uri"/>
+		
+		<!-- PDF -->
+		<field index="13" term="http://purl.org/dc/terms/relation"/>	
+		
+		<!-- identifiers -->
+		<field index="14" term="http://purl.org/ontology/bibo/doi"/>
+		<field index="15" term="http://purl.org/ontology/bibo/handle"/>
+		<field index="16" term="http://purl.org/ontology/bibo/pmid"/>
+		
+		<!-- ZooBank -->
+		<field index="12" term="http://purl.org/ontology/bibo/uri"/>
+	</extension>
+</archive>
