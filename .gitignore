@@ -14,6 +14,7 @@ archive
 data/darwincore/*.zip
 data/darwincore/latest
 data/darwincore/20*
+data/darwincore/junk
 data/junk
 data/sql
 
