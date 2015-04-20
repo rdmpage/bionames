@@ -13,7 +13,15 @@ Use list views.
 
     curl 'http://direct.bionames.org:5984/bionames/_design/darwincorearchive/_list/publication_tsv/publication' > references.tsv
 
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+    100 82.3M    0 82.3M    0     0  10507      0 --:--:--  2:16:56 --:--:-- 22208
+
     curl 'http://direct.bionames.org:5984/bionames/_design/darwincorearchive/_list/taxa_tsv/taxa' > taxa.tsv
+    
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+    100  838M    0  838M    0     0   421k      0 --:--:--  0:33:59 --:--:--  517k    
 
 Create meta.xml by hand, then create archive:
 

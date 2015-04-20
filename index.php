@@ -87,6 +87,22 @@ if (isset($_GET['q']))
       			
       		</div>
       		
+      		<div class="span6">
+      			<h3>Download the data</h3>
+				<div class="media">
+					<div class="media-body">
+					    Darwin Core Archives of the data are available from Zenodo.
+      					<!-- <ul>
+      						<li> -->
+      							<a href="http://dx.doi.org/10.5281/zenodo.16863"><img src="https://zenodo.org/badge/doi/10.5281/zenodo.16863.svg" alt="10.5281/zenodo.16863"></a>
+      					<!--	</li>
+      					</ul> -->
+      		
+					</div>
+				</div>
+			</div>
+      		
+      		
       	
       		<div class="span6">
       			<h3>Taxonomic names</h3>
@@ -132,7 +148,7 @@ if (isset($_GET['q']))
 				</div>
 			</div>
 			
-			
+			<!--
       		<div class="span6">
       			<h3>Dashboard</h3>  
 				<div class="media">
@@ -145,6 +161,7 @@ if (isset($_GET['q']))
 					</div>
 				</div>
 			</div>
+			-->
 
 			<!--
       		<div class="span6">
@@ -160,6 +177,10 @@ if (isset($_GET['q']))
 				</div>
 			</div>
 			-->
+			
+			
+			
+	
 			
 
 
