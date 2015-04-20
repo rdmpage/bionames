@@ -7,7 +7,7 @@ function display_publications(id) {
 			{		
 				
 				var element_id = 'id' + id;
-				element_id = element_id.replace(/\//, '_');
+				element_id = element_id.replace(/\//g, '_');
 				element_id = element_id.replace(/\-/g, '_');
 				element_id = element_id.replace(/\./g, '_');
 				element_id = element_id.replace(/\]/g, '_');
@@ -58,7 +58,7 @@ function display_publication_thumbnails(id) {
 			if (data.status == 200)
 			{		
 				var element_id = 'id' + id;
-				element_id = element_id.replace(/\//, '_');
+				element_id = element_id.replace(/\//g, '_');
 				element_id = element_id.replace(/\./g, '_');
 				element_id = element_id.replace(/\-/g, '_');
 				element_id = element_id.replace(/\]/g, '_');

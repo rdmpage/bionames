@@ -303,7 +303,7 @@ if (isset($_GET['journal']))
 						for (var id in data.articles)
 						{
 							var html_id = data.articles[id];
-							html_id = html_id.replace(/\//, '_');
+							html_id = html_id.replace(/\//g, '_');
 							html_id = html_id.replace(/-/g, '_');
 							html_id = html_id.replace(/\./g, '_');
 
