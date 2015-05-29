@@ -171,13 +171,31 @@ if (isset($_GET['journal']))
 								html += '<td class="muted">' + i.toUpperCase() + '</td>';
 								html += '<td>' + '<a href="issn/' + data[i] + '" rel="tooltip" title="The International Standard Serial Number (ISSN) ' + data[i] + ' is a unique identifier for this journal" class="tip">' + data[i] + '</a>' + '</td>';
 								html += '</tr>';
-								break; 
+								break;
+								
 							case 'rssurl':
 								html += '<tr>';
 								html += '<td class="muted">Latest articles</td>';
 								html += '<td>' + '<a href="' + data[i] + '" target="_new">' + 'RSS' + '</a>' + '</td>';
 								html += '</tr>';
 								break;
+								
+							case 'wikidata':	
+								html += '<tr>';
+								html += '<td class="muted">Wikidata</td>';
+								html += '<td>' + '<a href="https://www.wikidata.org/wiki/' + data[i] + '" target="_new" rel="tooltip" title="Wikidata item for this journal" class="tip"><i class="icon-share"></i>' + data[i] + '</a>' + '</td>';
+								html += '</tr>';
+								break;								
+								
+								
+							case 'wikipedia':	
+								html += '<tr>';
+								html += '<td class="muted">Wikipedia</td>';
+								html += '<td>' + '<a href="https://en.wikipedia.org/wiki/' + data[i] + '" target="_new" rel="tooltip" title="Wikipedia page for this journal" class="tip"><i class="icon-share"></i>' + data[i] + '</a>' + '</td>';
+								html += '</tr>';
+								break;
+				
+																
 							default:
 								break;
 						}
