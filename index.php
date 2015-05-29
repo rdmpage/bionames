@@ -68,9 +68,9 @@ if (isset($_GET['q']))
       <div class="container-fluid">
       
       	<div class="hero-unit">
-      		<h1>Taxa, texts, and trees</h1>
-      		<p>A database linking taxonomic names to their original descriptions, to taxa, and to phylogenies.</p>
-      		<p>Page RDM. (2013) BioNames: linking taxonomy, texts, and trees. PeerJ 1:e190 <a href="http://dx.doi.org/10.7717/peerj.190">http://dx.doi.org/10.7717/peerj.190</a>. (See <a href="#about" data-toggle="modal">About</a> for credits)</p>
+      		<!-- <h1>Taxa, texts, and trees</h1> -->
+      		<p>A database linking taxonomic names to their original descriptions, to taxa, and to phylogenies. 
+      		See <a href="http://dx.doi.org/10.7717/peerj.190">http://dx.doi.org/10.7717/peerj.190</a> for background, and <a href="#about" data-toggle="modal">About</a> for credits)</p>
 			<form class="search" method="get" action="/">
 				<input type="text" id='q' name='q' data-provide="typeahead" class="input search-query" placeholder="Search" autocomplete="off" value="<?php echo $q; ?>">				
 			</form> 
@@ -79,7 +79,7 @@ if (isset($_GET['q']))
       
       	<div class="row">      
       	
-      		<div class="span6">
+      		<div class="span4">
       			<h3>Recent additions</h3>
 				<div>
 				<a class="twitter-timeline" href="https://twitter.com/Bionames" data-widget-id="507444120533487617">Tweets by @Bionames</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -87,24 +87,25 @@ if (isset($_GET['q']))
       			
       		</div>
       		
-      		<div class="span6">
+      		<!--
+      		<div class="span4">
       			<h3>Download the data</h3>
 				<div class="media">
 					<div class="media-body">
 					    Darwin Core Archives of the data are available from Zenodo.
-      					<!-- <ul>
-      						<li> -->
+      					<ul>
+      						<li> 
       							<a href="http://dx.doi.org/10.5281/zenodo.16863"><img src="https://zenodo.org/badge/doi/10.5281/zenodo.16863.svg" alt="10.5281/zenodo.16863"></a>
-      					<!--	</li>
-      					</ul> -->
+      					</li>
+      					</ul> 
       		
 					</div>
 				</div>
 			</div>
-      		
+      		-->
       		
       	
-      		<div class="span6">
+      		<div class="span4">
       			<h3>Taxonomic names</h3>
 				<div class="media">
 					<a class="pull-left" href="search/Pristimantis">
@@ -121,7 +122,7 @@ if (isset($_GET['q']))
 				</div>
       		</div>
       		
-      		<div class="span6">
+      		<div class="span4">
       			<h3>Publications</h3>  
 				<div class="media">
 					<a class="pull-left" href="references/fb03d24754afdf506d136d6a334f06d2">
@@ -135,7 +136,7 @@ if (isset($_GET['q']))
 				</div>
       		</div>
       		
-      		<div class="span6">
+      		<div class="span4">
       			<h3>Phylogenies</h3>  
 				<div class="media">
 					<a class="pull-left" href="trees/phylota/ti156509_cl8_db184">
