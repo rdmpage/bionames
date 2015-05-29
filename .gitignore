@@ -19,7 +19,9 @@ data/darwincore/junk
 data/junk
 data/sql
 
+#labs
 labs/zookeys-viewer
+labs/avibase
 
 treelib-js
 
