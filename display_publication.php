@@ -138,13 +138,13 @@ $meta = '';
 
 // Google Scholar
 $meta .= "\n<!-- Google Scholar metadata -->\n";
-$meta .= '<meta name="citation_title" content="' . htmlentities($doc->title) . '" />' . "\n";
+$meta .= '<meta name="citation_title" content="' . htmlentities($doc->title, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />' . "\n";
 $meta .= '<meta name="citation_date" content="' . $doc->year . '" />' . "\n";
 
 
 $twitter = '';
 $twitter .= '<meta name="twitter:card" content="summary"/>' . "\n";
-$twitter .= '<meta name="twitter:title" content="' . htmlentities($doc->title) . '" />' . "\n";
+$twitter .= '<meta name="twitter:title" content="' . htmlentities($doc->title, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />' . "\n";
 $twitter .= '<meta name="twitter:site" content="BioNames"/>' . "\n";
 
 if (isset($doc->thumbnail))
@@ -153,7 +153,7 @@ if (isset($doc->thumbnail))
 }
 if (isset($doc->citation_string))
 {
-	$twitter .= '<meta name="twitter:description" content="' . htmlentities($doc->citation_string) . '" />' . "\n";
+	$twitter .= '<meta name="twitter:description" content="' . htmlentities($doc->citation_string, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />' . "\n";
 }
 
 if (isset($doc->author))
@@ -161,14 +161,14 @@ if (isset($doc->author))
 	$author_names = array();
 	foreach ($doc->author as $author)
 	{
-		$author_names[] = $author->name;
+		$author_names[] = htmlentities($author->name, ENT_COMPAT | ENT_HTML5, 'UTF-8');
 	}
 	$meta .= '<meta name="citation_authors" content="' . join(";", $author_names) . '" />' . "\n";
 }
 
 if ($doc->type == 'article')
 {
-	$meta .= '<meta name="citation_journal_title" content="' . htmlentities($doc->journal->name) . '" />' . "\n";
+	$meta .= '<meta name="citation_journal_title" content="' . htmlentities($doc->journal->name, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />' . "\n";
 	
 	// ISSN
 	if (isset($doc->journal->identifier))
