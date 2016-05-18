@@ -324,6 +324,12 @@ if (isset($_GET['journal']))
 							html_id = html_id.replace(/\//g, '_');
 							html_id = html_id.replace(/-/g, '_');
 							html_id = html_id.replace(/\./g, '_');
+							html_id = html_id.replace(/\(/g, '_');
+							html_id = html_id.replace(/\)/g, '_');
+							html_id = html_id.replace(/\[/g, '_');
+							html_id = html_id.replace(/\]/g, '_');
+							html_id = html_id.replace(/:/g, '_');
+							html_id = html_id.replace(/;/g, '_');
 
 							html += '<div id="id' + html_id + '">' + data.articles[id] + '</div>';
 							ids.push(data.articles[id]);
