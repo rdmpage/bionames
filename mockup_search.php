@@ -138,7 +138,7 @@ if (isset($_GET['q']))
 								if (!skip) 
 								{								
 									results_in_facet++;
-									var html_id = id.replace(/\//, '_');
+									var html_id = id.replace(/\//g, '_');
 									html_id = html_id.replace(/-/g, '_');
 									html_id = html_id.replace(/\./g, '_');
 									html_id = html_id.replace(/\(/g, '_');
@@ -154,9 +154,11 @@ if (isset($_GET['q']))
 									
 									switch (facet.name)
 									{
+										/*
 										case 'Names':
 									  		facet_html += '<div class="name-cluster snippet-wrapper"><a href="names/' + id + '">' + result.term + '</a></div>';
 									  		break;
+									  	*/
 									  		
 									  	case 'Phylogenies':
 									  		trees.push(id);
