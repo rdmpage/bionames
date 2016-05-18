@@ -55,7 +55,8 @@ if (isset($_GET['q']))
 		  <li><a href="apidocs">API</a></li>          
           <li><a href="data">Downloads</a></li>
           <li><a href="labs">Labs</a></li>
-          <li><a href="https://plus.google.com/106571273288129011973" rel="publisher">BioNames on Google+</a></li>
+          
+          <!-- <li><a href="https://plus.google.com/106571273288129011973" rel="publisher">BioNames on Google+</a></li> -->
          <!--
           <li><a href="#">Contact</a></li>
           -->
