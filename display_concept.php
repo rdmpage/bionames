@@ -340,7 +340,13 @@ if (isset($doc->identifier))
 				{
 					case 'gbif':
 						echo '<a href="http://www.gbif.org/species/' . $doc->sourceIdentifier . '" target="_new" onclick="_gaq.push([\'_trackEvent\', \'External\', \'gbif\', $doc->sourceIdentifier, 0]);" rel="tooltip" title="" class="tip" data-original-title="GBIF taxon concept">';
-						echo '<i class="icon-share"></i> species:' . $doc->sourceIdentifier . '</a>';					
+						echo '<i class="icon-share"></i> species:' . $doc->sourceIdentifier . '</a>';
+						
+						if (isset($doc->namePublishedIn))
+						{
+							echo '<div>' . $doc->namePublishedIn . '</div>';
+						}
+											
 						break;
 						
 					case 'ncbi':
@@ -351,9 +357,6 @@ if (isset($doc->identifier))
 					default:
 						break;
 				}
-
-
-
 ?>
 				</div>
 			</div>
