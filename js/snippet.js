@@ -311,6 +311,7 @@ function show_snippet (element_id, doc) {
 			}
 			html += '<div class="metadata"><!-- metadata -->';
 			
+			/*
 			if (doc.names)
 			{
 				html += '<ul class="identifier">';
@@ -329,6 +330,17 @@ function show_snippet (element_id, doc) {
 					html += doc.publication[i];
 					html += '</div>';
 				}
+			}
+			*/
+			
+			if (doc.group) {
+				var group = doc.group.pop();
+				html += '<div>';
+				html += group;
+				html += '</div>';
+				html += '<div>';
+				html += '<img style="opacity:0.5;" src="/phylopic.php?name=' + group + '" height="48" />';
+				html += '</div>';
 			}
 			
 			html += '</div><!-- end metadata -->';
