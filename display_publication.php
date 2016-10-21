@@ -64,7 +64,10 @@ function show_reference($reference, $link = false, $show_find = true)
 		case 'article':
 			$html .= '<span class="journal">' . $reference->journal->name . '</span>';
 			$html .= ' <span class="volume">' . $reference->journal->volume . '</span>';
-			$html .= ' pages ' . $reference->journal->pages;
+			if (isset($reference->journal->pages))
+			{
+				$html .= ' pages ' . $reference->journal->pages;
+			}
 			$html .= ' (' . $reference->year . ')';
 			break;
 			
@@ -79,7 +82,7 @@ function show_reference($reference, $link = false, $show_find = true)
 	}
 	
 	// identifiers
-	if ($reference->identifier)
+	if (isset($reference->identifier))
 	{
 		$html .= '<ul>';
 		foreach ($reference->identifier as $identifier)
@@ -139,14 +142,20 @@ $meta = '';
 // Google Scholar
 $meta .= "\n<!-- Google Scholar metadata -->\n";
 //$meta .= '<meta name="citation_title" content="' . htmlentities($doc->title, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />' . "\n";
-$meta .= '<meta name="citation_title" content="' . htmlentities($doc->title, ENT_COMPAT, 'UTF-8') . '" />' . "\n";
+if (isset($doc->title))
+{
+	$meta .= '<meta name="citation_title" content="' . htmlentities($doc->title, ENT_COMPAT, 'UTF-8') . '" />' . "\n";
+}
 $meta .= '<meta name="citation_date" content="' . $doc->year . '" />' . "\n";
 
 
 $twitter = '';
 $twitter .= '<meta name="twitter:card" content="summary"/>' . "\n";
 //$twitter .= '<meta name="twitter:title" content="' . htmlentities($doc->title, ENT_COMPAT | ENT_HTML5, 'UTF-8') . '" />' . "\n";
-$twitter .= '<meta name="twitter:title" content="' . htmlentities($doc->title, ENT_COMPAT, 'UTF-8') . '" />' . "\n";
+if (isset($doc->title))
+{
+	$twitter .= '<meta name="twitter:title" content="' . htmlentities($doc->title, ENT_COMPAT, 'UTF-8') . '" />' . "\n";
+}
 $twitter .= '<meta name="twitter:site" content="BioNames"/>' . "\n";
 
 if (isset($doc->thumbnail))
@@ -196,10 +205,13 @@ if ($doc->type == 'article')
 		$meta .= '<meta name="citation_issue" content="' . $doc->journal->issue . '" />' . "\n";
 	}
 	
-	if (preg_match('/^(?<spage>.*)-[-]?(?<epage>.*)$/', $doc->journal->pages, $m))
+	if (isset($doc->journal->pages))
 	{
-		$meta .= '<meta name="citation_firstpage" content="' . str_replace('-', '', $m['spage']) . '" />' . "\n";
-		$meta .= '<meta name="citation_lastpage" content="' . str_replace('-', '', $m['epage']) . '" />' . "\n";
+		if (preg_match('/^(?<spage>.*)-[-]?(?<epage>.*)$/', $doc->journal->pages, $m))
+		{
+			$meta .= '<meta name="citation_firstpage" content="' . str_replace('-', '', $m['spage']) . '" />' . "\n";
+			$meta .= '<meta name="citation_lastpage" content="' . str_replace('-', '', $m['epage']) . '" />' . "\n";
+		}
 	}
 }
 
@@ -1077,6 +1089,20 @@ if (isset($doc->identifier))
 				echo '<a href="http://zoobank.org/' . strtolower($identifier->id) . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'zoobank\', \'' . strtolower($identifier->id) . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on ZooBank</a>';
 				break;			
 													
+			default:
+				break;
+		}
+	}
+}		
+if (isset($doc->link))
+{
+	foreach ($doc->link as $link)
+	{
+		switch ($link->anchor)
+		{		
+			case "PDF":
+				echo '<a href="' . $link->url . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pdf\', \'' . $link->url. '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>Download PDF</a>';
+				break;
 			default:
 				break;
 		}
