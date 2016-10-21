@@ -94,4 +94,10 @@ You should get a response like this:
 
 
 	{"ok":true,"_local_id":"7bf516ee63001a188a8186d7cf718194+continuous"}
+	
+Continuous replication can be expensive on Cloudant, so better to replicate manually:
+
+		curl http://localhost:5984/_replicate -H 'Content-Type: application/json' -d '{ "source": "bionames", "target": "https://<username>:<password>@bionames.cloudant.com/bionames"}'
+
+		curl http://localhost:5984/_replicate -H 'Content-Type: application/json' -d '{ "source": "archive", "target": "https://<username>:<password>@bionames.cloudant.com/archive"}'
 
