@@ -74,8 +74,25 @@ for ($i=0; $i < count($doc->names);$i++)
 	echo '</td>' . "\n";
 	echo '</tr>' . "\n";
 }
+
 ?>		
-					</table>
+					</table>	
+					
+<?php
+// microreference
+if (isset($doc->microreference))
+{
+	echo '<div>' . "\n";
+	echo '<h5>Microreference</h5>';
+	echo '<p>';
+	echo $doc->microreference[0];
+	echo '</p>' . "\n";
+	echo '<div id="microreference"></div>';
+	echo '</div>' . "\n";
+}
+
+?>					
+									
 <?php
 	// Synonym wheel
 	
@@ -501,6 +518,77 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 				});
 		}
 		
+		function get_bhl_text(bhl) 
+		{
+			$.getJSON('http://www.biodiversitylibrary.org/api2/httpquery.ashx?op=GetPageOcrText&pageid=' + bhl + '&apikey=0d4f0303-712e-49e0-92c5-2113a5959159&format=json&callback=?',
+				function(data){
+					if (data.Status ==  'ok') {
+						var text = data.Result;
+				   		text = text.replace(/\n\n/g, "\n");
+						$('#text').text(text);
+					}
+				
+				}
+			);
+		}
+		
+		function get_pdf_text(url) 
+		{
+		    url = url.replace(/images/, 'text');
+		    url = url.replace(/-normal/, '');
+			$.getJSON(url,
+				function(data){
+				    var text = data;
+					$('#text').text(text);
+				}
+			);
+		}
+		
+		function show_microreference(id)
+		{
+			$.getJSON("api/name/id/" + id + "/microreference?callback=?",
+				function(data){
+					if (data.status == 200) {
+						if (data.results.length > 0) {	
+							var html = '';
+							html += '<p>Page with new name, view <a href="references/' + data.results[0].container + '">full reference</a>';
+						
+							if (data.results[0].url) {
+								html += ' (view on <a href="' + data.results[0].url + '" target="_new">source website</a>)';
+							}
+						
+							html += '</p>';
+						
+							html += '<ul id="page-tabs" class="nav nav-tabs">';
+							html += '<li class="active"><a href="#image-tab" data-toggle="tab">Image</a></li>';
+							html += '<li><a href="#text-tab" data-toggle="tab">Text</a></li>';
+							html += '</ul>';
+						
+							html += '<div class="tab-content">';
+							html += '   <div class="tab-pane active" id="image-tab">';
+							html += '        <img src="' + data.results[0].image + '" width="500"></img>';
+							html += '   </div>';
+							html += '   <div class="tab-pane" id="text-tab">';
+							html += '      <div id="text" style="white-space:pre;overflow-x:auto;"></div>';
+							html += '   </div>';
+							html += '</div>';
+
+						
+							//html += '<img src="' + data.results[0].image + '" width="500"></img>';
+							$("#microreference").html(html);
+						
+							if (data.results[0].bhl) {
+								get_bhl_text(data.results[0].bhl);
+							}
+							if (data.results[0].sha1) {
+								get_pdf_text(data.results[0].image);
+							}
+						}
+					}
+				});
+		}	
+		
+		
 		
 		
 	/* typeahead for search box */
@@ -543,6 +631,13 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 	if (isset($doc->publishedInCitation))
 	{
 		echo 'show_published_in(' . json_encode($doc->publishedInCitation) . ');';
+	}
+?>
+
+<?php
+	if (isset($doc->microreference))
+	{
+		echo 'show_microreference("' . $id . '");';
 	}
 ?>
 	
