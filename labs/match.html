@@ -127,11 +127,15 @@
 									
 					for (var i in data) {
 						if (data[i].result) {
-							
+							var best_score = 0;
 					   		for (var j in data[i].result) {
-					   			$('#' + i + '_name').html(data[i].result[j].name);
-					   			$('#' + i + '_id').html('<a href="/references/' + data[i].result[j].id + '" target="_new">' +  data[i].result[j].id + '</a>');
-					   			$('#' + i + '_score').html(data[i].result[j].score);
+					   		    if (data[i].result[j].score > best_score)
+					   		    {
+					   		    	best_score = data[i].result[j].score;
+					   				$('#' + i + '_name').html(data[i].result[j].name);
+					   				$('#' + i + '_id').html('<a href="/references/' + data[i].result[j].id + '" target="_new">' +  data[i].result[j].id + '</a>');
+					   				$('#' + i + '_score').html(data[i].result[j].score);
+					   			}
 					   		}
 					   } else {
 					   	// not found
