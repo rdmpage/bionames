@@ -105,7 +105,7 @@ else
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title>Timeline</title>
 	
 	<!-- standard stuff -->
@@ -154,7 +154,7 @@ else
 	function list_group_year(group, year)
 	{
 		$('#details').html('Thinking...');
-		$.getJSON('http://bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&year=' + year + '&callback=?',
+		$.getJSON('//bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&year=' + year + '&callback=?',
 			function(data){
 				if (data.status == 200)
 				{
@@ -211,8 +211,8 @@ else
 
 	function timeline (group)
 	{
-		//alert('http://bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)));
-		$.getJSON('http://bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&callback=?',
+		//alert('//bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)));
+		$.getJSON('//bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&callback=?',
 			function(data){
 				if (data.status == 200)
 				{

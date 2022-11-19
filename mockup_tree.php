@@ -13,7 +13,7 @@ if (isset($_GET['tree']))
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title>Title</title>
 	
 	<!-- standard stuff -->
@@ -371,7 +371,7 @@ var Base64 = {
 					
 					for (var j in gi) {						
 						html += '<li>';
-						html += '<a href="taxa/ncbi/' + data.translations.tax_id[gi[j]] + '">' + data.translations.taxa[gi[j]] + '</a>';
+						html += '<a href="taxa/ncbi/' + data.translations.tax_id[gi[j]] + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'phylogeny\', \'taxon\', 0]);">' + data.translations.taxa[gi[j]] + '</a>';
 						html += '</li>';
 					}
 					html += '</ul>';
@@ -468,7 +468,7 @@ var Base64 = {
 							
 							for (var i in data.trees) {
 								html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;background-color:white;">';
-								html += '<a href="trees/' + i + '">';
+								html += '<a href="trees/' + i + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'phylogeny\', \'phylogeny\', 0]);">';
 								html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="88" width="88">';
 								html += '<g id="' + i.replace(/\//, '_') + '"></g>'; 								
 								html += '</svg>';		

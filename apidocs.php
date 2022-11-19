@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title>API documentation</title>
 	
 	<!-- standard stuff -->

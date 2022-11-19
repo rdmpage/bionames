@@ -1,5 +1,12 @@
 /* Display article */
-function display_publications(id) {
+function display_publications(id, page_type) {
+
+	var page = 'unknown';
+	if (display_publications.arguments.length == 2) {
+		page = page_type;
+	}
+
+
 //	$.getJSON("http://bionames.org/bionames-api/id/" + id + "?callback=?",
 	$.getJSON("api/id/" + id + "?callback=?",
 		function(data){
@@ -23,7 +30,7 @@ function display_publications(id) {
 				
 				$('#' + element_id).html('hello');
 				
-				show_publication(element_id, data);
+				show_publication(element_id, data, page);
 			}
 		});
 }
@@ -95,7 +102,7 @@ function display_publication_thumbnails_data_id(id) {
 	
 
 /* Display one article */
-function show_publication (element_id, doc) {
+function show_publication (element_id, doc, page) {
 	var html = '';
 	
 	html += '<div class="media" style="border-top:1px solid #e5e5e5;margin-bottom:10px;padding-top:10px;">';
@@ -104,7 +111,7 @@ function show_publication (element_id, doc) {
 		case 'generic':
 			// Unparsed publication?
 			html += '<div class="media-body" style="background-color:orange;">';			
-			html += '<a href="references/' + doc._id + '">';
+			html += '<a href="references/' + doc._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);">';
 			html += doc.citation_string;
 			html += '</a>';
 			html += '</div><!-- class="media-body" -->';
@@ -116,7 +123,7 @@ function show_publication (element_id, doc) {
 		case 'thesis':
 			// Publication snippet
 //			html += '<a class="pull-right" href="mockup_publication.php?id=' + doc._id + '">';
-			html += '<a class="pull-right" href="references/' + doc._id + '">';
+			html += '<a class="pull-right" href="references/' + doc._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);">';
 			if (doc.thumbnail) {
 				html += '<img class="media-object" style="border:1px solid #e5e5e5;background-color:white;" width="64" src="' + doc.thumbnail + '"/>';
 			} else {
@@ -134,7 +141,7 @@ function show_publication (element_id, doc) {
 			if (doc.title)
 			{
 //				html += '<a href="mockup_publication.php?id=' + doc._id + '">';
-				html += '<a href="references/' + doc._id + '">';
+				html += '<a href="references/' + doc._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);">';
 				html += '<h5>' + doc.title + '</h5>';
 				html += '</a>';
 			}

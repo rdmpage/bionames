@@ -3,7 +3,7 @@
 <!-- Google Publisher markup -->
 <link rel="publisher" href="https://plus.google.com/106571273288129011973/" />
 
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 

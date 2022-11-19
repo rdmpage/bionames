@@ -14,9 +14,23 @@ function display_publications_ryan(id) {
 }
 
 //--------------------------------------------------------------------------------------------------
+// this is called by filter_widgets.js to draw the filterable lists of references
 function display_reference(data)
 {
 	var html = "";
+	
+	var url = window.location.href;
+	var page = 'unknown';
+	if (url.match(/\/authors\//)) {
+		page = 'author';
+	}
+	if (url.match(/\/names\//)) {
+		page = 'taxonname';
+	}
+	if (url.match(/\/taxa\//)) {
+		page = 'taxon';
+	}
+	
 	
 	html += "<div class=\"pub\">";
 	
@@ -25,13 +39,13 @@ function display_reference(data)
 	{
 		has_thumbnail = true;
 //		html += '<div class="thumbnail"><a href="mockup_publication.php?id=' + data._id + '"><img src="' + data.thumbnail + '" /></a></div>';
-		html += '<div class="thumbnail"><a href="references/' + data._id + '"><img src="' + data.thumbnail + '" /></a></div>';
+		html += '<div class="thumbnail"><a href="references/' + data._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);"><img src="' + data.thumbnail + '" /></a></div>';
 	}					
 	if (data.thumbnail_url)
 	{
 		has_thumbnail = true;
 //		html += '<div class="thumbnail"><a href="mockup_publication.php?id=' + data._id + '"><img src="' + 'http://bionames.org/bionames-api/' + data.thumbnail_url + '" /></a></div>';
-		html += '<div class="thumbnail"><a href="references/' + data._id + '"><img src="' + 'api/' + data.thumbnail_url + '" /></a></div>';
+		html += '<div class="thumbnail"><a href="references/' + data._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);"><img src="' + 'api/' + data.thumbnail_url + '" /></a></div>';
 	}					
 	
 	if (!has_thumbnail)
@@ -46,7 +60,7 @@ function display_reference(data)
 	{
 		html += '<div class="title">' 
 //			+ '<a href="mockup_publication.php?id=' + data._id + '">'
-			+ '<a href="references/' + data._id + '">'
+			+ '<a href="references/' + data._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);">'
 			+ data.title 
 			+ '</a>'
 			+ '</div>';

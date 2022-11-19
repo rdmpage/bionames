@@ -15,7 +15,7 @@ if (isset($_GET['name']))
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title>Title</title>
 	
 	<!-- standard stuff -->
@@ -100,7 +100,7 @@ if (isset($_GET['name']))
 						for (var i in data.coauthors)
 						{
 //							html += '<li><a href="mockup_author.php?name=' + data.coauthors[i] + '">' + data.coauthors[i] + '</a></li>';
-							html += '<li><a href="authors/' + data.coauthors[i] + '">' + data.coauthors[i] + '</a></li>';
+							html += '<li><a href="authors/' + data.coauthors[i] + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'author\', \'coauthor\', 0]);">' + data.coauthors[i] + '</a></li>';
 						}
 						html += '</ul>';
 						$("#coauthors").html(html);
@@ -124,7 +124,7 @@ if (isset($_GET['name']))
 						for (var i in data.names) {
 							html += '<li>';
 //							html += '<a href="mockup_taxon_name.php?id=' + data.names[i].cluster + '">';
-							html += '<a href="names/' + data.names[i].cluster + '">';
+							html += '<a href="names/' + data.names[i].cluster + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'author\', \'taxonname\', 0]);">';
 							html += data.names[i].nameComplete;
 							html += '</a>';
 							//html += '<br/>';
@@ -297,7 +297,17 @@ if (isset($_GET['name']))
 		  process(suggestions)
 		})
 	  }
-	})		
+	})	
+	
+    $("#q").keypress(function (e) {
+            if (e.keyCode === 13) {
+                // teleport
+                _gaq.push(['_trackEvent', 'Internal', 'author', 'search', 0]);
+            }
+
+            return true;
+        });
+		
 
 	
 </script>

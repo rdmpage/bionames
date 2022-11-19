@@ -1,4 +1,4 @@
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="js/lib/d3.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/lib/crossfilter.1.2.0.js" type="text/javascript" charset="utf-8"></script>

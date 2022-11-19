@@ -223,7 +223,7 @@ if (isset($_GET['journal']))
 							for (var i in data.preceding)
 							{
 //								html += '<li>' + '<a href="mockup_journal.php?issn=' + data.preceding[i] + '">' + data.preceding[i] + '</a>' + '</li>';
-								html += '<li>' + '<a href="issn/' + data.preceding[i] + '">' + data.preceding[i] + '</a>' + '</li>';
+								html += '<li>' + '<a href="issn/' + data.preceding[i] + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'container\', \'container\', 0]);">' + data.preceding[i] + '</a>' + '</li>';
 							}
 							html += '</ul>';
 						}
@@ -237,7 +237,7 @@ if (isset($_GET['journal']))
 							for (var i in data.succeeding)
 							{
 								//html += '<li>' + '<a href="mockup_journal.php?issn=' + data.succeeding[i] + '">' + data.succeeding[i] + '</a>' + '</li>';
-								html += '<li>' + '<a href="issn/' + data.succeeding[i] + '">' + data.succeeding[i] + '</a>' + '</li>';
+								html += '<li>' + '<a href="issn/' + data.succeeding[i] + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'container\', \'container\', 0]);">' + data.succeeding[i] + '</a>' + '</li>';
 							}
 							html += '</ul>';
 						}
@@ -336,7 +336,7 @@ if (isset($_GET['journal']))
 						}
 						// display details
 						for (var id in ids) {
-							html += '<script>display_publications("' + ids[id] + '");<\/script>';
+							html += '<script>display_publications("' + ids[id] + '", "container");<\/script>';
 						}
 
 						$("#articles").html(html);
@@ -511,7 +511,7 @@ if (isset($_GET['journal']))
 								ids = ids.sort();
 								html += '<div style="float:left;width:14px;height:14px;">';
 //								html += '<a href="mockup_publication.php?id=' + j + '" title="' + ids.join() + '" rel="tooltip" class="tip">';
-								html += '<a href="references/' + j + '" title="' + ids.join() + '" rel="tooltip" class="tip">';
+								html += '<a href="references/' + j + '" title="' + ids.join() + '" rel="tooltip" class="tip" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'container\', \'work\', 0]);">';
 								html += '<div style="width:12px;height:12px;background-color:green;margin:1px;opacity:' + opacity + '"></div>';
 								html += '</a>';
 								html += '</div>';

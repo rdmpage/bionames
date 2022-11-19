@@ -21,15 +21,22 @@ function has_doi(data)
 
 /* Display a snippet of information about an object */
 
-function show_snippet (element_id, doc) {
+function show_snippet (element_id, doc, page_type) {
 	var html = '';
+	
+	var page = 'unknown';
+	if (show_snippet.arguments.length == 3) {
+		page = page_type;
+	}
+	
+	//alert(show_snippet.arguments.length);
 	
 	html += '<div class="snippet">';
 	
 	switch (doc.type) {
 		case 'generic':
 			// Unparsed publication?
-			html += '<a href="references/' + doc._id + '">';
+			html += '<a href="references/' + doc._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);">';
 			
 			if (doc.thumbnail) {
 				html += '<img class="thumbnail" src="' + doc.thumbnail + '"/>';
@@ -57,7 +64,7 @@ function show_snippet (element_id, doc) {
 		case 'chapter':		
 			// Publication snippet	
 //			html += '<a href="mockup_publication.php?id=' + doc._id + '">';
-			html += '<a href="references/' + doc._id + '">';
+			html += '<a href="references/' + doc._id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'work\', 0]);">';
 			if (doc.thumbnail) {
 				html += '<img class="thumbnail" src="' + doc.thumbnail + '"/>';
 			} else {
@@ -242,7 +249,8 @@ function show_snippet (element_id, doc) {
 			
 		case 'taxonConcept':
  //     var link = "mockup_concept.php?id=" + doc._id;
-      var link = "taxa/" + doc._id;
+      var link = "taxa/" + doc._id  + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'taxon\', 0]);';
+//      var link = "taxa/" + doc._id;
       
       html += ('<div id="thumb-' + element_id + '" class="thumbnail concept-thumb"></div>');
 
@@ -251,7 +259,8 @@ function show_snippet (element_id, doc) {
  			if (data.status == 200)
   			{	
           if(data.thumbnails && data.thumbnails.length > 0) {
-            $('<a href="'+link+'"><img src="'+ data.thumbnails[0] +'"/></a>').appendTo($('#thumb-' + element_id));
+            //$('<a href="'+link+'"><img src="'+ data.thumbnails[0] +'"/></a>').appendTo($('#thumb-' + element_id));
+            $('<img src="images/eol-missing-image.svg"/>').appendTo($('#thumb-' + element_id));
           }
         }
     	});
@@ -297,10 +306,17 @@ function show_snippet (element_id, doc) {
 		case 'nameCluster':
 			html += '<div class="details_wide">';
 //			html += '<a href="mockup_taxon_name.php?id=' + doc._id + '">';
-			html += '<a href="names/' + doc._id + '">';
+			html += '<a href="names/' + doc._id +  + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'taxonname\', 0]);">';
 			if (doc.nameComplete)
 			{
 				html += '<div class="title">';
+				
+				
+				// Flag a name for an extinct taxon
+				if (doc.extinct) {
+					html += '†';
+				}	
+				
 				html += doc.nameComplete;
 				
 				if (doc.taxonAuthor) {
@@ -363,7 +379,14 @@ function show_snippet (element_id, doc) {
 
 
 /* Display snippet */
-function display_snippets(id) {
+function display_snippets(id, page_type) {
+
+	var page = 'unknown';
+	if (display_snippets.arguments.length == 2) {
+		page = page_type;
+	}
+
+
 //	$.getJSON("http://bionames.org/bionames-api/id/" + id + "?callback=?",
 	$.getJSON("api/id/" + id + "?callback=?",
 		function(data){
@@ -387,7 +410,7 @@ function display_snippets(id) {
 				
 				//$('#' + element_id).html(html);
 				
-				show_snippet(element_id, data);
+				show_snippet(element_id, data, page);
 			}
 		});
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="80" height="80" viewBox="0, 0, 80, 80">
+  <g id="Layer_1">
+    <text transform="matrix(1, 0, 0, 1, 40, 40)">
+      <tspan x="-11.226" y="-11" font-family="HelveticaNeue-Light" font-size="12" fill="#000000">EOL</tspan>
+      <tspan x="-19.548" y="4" font-family="HelveticaNeue-Light" font-size="12" fill="#000000">missing</tspan>
+      <tspan x="-15.672" y="19" font-family="HelveticaNeue-Light" font-size="12" fill="#000000">image</tspan>
+    </text>
+  </g>
+</svg>

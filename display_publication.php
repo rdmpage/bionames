@@ -4,7 +4,7 @@ require_once('bionames-api/lib.php');
 require_once('bionames-api/reference.php');
 
 //----------------------------------------------------------------------------------------
-function show_reference($reference, $link = false, $show_find = true)
+function show_reference($reference, $link = false, $show_find = true, $citedby = true)
 {
 	$html = '<div class="media" style="border-top:1px solid #e5e5e5;margin-bottom:10px;padding-top:10px;">';
 	
@@ -29,7 +29,15 @@ function show_reference($reference, $link = false, $show_find = true)
 	
 	if ($link)
 	{
-		$html .= '<a href="references/' . $reference->_id . '">';
+		if ($citedby)
+		{
+			$html .= '<a href="references/' . $reference->_id . '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'work\', \'citedby\', 0]);">';
+		}
+		else
+		{
+			$html .= '<a href="references/' . $reference->_id . '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'work\', \'cites\', 0]);">';
+		}
+		
 	}
 	
 	if (isset($reference->title))
@@ -262,7 +270,7 @@ $bibdata_json =  json_encode($bibdata);
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title><?php echo $doc->title; ?></title>
 
 	<!-- standard stuff -->
@@ -521,7 +529,7 @@ if (isset($doc->author))
 	foreach ($doc->author as $author)
 	{
 		echo '<span itemprop="author" itemscope itemtype="http://schema.org/Person">';
-		echo '<a href="authors/' . $author->name . '" itemprop="url">';
+		echo '<a href="authors/' . $author->name . '" itemprop="url" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'work\', \'author\', 0]);">';
 		echo '<span itemprop="name">';
 		echo '<i class="icon-user"></i>';
 		echo $author->name;
@@ -578,7 +586,7 @@ if (isset($doc->journal))
 					case 'issn':
 						echo '<tr><td class="muted">ISSN</td><td>';
 						
-						echo '<a href="issn/' . $identifier->id . '" rel="tooltip" title="The International Standard Serial Number (ISSN) ' . $identifier->id . ' is a unique identifier for this journal" class="tip">';
+						echo '<a href="issn/' . $identifier->id . '" rel="tooltip" title="The International Standard Serial Number (ISSN) ' . $identifier->id . ' is a unique identifier for this journal" class="tip" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'work\', \'container\', 0]);">';
 						//echo '<span vocab="http://purl.org/ontology/bibo/" typeof="' . $bibo_type . '">';
 						//echo '<span itemprop="issn">';
 						echo $identifier->id;
@@ -920,7 +928,7 @@ if (isset($doc->bhl_pages) && isset($doc->names))
 		foreach ($doc->references as $reference)
 		{
 			$html .= '<li>';
-			$html .= show_reference($reference, true);
+			$html .= show_reference($reference, true, true, false);
 			$html .= '</li>';
 		}
 		$html .= '</ol>';
@@ -956,7 +964,7 @@ if(isset($doc->citedby))
 	foreach ($doc->citedby as $reference)
 	{
 		$html .= '<li>';
-		$html .= show_reference($reference, true, false);
+		$html .= show_reference($reference, true, false, true);
 		$html .= '</li>';
 	}
 	$html .= '</ol>';
@@ -988,7 +996,7 @@ if (isset($doc->author))
 	foreach ($doc->author as $author)
 	{
 		echo '<li>';
-		echo '<a href="authors/' . $author->name . '"><i class="icon-user"></i>';
+		echo '<a href="authors/' . $author->name . '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'work\', \'author\', 0]);"><i class="icon-user"></i>';
 		echo $author->name;
 		echo '</a>';
 		echo '</li>';
@@ -1194,7 +1202,7 @@ if ($doi != '')
 					for (var i in data.names) {
 						html += '<tr>';
 						html += '<td>';
-						html += '<a href="names/' + data.names[i].cluster + '">';
+						html += '<a href="names/' + data.names[i].cluster + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'work\', \'taxonname\', 0]);">';
 						html += data.names[i].nameComplete;
 						
 						if (data.names[i].taxonAuthor) {
@@ -1313,6 +1321,16 @@ if ($doi != '')
 		})
 	  }
 	});
+	
+    $("#q").keypress(function (e) {
+            if (e.keyCode === 13) {
+                // teleport
+                _gaq.push(['_trackEvent', 'Internal', 'work', 'search', 0]);
+            }
+
+            return true;
+        });
+	
 	
 </script>
 

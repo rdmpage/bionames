@@ -10,7 +10,7 @@ if (isset($_GET['q']))
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title><?php if ($q != '') { echo htmlspecialchars($q) . ' - ' ; } ?>BioNames Search</title>
 	
 	<!-- standard stuff -->
@@ -84,7 +84,7 @@ if (isset($_GET['q']))
 	
 		function search(q) {
 		
-//			$.getJSON("http://bionames.org/bionames-api/search/" + encodeURIComponent(q) + "?callback=?",
+//			$.getJSON("//bionames.org/bionames-api/search/" + encodeURIComponent(q) + "?callback=?",
 			$.getJSON("api/search/" + encodeURIComponent(q) + "?callback=?",
 			function(data) {
 			  if (data.status == 200) {
@@ -164,7 +164,7 @@ if (isset($_GET['q']))
 									  		trees.push(id);
 									  	
 									  		facet_html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;background-color:white;">';
-											facet_html += '<a href="trees/' + id + '">';
+											facet_html += '<a href="trees/' + id + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'search\', \'phylogeny\', 0]);">';
 											facet_html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="88" width="88">';
 											facet_html += '<g id="' + id.replace(/\//, '_') + '"></g>'; 								
 											facet_html += '</svg>';		
@@ -204,8 +204,8 @@ if (isset($_GET['q']))
 			    	html += '<script>display_trees("' + trees[id] + '");<\/script>';
 			    }
 			    
-			    for (var id in ids) {
-			      html += '<script>display_snippets("' + ids[id] + '");<\/script>';
+			    for (var id in ids) {	
+			      html += '<script>display_snippets("' + ids[id] + '", "search");<\/script>';
 			    }
 			    
 
@@ -220,7 +220,7 @@ if (isset($_GET['q']))
 		{
 			$("#didyoumean").html("");
 			
-//			$.getJSON("http://bionames.org/bionames-api/name/" + encodeURIComponent(name) + "/didyoumean?callback=?",
+//			$.getJSON("//bionames.org/bionames-api/name/" + encodeURIComponent(name) + "/didyoumean?callback=?",
 			$.getJSON("api/name/" + encodeURIComponent(name) + "/didyoumean?callback=?",
 				function(data){
 					if (data.status == 200)
@@ -258,7 +258,7 @@ if (isset($_GET['q']))
 	<script>
 	$("#q").typeahead({
 	  source: function (query, process) {
-//		$.getJSON('http://bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
+//		$.getJSON('//bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
 		$.getJSON('api/name/' + query + '/suggestions?callback=?', 
 		function (data) {
 		  //data = ['Plecopt', 'Peas'];

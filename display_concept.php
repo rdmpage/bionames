@@ -22,7 +22,7 @@ else
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title><?php echo $title; ?></title>
 	
 	<!-- standard stuff -->
@@ -199,7 +199,7 @@ if (isset($doc->identifier))
 		{
 			echo '<div>';
 
-			echo '<a href="names/cluster/' .  $k . '">';
+			echo '<a href="names/cluster/' .  $k . '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'taxon\', \'taxonname\', 0]);">';
 			echo  $name->nameComplete;
 			echo '</a>';
 			
@@ -221,7 +221,7 @@ if (isset($doc->identifier))
 		}
 		foreach ($publications as $id)
 		{
-			echo '<script>display_publications("' . $id . '");</script>';
+			echo '<script>display_publications("' . $id . '", "taxon");</script>';
 		}
 	}
 }
@@ -372,7 +372,7 @@ if (isset($doc->identifier))
 						echo '<li class="root">' . "\n";
 						if (isset($doc->ancestors))
 						{
-							echo '<a href="taxa/' . $sourcePrefix[$doc->source] . '/' . $doc->ancestors[count($doc->ancestors)-1]->sourceIdentifier . '">';
+							echo '<a href="taxa/' . $sourcePrefix[$doc->source] . '/' . $doc->ancestors[count($doc->ancestors)-1]->sourceIdentifier . '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'taxon\', \'parenttaxon\', 0]);">';
 							echo '<p style="line-height:16px;padding:0px;margin:0px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;opacity:0.6">' . $doc->ancestors[count($doc->ancestors)-1]->scientificName . '</p>';
 							echo '</a>';
 						}
@@ -397,7 +397,7 @@ if (isset($doc->identifier))
 								{
 									echo '<li class="child">';
 								}
-								echo '<a href="taxa/' . $sourcePrefix[$doc->source] . '/' .  $doc->children[$j]->sourceIdentifier . '">';
+								echo '<a href="taxa/' . $sourcePrefix[$doc->source] . '/' .  $doc->children[$j]->sourceIdentifier . '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'taxon\', \'childtaxon\', 0]);">';
 								echo '<p style="line-height:16px;padding:0px;margin:0px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;opacity:0.6">' . $doc->children[$j]->scientificName . '</p>';
 								echo '</a>';
 								echo '</li>';
@@ -452,7 +452,7 @@ if (isset($doc->identifier))
 							for (var i in data.trees) {
 								num_trees++;
 								html += '<div style="border:1px solid rgb(228,228,228);float:left;margin:10px;background-color:white;">';
-								html += '<a href="trees/' + i + '">';
+								html += '<a href="trees/' + i + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'taxon\', \'phylogeny\', 0]);">';
 								html += '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="88" width="88">';
 								html += '<g id="' + i.replace(/\//, '_') + '"></g>'; 								
 								html += '</svg>';		
@@ -507,8 +507,11 @@ if (isset($doc->identifier))
 							html += '<h3>Images</h3>';
 							html += '<div class="image-gallery">';
 							var n = Math.min(8, data.thumbnails.length);
-							for (var i=0;i<n;i++) {
-								html += '<img src="' + data.thumbnails[i] + '" />';
+							for (var i=0;i<n;i++) {							
+								//html += '<a href="' + data.thumbnails[i] + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'taxon\', \'image\', 0]);" target="_new">';							
+								//html += '<img src="' + data.thumbnails[i] + '" />';								
+								//html += '</a>';
+								html += '<img src="images/eol-missing-image.svg" />';
 							}
 							html += '</div>';
 							html += '<div>Images from <a href="http://eol.org/pages/' + data.eol + '">EOL</a></div>';
@@ -882,7 +885,15 @@ if (isset($doc->identifier))
 	})	
 	
 	
-	
+    $("#q").keypress(function (e) {
+            if (e.keyCode === 13) {
+                // teleport
+                _gaq.push(['_trackEvent', 'Internal', 'taxon', 'search', 0]);
+            }
+
+            return true;
+        });
+
 	
 
 	

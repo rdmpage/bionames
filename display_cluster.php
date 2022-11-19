@@ -11,6 +11,13 @@ $json = get('http://bionames.org/api/id/' . $id);
 $doc = json_decode($json);
 
 $title = $doc->nameComplete;
+
+// Flag name for extinct taxon
+if (isset($doc->extinct))
+{
+	$title =  '†' . $title;
+}
+
 if (isset($doc->taxonAuthor))
 {
 	$title .= ' ' . $doc->taxonAuthor;
@@ -19,7 +26,7 @@ if (isset($doc->taxonAuthor))
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title><?php echo $title; ?></title>
 	
 	<!-- standard stuff -->
@@ -61,6 +68,14 @@ for ($i=0; $i < count($doc->names);$i++)
 {
 	echo '<tr>' . "\n";
 	echo '<td>';
+	
+	
+	// Flag a name for an extinct taxon
+	if (isset($doc->extinct))
+	{
+		echo '†';
+	}
+	
 	echo $doc->names[$i]->nameComplete;
 	if (isset($doc->names[$i]->taxonAuthor)) {
 		echo ' ' . $doc->names[$i]->taxonAuthor;
@@ -259,7 +274,10 @@ if (isset($doc->microreference))
 	    <div class="sidebar span4">
 			<div class="sidebar-header">
 				<h1 id="title">
-					<span itemprop="name"><?php echo $title; ?></span>
+					<span itemprop="name">
+					
+					<?php echo $title; ?>
+					</span>
 				</h1>
 			</div>
 			<div id="metadata" class="sidebar-metadata">
@@ -332,7 +350,7 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 						$("#concepts").html(html);
 						
 						for (var i in concepts) {
-							display_snippets(concepts[i]);
+							display_snippets(concepts[i], 'taxonname');
 						}
 					}
 				}
@@ -353,7 +371,7 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 							for (var i in data.names)
 							{
 								var s = data.names[i];
-								html += '<a href="search/' + encodeURIComponent(s) + '">' + s + '</a>' + '<br />';
+								html += '<a href="search/' + encodeURIComponent(s) + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'taxonname\', \'epithet\', 0]);">' + s + '</a>' + '<br />';
 							}
 							html += '</div>';
 							var current_html = $("#epithet").html();
@@ -380,7 +398,7 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 							for (var i in data.related)
 							{
 								var s = data.related[i];
-								html += '<li><a href="search/' + encodeURIComponent(s) + '">' + s + '</a></li>';
+								html += '<li><a href="search/' + encodeURIComponent(s) + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'taxonname\', \'related\', 0]);">' + s + '</a></li>';
 							}
 							html += '</ul>';
 							var current_html = $("#related").html();
@@ -469,7 +487,7 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 				$.getJSON("api/id/" + publishedInCitation[id] + "?callback=?",
 					function(data){
 						if (data.status == 200) {
-							show_snippet('publication' + publishedInCitation[id], data);
+							show_snippet('publication' + publishedInCitation[id], data, 'taxonname');
 						}
 					});
 			}
@@ -601,6 +619,16 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 		})
 	  }
 	});
+	
+    $("#q").keypress(function (e) {
+            if (e.keyCode === 13) {
+                // teleport
+                _gaq.push(['_trackEvent', 'Internal', 'taxonname', 'search', 0]);
+            }
+
+            return true;
+        });
+	
 	
 	show_concepts(id);
 <?php

@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
 	<title>Dashboard</title>
 	
 	<!-- standard stuff -->
@@ -95,6 +95,7 @@
 		
 		<div class="row-fluid">
 
+			<!--
 		    <div class="span6">
 		    	<div class="widget">
 		    		<h4>Journals</h4>
@@ -102,6 +103,7 @@
 			  		<div id="issn"></div>
 			  	</div>
 		    </div>
+		    -->
 		
 		</div>
 		
@@ -113,7 +115,7 @@
 		{
 			$("#issn").html('');
 		
-			$.getJSON("http://bionames.org/bionames-api/api_dashboard.php?issn&callback=?",
+			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?issn&callback=?",
 				function(data){
 					if (data.status == 200)
 					{
@@ -160,7 +162,7 @@
 		{
 			$("#identifiers").html("");
 			
-			$.getJSON("http://bionames.org/bionames-api/api_dashboard.php?identifiers&callback=?",
+			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?identifiers&callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -197,7 +199,7 @@
 		{
 			$("#publishers").html("");
 		
-			$.getJSON("http://bionames.org/bionames-api/api_dashboard.php?publishers&callback=?",
+			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?publishers&callback=?",
 				function(data){
 					if (data.status == 200)
 					{
@@ -237,7 +239,7 @@
 		{
 			$("#links").html("");
 			
-			$.getJSON("http://bionames.org/bionames-api/api_dashboard.php?links&callback=?",
+			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?links&callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -273,7 +275,7 @@
 		{
 			$("#documents").html("");
 			
-			$.getJSON("http://bionames.org/bionames-api/api_dashboard.php?documents&callback=?",
+			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?documents&callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -309,7 +311,7 @@
 		{
 			$("#tasks").html("");
 			
-			$.getJSON("http://bionames.org/bionames-api/api_status.php?callback=?",
+			$.getJSON("//bionames.org/bionames-api/api_status.php?callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -398,7 +400,7 @@
         show_tasks();
         show_identifiers();
 		show_publishers();
-		show_issn();
+		//show_issn();
 		show_links();
 		show_documents();
 	</script>
@@ -408,7 +410,7 @@
 	<script>
 	$("#q").typeahead({
 	  source: function (query, process) {
-//		$.getJSON('http://bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
+//		$.getJSON('//bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
 		$.getJSON('api/name/' + query + '/suggestions?callback=?', 
 		function (data) {
 		  //data = ['Plecopt', 'Peas'];
