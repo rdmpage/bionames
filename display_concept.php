@@ -1,12 +1,14 @@
 <?php
 
+require_once(__DIR__ . '/config.inc.php');
+
 require_once('bionames-api/lib.php');
 
 // do PHP stuff here to get query parameters...
 $id = $_GET['id'];
 
 // OK, we need some HTML content that Google can see when it crawls the page...
-$json = get('http://bionames.org/api/id/' . $id);
+$json = get($config['web_server'] . $config['web_root'] . '/api/id/' . $id);
 
 $doc = json_decode($json);
 
@@ -22,7 +24,7 @@ else
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title><?php echo $title; ?></title>
 	
 	<!-- standard stuff -->
@@ -267,7 +269,7 @@ if (isset($doc->identifier))
 				{
 					foreach ($doc->identifier->ion as $k => $name) 
 					{
-						echo '<meta property="hasName" content="http://bionames.org/names/cluster/' . $k . '" />';
+						echo '<meta property="hasName" content="' . $config['web_server'] . $config['web_root'] . 'names/cluster/' . $k . '" />';
 					}
 				}
 				echo '</span>';

@@ -1,12 +1,14 @@
 <?php
 
+require_once(__DIR__ . '/config.inc.php');
+
 require_once('bionames-api/lib.php');
 
 // do PHP stuff here to get query parameters...
 $id = $_GET['id'];
 
 // OK, we need some HTML content that Google can see when it crawls the page...
-$json = get('http://bionames.org/api/id/' . $id);
+$json = get($config['web_server'] . $config['web_root'] . 'api/id/' . $id);
 
 $doc = json_decode($json);
 
@@ -26,7 +28,7 @@ if (isset($doc->taxonAuthor))
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title><?php echo $title; ?></title>
 	
 	<!-- standard stuff -->
@@ -37,7 +39,6 @@ if (isset($doc->taxonAuthor))
 	
 	<script src="js/publication.js" type="text/javascript" charset="utf-8"></script>
 	
-
 	<script>	
 	
 		function add_metadata_stat(title,value) {
@@ -113,7 +114,7 @@ if (isset($doc->microreference))
 	
 	echo '<div>';
 	
-	$url = 'http://bionames.org/api/api_taxon_name.php?name=' . urlencode($doc->nameComplete) . '&synonym';
+	$url = $config['web_server'] . $config['web_root'] . 'api/api_taxon_name.php?name=' . urlencode($doc->nameComplete) . '&synonym';
 	$json = get($url);
 	
 	//echo $json;
@@ -292,7 +293,7 @@ foreach ($doc->names as $name)
 		{
 			echo '<div id="publication' . $name->publishedInCitation . '">';		
 			echo '<span itemscope itemtype="http://schema.org/CreativeWork">';
-			echo '<meta itemprop="url" content="' . 'http://bionames.org/references/' . $name->publishedInCitation . '" />';
+			echo '<meta itemprop="url" content="' . $config['web_server'] . $config['web_root'] . 'references/' . $name->publishedInCitation . '" />';
 			echo '</span>';
 		}	
 		else
@@ -612,7 +613,7 @@ echo '	$(\'#names-badge\').text(' . count($doc->names) . ');' . "\n";
 	/* typeahead for search box */
 	$("#q").typeahead({
 	  source: function (query, process) {
-		$.getJSON('http://bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
+		$.getJSON('bionames-api/name/' + query + '/suggestions?callback=?', 
 		function (data) {
 		  var suggestions = data.suggestions;
 		  process(suggestions)

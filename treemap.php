@@ -76,7 +76,7 @@ function interpolate($pBegin, $pEnd, $pStep, $pMax)
 	var $h;
 	
 
-	function Rectangle($x=0, $y=0, $w=0, $h=0)
+	function __construct($x=0, $y=0, $w=0, $h=0)
 	{
 		$this->x = $x;
 		$this->y = $y;
@@ -116,7 +116,7 @@ class Item
 	* @param leaf True if this cell has no children
 	*
 	*/
-	function Item($n = 0, $label = '', $ext = 0, $leaf = false, $link = '')
+	function __construct($n = 0, $label = '', $ext = 0, $leaf = false, $link = '')
 	{		
 		$this->bounds 	= new Rectangle();
 		$this->size 	= $n;

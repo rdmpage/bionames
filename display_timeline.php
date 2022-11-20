@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/config.inc.php');
+
 require_once(dirname(__FILE__) . '/treemap.php');
 
 $user_path = '';
@@ -57,7 +59,8 @@ $nodes = get_groups();
 $items = array();
 
 // Is this group a leaf or not?
-if (count($nodes[$user_path]) == 0)
+//if (count($nodes[$user_path]) == 0)
+if (!isset($nodes[$user_path]))
 {
 	$group = $g;
 	$child_name = array_pop($group);
@@ -105,7 +108,7 @@ else
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title>Timeline</title>
 	
 	<!-- standard stuff -->
@@ -154,7 +157,7 @@ else
 	function list_group_year(group, year)
 	{
 		$('#details').html('Thinking...');
-		$.getJSON('//bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&year=' + year + '&callback=?',
+		$.getJSON('bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&year=' + year + '&callback=?',
 			function(data){
 				if (data.status == 200)
 				{
@@ -212,7 +215,7 @@ else
 	function timeline (group)
 	{
 		//alert('//bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)));
-		$.getJSON('//bionames.org/bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&callback=?',
+		$.getJSON('bionames-api/api_timeline.php?group=' + encodeURIComponent(JSON.stringify(group)) + '&callback=?',
 			function(data){
 				if (data.status == 200)
 				{

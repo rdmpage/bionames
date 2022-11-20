@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/config.inc.php');
+
 require_once('bionames-api/lib.php');
 require_once('bionames-api/reference.php');
 
@@ -37,7 +39,6 @@ function show_reference($reference, $link = false, $show_find = true, $citedby =
 		{
 			$html .= '<a href="references/' . $reference->_id . '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'work\', \'cites\', 0]);">';
 		}
-		
 	}
 	
 	if (isset($reference->title))
@@ -126,13 +127,13 @@ function show_reference($reference, $link = false, $show_find = true, $citedby =
 $id = $_GET['id'];
 
 // OK, we need some HTML content that Google can see when it crawls the page...
-$json = get('http://bionames.org/api/id/' . $id);
+$json = get($config['web_server'] . $config['web_root'] . 'api/id/' . $id);
 
 $doc = json_decode($json);
 
 //echo "http://bionames.org/api/publication/" . urlencode($id) . "/citedby";
 
-$url = "http://bionames.org/api/api_publication.php?id=" . urlencode($id) . "&citedby";
+$url = $config['web_server'] . $config['web_root'] . "api/api_publication.php?id=" . urlencode($id) . "&citedby";
 
 $json = get($url);
 $obj = json_decode($json);
@@ -141,11 +142,9 @@ if (isset($obj->citedby))
 	$doc->citedby = $obj->citedby;
 }	
 
-
 // Meta tags
 
 $meta = '';
-
 
 // Google Scholar
 $meta .= "\n<!-- Google Scholar metadata -->\n";
@@ -155,7 +154,6 @@ if (isset($doc->title))
 	$meta .= '<meta name="citation_title" content="' . htmlentities($doc->title, ENT_COMPAT, 'UTF-8') . '" />' . "\n";
 }
 $meta .= '<meta name="citation_date" content="' . $doc->year . '" />' . "\n";
-
 
 $twitter = '';
 $twitter .= '<meta name="twitter:card" content="summary"/>' . "\n";
@@ -270,7 +268,7 @@ $bibdata_json =  json_encode($bibdata);
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title><?php echo $doc->title; ?></title>
 
 	<!-- standard stuff -->
@@ -327,7 +325,7 @@ $bibdata_json =  json_encode($bibdata);
 		function openurl(co, id)
 		{
 			$('#find_' + id).html("Searching...");
-			$.getJSON("http://bionames.org/bionames-api/openurl.php?" + co + "&callback=?",
+			$.getJSON("bionames-api/openurl.php?" + co + "&callback=?",
 				function(data){
 					$('#find_' + id).html("Find in BioNames");
 					if (data.results.length > 0)
@@ -501,7 +499,7 @@ if (isset($doc->title))
 	echo '<span itemprop="name">';
 	echo $doc->title;
 	echo '</span>';	
-	echo '<meta itemprop="url" content="http://bionames.org/references/' . $doc->_id . '" />';
+	echo '<meta itemprop="url" content="' . $config['web_server'] . $config['web_root'] . '/references/' . $doc->_id . '" />';
 	echo '</td></tr>';
 }
 
@@ -510,7 +508,7 @@ if (isset($doc->title))
 if (isset($doc->thumbnail))
 {
 	echo '<tr><td class="muted">Thumbnail</td><td><img class="img-polaroid" src="' . $doc->thumbnail . '" width="100" /></td</tr>';
-	echo '<meta itemprop="thumbnailUrl" content="' . 'http://bionames.org/api/id/' . $doc->_id . '/thumbnail/image" />';
+	echo '<meta itemprop="thumbnailUrl" content="' . $config['web_server'] . $config['web_root'] . 'api/id/' . $doc->_id . '/thumbnail/image" />';
 }					
 	
 	
@@ -1183,7 +1181,7 @@ if ($doi != '')
 	
 	function display_publication_names (id)
 	{
-		$.getJSON("http://bionames.org/bionames-api/publication/" + id + "/names?callback=?",
+		$.getJSON("bionames-api/publication/" + id + "/names?callback=?",
 			function(data){
 				if (data.status == 200)
 				{
@@ -1314,7 +1312,7 @@ if ($doi != '')
 	/* typeahead for search box */
 	$("#q").typeahead({
 	  source: function (query, process) {
-		$.getJSON('http://bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
+		$.getJSON('bionames-api/name/' + query + '/suggestions?callback=?', 
 		function (data) {
 		  var suggestions = data.suggestions;
 		  process(suggestions)
@@ -1384,12 +1382,13 @@ if ($doi != '')
 				case "ark":
 					$ark = $identifier->id;
 					$match = explode("/", $ark);
-					$docUrl = 'http://bionames.org/bionames-gallica/documentcloud/' . $match[1] . $match[2] . '.json';
+					$docUrl = $config['web_server'] . $config['web_root'] . 'bionames-gallica/documentcloud/' . $match[1] . $match[2] . '.json';
 					break;
 			
 				case "biostor":
 					//$docUrl = 'http://direct.biostor.org/dv/' . $identifier->id . '.json';
 					$docUrl = 'http://biostor.org/documentcloud/biostor/' . $identifier->id . '.json';
+					//$docUrl = 'bionames-biostor/documentcloud/' . $identifier->id . '.json';
 					break;
 														
 				default:
@@ -1404,14 +1403,14 @@ if ($doi != '')
 		{
 			if (isset($doc->file->sha1))
 			{
-				$docUrl = 'http://bionames.org/bionames-archive/documentcloud/' . $doc->file->sha1 . '.json';
+				$docUrl = $config['web_server'] . $config['web_root'] . 'bionames-archive/documentcloud/' . $doc->file->sha1 . '.json';
 			}
 		}	
 	}
 
 	if ($docUrl != '')
 	{
-		echo 'docUrl = \'' . $docUrl . '\';';
+		echo 'docUrl = \'' . $docUrl . '\';' . "\n"	;
 		echo 'display_document();';
 	}
 	else

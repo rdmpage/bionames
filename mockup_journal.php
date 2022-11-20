@@ -2,6 +2,8 @@
 
 // mockup of journal display
 
+require_once(__DIR__ . '/config.inc.php');
+
 $issn = '';
 $oclc = '';
 $journal = '';
@@ -23,7 +25,7 @@ if (isset($_GET['journal']))
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="http://bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title>Title</title>
 	
 	<!-- standard stuff -->
@@ -569,7 +571,7 @@ if (isset($_GET['journal']))
 			  {
 				$("#romeo").html("");
 				
-				var url = 'http://bionames.org/bionames-api/journals/issn/' + issn + '/romeo?callback=?';
+				var url = 'bionames-api/journals/issn/' + issn + '/romeo?callback=?';
 				
 				$.getJSON(url,
 					function(data){

@@ -31,7 +31,6 @@ function display_reference(data)
 		page = 'taxon';
 	}
 	
-	
 	html += "<div class=\"pub\">";
 	
 	var has_thumbnail = false;
@@ -68,7 +67,6 @@ function display_reference(data)
 	}
 						
 	html += '<div class="meta">';
-	
 	
 	html += '<div>';
 	if (data.author)
@@ -107,9 +105,7 @@ function display_reference(data)
 	{
 		html += ' (' + data.year + ')';
 	}
-	html += '</div>';
-	
-	
+	html += '</div>';	
 	
   // if (data.identifier)
   // {
@@ -162,7 +158,6 @@ function display_reference(data)
 
 	return html;
 }
-
 
 //--------------------------------------------------------------------------------------------------
 function display_nonlinked_reference(data)

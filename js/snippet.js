@@ -305,8 +305,10 @@ function show_snippet (element_id, doc, page_type) {
 			
 		case 'nameCluster':
 			html += '<div class="details_wide">';
-//			html += '<a href="mockup_taxon_name.php?id=' + doc._id + '">';
-			html += '<a href="names/' + doc._id +  + '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'taxonname\', 0]);">';
+ 			//html += '<a href="mockup_taxon_name.php?id=' + doc._id + '">';
+			//html += '<a href="names/' + doc._id +  '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'taxonname\', 0]);">';
+			//html += '<a href="names/' + doc._id +  '">';
+			html += '<a href="names/' + doc._id +  '" onClick="_gaq.push([\'_trackEvent\', \'Internal\', \'' + page + '\', \'taxonname\', 0]);">';
 			if (doc.nameComplete)
 			{
 				html += '<div class="title">';

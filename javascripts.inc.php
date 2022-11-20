@@ -10,11 +10,9 @@
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
-
 <script> var use_livereload = false; </script>
 
 <script src="js/openurl.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/display.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/snippet.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/filter_widgets.js" type="text/javascript" charset="utf-8"></script>
-

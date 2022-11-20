@@ -2,6 +2,8 @@
 
 // mockup template
 
+require_once(__DIR__ . '/config.inc.php');
+
 // do PHP stuff here to get query parameters...
 if (isset($_GET['name']))
 {
@@ -15,7 +17,7 @@ if (isset($_GET['name']))
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title>Title</title>
 	
 	<!-- standard stuff -->

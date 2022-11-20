@@ -1,7 +1,8 @@
 <?php
 
-require_once('bionames-api/lib.php');
+require_once(__DIR__ . '/config.inc.php');
 
+require_once('bionames-api/lib.php');
 
 // Look up record that corresponds to identifer 
 
@@ -21,7 +22,7 @@ $id = $_GET['id'];
 $namespace = $_GET['namespace'];
 
 // OK, we need some HTML content that Google can see when it crawls the page...
-$url = "http://bionames.org/api/api_id.php?id=" . urlencode($id) . "&namespace=" . $namespace;
+$url = $config['web_server'] . $config['web_root'] . "api/api_id.php?id=" . urlencode($id) . "&namespace=" . $namespace;
 
 
 $json = get($url);
@@ -54,7 +55,7 @@ if ($json != '')
 	//echo $target;
 	
 	// redirect
-	header("Location: http://bionames.org/" . $target);
+	header("Location: " . $config['web_server'] . $config['web_root'] . $target);
 	exit(0);
 }
 else

@@ -1,5 +1,7 @@
 <?php 
 
+require_once(__DIR__ . '/config.inc.php');
+
 // do PHP stuff here to get query parameters...
 
 $q = '';
@@ -14,9 +16,9 @@ if (isset($_GET['q']))
 <!DOCTYPE html>
 <html lang="en">
   <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
     <meta charset="utf-8">
-    <title>BioNames</title>
+    <title><?php echo $config['site_name'] ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -267,12 +269,13 @@ if (isset($_GET['q']))
 </script>  
 	-->
 	
+<?php if ($config['use_disqus']) { ?>
 <div id="recentcomments" class="dsq-widget">
 <h2 class="dsq-widget-title">Recent Comments</h2>
 <script type="text/javascript" src="http://disqus.com/forums/bionames/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=200"></script>
 </div>
 <a href="http://disqus.com/">Powered by Disqus</a>
-	
+<?php } ?>	
 
   </body>
 </html>

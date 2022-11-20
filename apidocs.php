@@ -1,11 +1,12 @@
 <?php
 
+require_once(__DIR__ . '/config.inc.php');
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title>API documentation</title>
 	
 	<!-- standard stuff -->
@@ -50,15 +51,15 @@
 
 					<h4>api/id/&lt;id&gt;</h4>
 					<p class="muted">Return object in JSON</p>
-					<a href="http://bionames.org/api/id/d0459eea15b7045816902849b540421d" target="_new">http://bionames.org/api/id/d0459eea15b7045816902849b540421d</a>
+					<a href="api/id/d0459eea15b7045816902849b540421d" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/id/d0459eea15b7045816902849b540421d</a>
 
 					<h4>api/id/&lt;id&gt;/thumbnail</h4>
 					<p class="muted">Return URL of thumbnail for image of object</p>
-					<a href="http://bionames.org/api/id/d0459eea15b7045816902849b540421d/thumbnail" target="_new">http://bionames.org/api/id/d0459eea15b7045816902849b540421d/thumbnail</a>
+					<a href="api/id/d0459eea15b7045816902849b540421d/thumbnail" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/id/d0459eea15b7045816902849b540421d/thumbnail</a>
 
 					<h4>api/id/&lt;id&gt;/thumbnail/image</h4>
 					<p class="muted">Return thumbnail image of object</p>
-					<a href="http://bionames.org/api/id/d0459eea15b7045816902849b540421d/thumbnail/image" target="_new">http://bionames.org/api/id/d0459eea15b7045816902849b540421d/thumbnail/image</a>
+					<a href="api/id/d0459eea15b7045816902849b540421d/thumbnail/image" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/id/d0459eea15b7045816902849b540421d/thumbnail/image</a>
 
 				</div>
 			</div>
@@ -74,15 +75,15 @@
 
 					<h4>api/authors/&lt;name&gt;/coauthors</h4>
 					<p class="muted">Return names of coauthors</p>
-					<a href="http://bionames.org/api/authors/Darrel%20R%20Frost/coauthors" target="_new">http://bionames.org/api/authors/Darrel R Frost/coauthors</a>
+					<a href="api/authors/Darrel%20R%20Frost/coauthors" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/authors/Darrel R Frost/coauthors</a>
 
 					<h4>api/authors/&lt;name&gt;/publications</h4>
 					<p class="muted">Publications by author</p>
-					<a href="http://bionames.org/api/authors/Darrel%20R%20Frost/publications" target="_new">http://bionames.org/api/authors/Darrel R Frost/publications</a>
+					<a href="api/authors/Darrel%20R%20Frost/publications" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/authors/Darrel R Frost/publications</a>
 
 					<h4>api/authors/&lt;name&gt;/publications/years</h4>
 					<p class="muted">Taxa published in papers with this author</p>
-					<a href="http://bionames.org/api/authors/Darrel%20R%20Frost/publications/taxa" target="_new">http://bionames.org/api/authors/Darrel R Frost/publications/taxa</a>
+					<a href="api/authors/Darrel%20R%20Frost/publications/taxa" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/authors/Darrel R Frost/publications/taxa</a>
 
 				</div>
 			</div>
@@ -98,15 +99,15 @@
 
 					<h4>api/publication/&lt;id&gt;/citedby</h4>
 					<p class="muted">Return references that cite this reference</p>
-					<a href="http://bionames.org/api/publication/d0459eea15b7045816902849b540421d/citedby" target="_new">http://bionames.org/api/publication/d0459eea15b7045816902849b540421d/citedby</a>
+					<a href="api/publication/d0459eea15b7045816902849b540421d/citedby" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/publication/d0459eea15b7045816902849b540421d/citedby</a>
 
 					<h4>api/publication/&lt;id&gt;/names</h4>
 					<p class="muted">Taxonomic names published by this reference</p>
-					<a href="http://bionames.org/api/publication/d0459eea15b7045816902849b540421d/names" target="_new">http://bionames.org/api/publication/d0459eea15b7045816902849b540421d/names</a>
+					<a href="api/publication/d0459eea15b7045816902849b540421d/names" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/publication/d0459eea15b7045816902849b540421d/names</a>
 					
 					<h4>api/publication/&lt;id&gt;/text</h4>
 					<p class="muted">Full text of this publication (if available)</p>
-					<a href="http://bionames.org/api/publication/d3c7419c9b9dcd9d545d49fd1b2b13eb/text" target="_new">http://bionames.org/api/publication/d3c7419c9b9dcd9d545d49fd1b2b13eb/text</a>
+					<a href="api/publication/d3c7419c9b9dcd9d545d49fd1b2b13eb/text" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/publication/d3c7419c9b9dcd9d545d49fd1b2b13eb/text</a>
 					
 				</div>
 			</div>
@@ -122,7 +123,7 @@
 
 					<h4>api/search/&lt;id&gt;</h4>
 					<p class="muted">Return objects that match the search term</p>
-					<a href="http://bionames.org/api/search/Pristimantis" target="_new">http://bionames.org/api/search/Pristimantis</a>
+					<a href="api/search/Pristimantis" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/search/Pristimantis</a>
 					
 				</div>
 			</div>
@@ -138,7 +139,7 @@
 
 					<h4>api/name/&lt;namestring&gt;/didyoumean</h4>
 					<p class="muted">Name strings that are similar to query string</p>
-					<a href="http://bionames.org/api/name/Simulium%20selwynense/didyoumean" target="_new">http://bionames.org/api/name/Simulium%20selwynense/didyoumean</a>
+					<a href="api/name/Simulium%20selwynense/didyoumean" target="_new"><?php echo $config['web_server'] . $config['web_root'] ?>api/name/Simulium%20selwynense/didyoumean</a>
 					
 				</div>
 			</div>
@@ -155,7 +156,6 @@
 	<script>
 	$("#q").typeahead({
 	  source: function (query, process) {
-//		$.getJSON('http://bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
 		$.getJSON('api/name/' + query + '/suggestions?callback=?', 
 		function (data) {
 		  //data = ['Plecopt', 'Peas'];

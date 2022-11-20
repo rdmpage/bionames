@@ -1,11 +1,12 @@
 <?php
 
+require_once(__DIR__ . '/config.inc.php');
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<base href="//bionames.org/" /><!--[if IE]></base><![endif]-->
+	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
 	<title>Dashboard</title>
 	
 	<!-- standard stuff -->
@@ -115,7 +116,7 @@
 		{
 			$("#issn").html('');
 		
-			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?issn&callback=?",
+			$.getJSON("bionames-api/api_dashboard.php?issn&callback=?",
 				function(data){
 					if (data.status == 200)
 					{
@@ -162,7 +163,7 @@
 		{
 			$("#identifiers").html("");
 			
-			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?identifiers&callback=?",
+			$.getJSON("bionames-api/api_dashboard.php?identifiers&callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -199,7 +200,7 @@
 		{
 			$("#publishers").html("");
 		
-			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?publishers&callback=?",
+			$.getJSON("bionames-api/api_dashboard.php?publishers&callback=?",
 				function(data){
 					if (data.status == 200)
 					{
@@ -239,7 +240,7 @@
 		{
 			$("#links").html("");
 			
-			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?links&callback=?",
+			$.getJSON("bionames-api/api_dashboard.php?links&callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -275,7 +276,7 @@
 		{
 			$("#documents").html("");
 			
-			$.getJSON("//bionames.org/bionames-api/api_dashboard.php?documents&callback=?",
+			$.getJSON("bionames-api/api_dashboard.php?documents&callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -311,7 +312,7 @@
 		{
 			$("#tasks").html("");
 			
-			$.getJSON("//bionames.org/bionames-api/api_status.php?callback=?",
+			$.getJSON("bionames-api/api_status.php?callback=?",
 				function(data){
 					if (data.status == 200)
 					{		
@@ -410,7 +411,6 @@
 	<script>
 	$("#q").typeahead({
 	  source: function (query, process) {
-//		$.getJSON('//bionames.org/bionames-api/name/' + query + '/suggestions?callback=?', 
 		$.getJSON('api/name/' + query + '/suggestions?callback=?', 
 		function (data) {
 		  //data = ['Plecopt', 'Peas'];
