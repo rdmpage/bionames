@@ -1,0 +1,27 @@
+<html>
+<head>
+<link href="public/assets/viewer-datauri.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="public/assets/plain-datauri.css" media="screen" rel="stylesheet" type="text/css" />
+<script src="public/assets/viewer.js" type="text/javascript" charset="utf-8"></script>
+<script src="public/assets/templates.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+<div id="doc" style="width:400px;height:400px;border:1px solid black;">
+xxx
+</div>
+
+<script>
+
+var docUrl = 'http://localhost/bionames-biostor/documentcloud/102225.json';
+
+DV.load(docUrl, {
+ container: '#doc',
+ width:400,
+ height:400,
+ sidebar: false
+ }); 
+</script>
+
+</body>
+</html>

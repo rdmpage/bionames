@@ -981,7 +981,7 @@ if(isset($doc->citedby))
 			
 			<div class="sidebar span4">
 				<div class="sidebar-header">
-					<h1 id="title"><?php echo $doc->title; ?></h1>
+					<h1 id="title"><?php if (isset($doc->title)) { echo $doc->title; } ?></h1>
 				</div>
 				<div id="metadata" class="sidebar-metadata">
 					<div id="stats" class="stats"></div>
