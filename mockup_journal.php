@@ -503,7 +503,12 @@ if (isset($_GET['journal']))
 									{
 										ids.push('PMID');
 										opacity += 0.2;
-									}									
+									}		
+									if (data.years[i][j][k].indexOf('wikidata') != -1)
+									{
+										ids.push('WIKIDATA');
+										opacity += 0.2;
+									}																									
 									if (data.years[i][j][k].indexOf('zoobank') != -1)
 									{
 										ids.push('ZOOBANK');

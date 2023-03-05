@@ -717,6 +717,10 @@ if (isset($doc->identifier))
 				echo '<tr><td class="muted">PMID</td><td><a itemprop="sameAs" href="http://www.ncbi.nlm.nih.gov/pubmed/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'pmid\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="PubMed ID (PMID) ' . $identifier->id . '" class="tip"><i class="icon-share"></i> ' . $identifier->id . '</a></td></tr>';
 				break;
 
+			case "wikidata":
+				echo '<tr><td class="muted">Wikidata</td><td><a itemprop="sameAs" href="https://www.wikidata.org/wiki/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'wikidata\', \'' . $identifier->id . '\', 0]);" rel="tooltip" title="PubMed ID (PMID) ' . $identifier->id . '" class="tip"><i class="icon-share"></i> ' . $identifier->id . '</a></td></tr>';
+				break;
+
 			case "zoobank":
 				echo '<tr><td class="muted">ZooBank</td><td><a href="http://zoobank.org/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'zoobank\', \'' . strtolower($identifier->id) . '\', 0]);" rel="tooltip" title="ZooBank UUID ' . strtolower($identifier->id) . '" class="tip"><i class="icon-share"></i> ' . strtolower($identifier->id) . '</a></td></tr>';
 				break;
@@ -1089,6 +1093,10 @@ if (isset($doc->identifier))
 				
 			case "jstor":
 				echo '<a href="http://www.jstor.org/stable/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'jstor\', \'' . $identifier->id . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on JSTOR</a>';
+				break;			
+
+			case "wikidata":
+				echo '<a href="https://www.wikidata.org/wiki/' . $identifier->id . '" target="_new" onClick="_gaq.push([\'_trackEvent\', \'External\', \'wikidata\', \'' . $identifier->id . '\', 0]);" class="btn btn-block btn-primary"><i class="icon-share icon-white"></i>View on Wikidata</a>';
 				break;			
 
 			case "zoobank":
