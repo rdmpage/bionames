@@ -269,7 +269,7 @@ $bibdata_json =  json_encode($bibdata);
 <html>
 <head>
 	<base href="<?php echo $config['web_server'] . $config['web_root'] ?>" /><!--[if IE]></base><![endif]-->
-	<title><?php echo $doc->title; ?></title>
+	<title><?php if(isset($doc->title)) { echo $doc->title; } else { echo '[Untitled]'; } ?></title>
 
 	<!-- standard stuff -->
 	<meta charset="utf-8" />
