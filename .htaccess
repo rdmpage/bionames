@@ -24,6 +24,9 @@ RewriteRule ^pmid:(.*)   display_identifier.php?namespace=pmid&id=$1   [NC,L]
 RewriteRule ^pmc/(.*)   display_identifier.php?namespace=pmc&id=$1   [NC,L]
 RewriteRule ^pmc:(.*)   display_identifier.php?namespace=pmc&id=$1   [NC,L]
 
+# SHA1 to PDF
+RewriteRule ^sha1:(.*)   bionames-archive/show_pdf.php?sha1=$1   [NC,L]
+RewriteRule ^sha1/(.*)   bionames-archive/show_pdf.php?sha1=$1   [NC,L]
 
 # Timeline
 RewriteRule ^timeline/(.*)   display_timeline.php?q=$1   [NC,L]

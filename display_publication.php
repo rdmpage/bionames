@@ -792,7 +792,7 @@ if (isset($doc->link))
 
 if (isset($doc->file))
 {
-	echo '<tr><td class="muted">SHA1</td><td>' .  $doc->file->sha1 . '</td></tr>';
+	echo '<tr><td class="muted">SHA1</td><td><a href="sha1/' .  $doc->file->sha1 . '">' . $doc->file->sha1 . '</a></td></tr>';
 }
 
 /* Date */
